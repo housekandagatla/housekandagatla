@@ -113,14 +113,14 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
   );
 
   const placementLabel = useMemo(() => {
-    if (!connectedPerson || resolvedConnectId === ROOT_VALUE) {
+    if (!isEditing || !connectedPerson || resolvedConnectId === ROOT_VALUE) {
       return null;
     }
     if (isSpouse(relationship)) {
       return `${relationship} of ${connectedPerson.fullName}`;
     }
     return `${relationship} · ${coupleLabel(connectedPerson, connectedSpouse)}`;
-  }, [connectedPerson, connectedSpouse, resolvedConnectId, relationship]);
+  }, [isEditing, connectedPerson, connectedSpouse, resolvedConnectId, relationship]);
 
   useLayoutEffect(() => {
     if (!open) {
