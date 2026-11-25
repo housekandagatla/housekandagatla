@@ -116,8 +116,6 @@ export function FamilyTreePage() {
               with a single <em>name.</em>
             </>
           }
-          description="Add the first person to begin gathering our family story. Grow the tree one generation, one memory, one name at a time."
-          footnote="KANDAGATLA FAMILY · CONNECTED THROUGH GENERATIONS"
         />
       ) : null}
 

@@ -102,10 +102,6 @@ export function FestivalsPage() {
       {festivals.length > 0 ? (
         <>
           <div className="kds-events-section-title">
-            <div>
-              <Eyebrow>OUR FAMILY TRADITIONS</Eyebrow>
-              <h2>Festival collection</h2>
-            </div>
             <span className="kds-event-total">
               {festivals.length} {festivals.length === 1 ? 'festival' : 'festivals'}
             </span>
