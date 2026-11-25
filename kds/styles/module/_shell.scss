@@ -122,6 +122,49 @@
   }
 }
 
+.kds-sidebar-calendar {
+  display: none;
+  align-items: flex-start;
+  gap: 10px;
+  margin: -16px 0 24px;
+  padding: 12px 10px;
+  border: 1px solid var(--warm-border);
+  border-radius: 10px;
+  background: #f7f8f2;
+}
+
+.kds-sidebar-calendar-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #e8eadf;
+  color: var(--primary-main);
+}
+
+.kds-sidebar-calendar-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+
+  strong {
+    color: #404a41;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  small {
+    color: var(--primary-light);
+    font-size: 11px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+}
+
 .kds-nav-caption {
   margin: 0;
   padding: 0 12px 12px;

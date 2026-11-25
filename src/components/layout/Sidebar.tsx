@@ -1,5 +1,7 @@
+import { useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useFamily } from '../../context/FamilyContext';
+import { getFamilyDateLabel } from '../../utils/teluguDate';
 import { Icon } from '../ui/Icon';
 
 const navItems = [
@@ -17,6 +19,7 @@ type SidebarProps = {
 
 export function Sidebar({ open, onNavigate }: SidebarProps) {
   const { festivals } = useFamily();
+  const dateLabel = useMemo(() => getFamilyDateLabel(), []);
 
   return (
     <aside className={`kds-sidebar${open ? ' kds-is-open' : ''}`} aria-label="Family navigation">
@@ -42,6 +45,20 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
           <strong>Kandagatla family</strong>
           <small>Family space</small>
         </span>
+      </div>
+
+      <div className="kds-sidebar-calendar" title={dateLabel.full}>
+        <span className="kds-sidebar-calendar-icon" aria-hidden="true">
+          <Icon name="calendar_days" size={16} strokeWidth={1.8} />
+        </span>
+        <div className="kds-sidebar-calendar-copy">
+          <strong>{dateLabel.gregorian}</strong>
+          {dateLabel.telugu ? (
+            <small className="kds-telugu" lang="te">
+              {dateLabel.telugu}
+            </small>
+          ) : null}
+        </div>
       </div>
 
       <p className="kds-nav-caption">OUR FAMILY</p>

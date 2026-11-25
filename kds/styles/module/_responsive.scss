@@ -151,19 +151,11 @@
   }
 
   .kds-date-label {
-    max-width: min(148px, 38vw);
-  }
-
-  .kds-date-gregorian {
-    font-size: 11px;
-  }
-
-  .kds-date-telugu {
     display: none;
   }
 
-  .kds-date-auth {
-    display: none;
+  .kds-sidebar-calendar {
+    display: flex;
   }
 
   .kds-auth-button {
@@ -384,10 +376,6 @@
 @media screen and (max-width: 420px) {
   .kds-topbar {
     padding: 0 12px;
-  }
-
-  .kds-date-label {
-    display: none;
   }
 
   .kds-page-wrap {
