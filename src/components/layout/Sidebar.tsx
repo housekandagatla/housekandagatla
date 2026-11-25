@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useFamily } from '../../context/FamilyContext';
 import { getFamilyDateLabel } from '../../utils/teluguDate';
 import { Icon } from '../ui/Icon';
+import { WeaverMark } from '../ui/WeaverMark';
 
 const navItems = [
   { to: '/', label: 'Overview', icon: 'home', end: true },
@@ -30,7 +31,7 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
         onClick={onNavigate}
       >
         <span className="kds-brand-emblem">
-          <Icon name="spa" size={23} strokeWidth={1.6} />
+          <WeaverMark size={40} label="House Kandagatla" />
         </span>
         <span className="kds-brand-title">
           House

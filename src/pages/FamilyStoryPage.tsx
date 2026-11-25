@@ -103,7 +103,7 @@ export function FamilyStoryPage() {
         </article>
       ) : !loading ? (
         <section className="kds-family-story-space" aria-label="Family story space">
-          <Icon name="local_florist" size={35} strokeWidth={1} />
+          <Icon name="book_open" size={35} strokeWidth={1} />
           <p className="kds-mini-empty">
             {isAdmin
               ? 'Our story is waiting to be written. Sign in as admin and add the first chapter.'

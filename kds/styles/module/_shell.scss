@@ -60,16 +60,31 @@
   display: grid;
   place-items: center;
   flex: none;
-  width: 43px;
-  height: 43px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: #eaf0e8;
+  background: #f4efe6;
+  border: 1px solid #e2d8c8;
+  box-shadow: inset 0 0 0 2px #faf7f1;
   color: var(--primary-main);
-  font-size: 20px;
+  overflow: hidden;
 
-  svg {
-    font-size: 23px;
+  .kds-weaver-mark {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    object-position: 42% 48%;
+    transform: scale(1.08);
   }
+}
+
+.kds-weaver-mark {
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  border-radius: 50%;
+  background: #f4efe6;
 }
 
 .kds-brand-title {

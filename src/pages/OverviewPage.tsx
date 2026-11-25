@@ -5,6 +5,7 @@ import { Eyebrow } from '../components/ui/Eyebrow';
 import { Icon } from '../components/ui/Icon';
 import { OverviewSkeleton } from '../components/ui/Skeleton';
 import { StatCard } from '../components/ui/StatCard';
+import { WeaverMark } from '../components/ui/WeaverMark';
 
 export function OverviewPage() {
   const { members, festivals, heritage, loading } = useFamily();
@@ -64,7 +65,7 @@ export function OverviewPage() {
               <span className="kds-art-ring kds-ring-two" />
               <span className="kds-art-ring kds-ring-three" />
               <span className="kds-art-center">
-                <Icon name="local_florist" size={28} strokeWidth={1.2} />
+                <WeaverMark size={96} />
               </span>
               <span className="kds-art-dot kds-dot-one" />
               <span className="kds-art-dot kds-dot-two" />
