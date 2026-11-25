@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 import {
+  deleteAllMemberDocs,
   deleteFestivalDoc,
   deleteMemberDoc,
   ensureSeedData,
@@ -61,6 +62,7 @@ interface FamilyContextValue {
   addFestival: (input: FestivalInput) => Promise<void>;
   updateFestival: (id: string, input: FestivalInput) => Promise<void>;
   removeMember: (id: string) => Promise<void>;
+  clearFamilyTree: () => Promise<void>;
   removeFestival: (id: string) => Promise<void>;
   updateHeritage: (heritage: HeritageData) => Promise<void>;
   updateStory: (story: Pick<FamilyStory, 'title' | 'body'>) => Promise<void>;
@@ -229,6 +231,10 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
     [members],
   );
 
+  const clearFamilyTree = useCallback(async () => {
+    await deleteAllMemberDocs();
+  }, []);
+
   const removeFestival = useCallback(async (id: string) => {
     await deleteFestivalDoc(id);
   }, []);
@@ -258,6 +264,7 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
       addFestival,
       updateFestival,
       removeMember,
+      clearFamilyTree,
       removeFestival,
       updateHeritage,
       updateStory,
@@ -274,6 +281,7 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
       addFestival,
       updateFestival,
       removeMember,
+      clearFamilyTree,
       removeFestival,
       updateHeritage,
       updateStory,

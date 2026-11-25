@@ -190,6 +190,28 @@ export async function deleteMemberDoc(id: string): Promise<void> {
   await withWriteError(() => deleteDoc(doc(membersCol(), id)), 'Deleting member');
 }
 
+/** Deletes every member document under the family tree (batched). */
+export async function deleteAllMemberDocs(): Promise<void> {
+  await withWriteError(async () => {
+    const snapshot = await getDocs(membersCol());
+    if (snapshot.empty) {
+      return;
+    }
+
+    const database = requireDb();
+    const docs = snapshot.docs;
+    const chunkSize = 400;
+
+    for (let index = 0; index < docs.length; index += chunkSize) {
+      const batch = writeBatch(database);
+      docs.slice(index, index + chunkSize).forEach((item) => {
+        batch.delete(item.ref);
+      });
+      await batch.commit();
+    }
+  }, 'Clearing family tree');
+}
+
 export async function upsertFestival(festival: Festival): Promise<void> {
   const { id, ...rest } = festival;
   await withWriteError(

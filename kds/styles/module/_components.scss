@@ -60,6 +60,15 @@
   line-height: 1.65;
 }
 
+.kds-top-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex: none;
+}
+
 .kds-top-action {
   margin-bottom: 4px;
   flex: none;

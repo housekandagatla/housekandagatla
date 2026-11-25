@@ -6,6 +6,7 @@ import {
 } from '../components/tree/FamilyTreeCanvas';
 import { MemberDetail } from '../components/tree/MemberDetail';
 import { Button } from '../components/ui/Button';
+import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Eyebrow } from '../components/ui/Eyebrow';
 import { Icon } from '../components/ui/Icon';
@@ -15,7 +16,7 @@ import { useFamily } from '../context/FamilyContext';
 import type { FamilyMember } from '../data/types';
 
 export function FamilyTreePage() {
-  const { members, loading } = useFamily();
+  const { members, loading, clearFamilyTree } = useFamily();
   const { isAdmin } = useAuth();
   const [query, setQuery] = useState('');
   const [layout, setLayout] = useState<FamilyTreeLayout>('tree');
@@ -23,6 +24,8 @@ export function FamilyTreePage() {
   const [connectToId, setConnectToId] = useState<string | undefined>();
   const [editingMember, setEditingMember] = useState<FamilyMember | null>(null);
   const [selected, setSelected] = useState<FamilyMember | null>(null);
+  const [clearOpen, setClearOpen] = useState(false);
+  const [clearError, setClearError] = useState<string | null>(null);
 
   const filteredCount = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -65,6 +68,19 @@ export function FamilyTreePage() {
     setEditingMember(null);
   };
 
+  const handleClearTree = async () => {
+    setClearError(null);
+    try {
+      await clearFamilyTree();
+      setClearOpen(false);
+      setSelected(null);
+      setFormOpen(false);
+      setQuery('');
+    } catch (error) {
+      setClearError(error instanceof Error ? error.message : 'Could not clear family tree');
+    }
+  };
+
   return (
     <section className="kds-page" aria-labelledby="tree-title">
       <div className="kds-welcome-row">
@@ -78,9 +94,24 @@ export function FamilyTreePage() {
           </p>
         </div>
         {isAdmin ? (
-          <Button className="kds-top-action" icon="add" onClick={() => openAddForm()}>
-            Add family member
-          </Button>
+          <div className="kds-top-actions">
+            {members.length > 0 ? (
+              <Button
+                className="kds-top-action"
+                variant="danger"
+                icon="delete"
+                onClick={() => {
+                  setClearError(null);
+                  setClearOpen(true);
+                }}
+              >
+                Clear family tree
+              </Button>
+            ) : null}
+            <Button className="kds-top-action" icon="add" onClick={() => openAddForm()}>
+              Add family member
+            </Button>
+          </div>
         ) : null}
       </div>
 
@@ -169,6 +200,21 @@ export function FamilyTreePage() {
         onClose={() => setSelected(null)}
         onAddRelative={(memberId) => openAddForm(memberId)}
         onEdit={openEditForm}
+      />
+
+      <ConfirmDialog
+        open={clearOpen}
+        title="Clear the entire family tree?"
+        description={`This will permanently remove all ${members.length} ${
+          members.length === 1 ? 'member' : 'members'
+        } from the tree. Festivals, heritage, and story stay unchanged.`}
+        confirmLabel="Delete entire tree"
+        error={clearError}
+        onClose={() => {
+          setClearOpen(false);
+          setClearError(null);
+        }}
+        onConfirm={handleClearTree}
       />
     </section>
   );
