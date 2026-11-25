@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
-  base: '/thehouseofkandagatla/',
+  base: '/housekandagatla/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
