@@ -57,7 +57,9 @@ interface FamilyContextValue {
   loading: boolean;
   error: string | null;
   addMember: (input: MemberInput) => Promise<void>;
+  updateMember: (id: string, input: MemberInput) => Promise<void>;
   addFestival: (input: FestivalInput) => Promise<void>;
+  updateFestival: (id: string, input: FestivalInput) => Promise<void>;
   removeMember: (id: string) => Promise<void>;
   removeFestival: (id: string) => Promise<void>;
   updateHeritage: (heritage: HeritageData) => Promise<void>;
@@ -156,6 +158,28 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
     await upsertMember(member);
   }, []);
 
+  const updateMember = useCallback(
+    async (id: string, input: MemberInput) => {
+      const existing = members.find((member) => member.id === id);
+      if (!existing) {
+        throw new Error('Family member not found.');
+      }
+
+      const isRoot = input.isRoot || members.length <= 1;
+      await upsertMember({
+        ...existing,
+        fullName: input.fullName.trim(),
+        isRoot,
+        connectedToId: isRoot ? undefined : input.connectedToId,
+        relationship: isRoot ? undefined : input.relationship,
+        dateOfBirth: input.dateOfBirth?.trim() || undefined,
+        about: input.about?.trim() || undefined,
+        place: input.place?.trim() || undefined,
+      });
+    },
+    [members],
+  );
+
   const addFestival = useCallback(async (input: FestivalInput) => {
     const festival: Festival = {
       id: createId('fest'),
@@ -168,6 +192,24 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
 
     await upsertFestival(festival);
   }, []);
+
+  const updateFestival = useCallback(
+    async (id: string, input: FestivalInput) => {
+      const existing = festivals.find((festival) => festival.id === id);
+      if (!existing) {
+        throw new Error('Festival not found.');
+      }
+
+      await upsertFestival({
+        ...existing,
+        title: input.title.trim(),
+        category: input.category.trim() || 'Family tradition',
+        description: input.description.trim(),
+        dateLabel: input.dateLabel?.trim() || '—',
+      });
+    },
+    [festivals],
+  );
 
   const removeMember = useCallback(
     async (id: string) => {
@@ -212,7 +254,9 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
       loading,
       error,
       addMember,
+      updateMember,
       addFestival,
+      updateFestival,
       removeMember,
       removeFestival,
       updateHeritage,
@@ -226,7 +270,9 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
       loading,
       error,
       addMember,
+      updateMember,
       addFestival,
+      updateFestival,
       removeMember,
       removeFestival,
       updateHeritage,

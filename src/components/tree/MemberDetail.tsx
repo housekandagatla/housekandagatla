@@ -8,6 +8,7 @@ type MemberDetailProps = {
   member: FamilyMember | null;
   onClose: () => void;
   onAddRelative: (memberId: string) => void;
+  onEdit?: (member: FamilyMember) => void;
 };
 
 function formatDate(value?: string) {
@@ -27,7 +28,7 @@ function formatDate(value?: string) {
   });
 }
 
-export function MemberDetail({ member, onClose, onAddRelative }: MemberDetailProps) {
+export function MemberDetail({ member, onClose, onAddRelative, onEdit }: MemberDetailProps) {
   const { removeMember } = useFamily();
   const { isAdmin } = useAuth();
 
@@ -105,6 +106,16 @@ export function MemberDetail({ member, onClose, onAddRelative }: MemberDetailPro
               <Button variant="secondary" type="button" onClick={onClose}>
                 Close
               </Button>
+              {isAdmin && onEdit ? (
+                <Button
+                  variant="secondary"
+                  icon="edit"
+                  type="button"
+                  onClick={() => onEdit(member)}
+                >
+                  Edit
+                </Button>
+              ) : null}
               {isAdmin ? (
                 <Button
                   icon="add"

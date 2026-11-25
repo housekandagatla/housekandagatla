@@ -16,6 +16,7 @@ export function FamilyTreePage() {
   const [query, setQuery] = useState('');
   const [formOpen, setFormOpen] = useState(false);
   const [connectToId, setConnectToId] = useState<string | undefined>();
+  const [editingMember, setEditingMember] = useState<FamilyMember | null>(null);
   const [selected, setSelected] = useState<FamilyMember | null>(null);
 
   const filteredCount = useMemo(() => {
@@ -33,13 +34,30 @@ export function FamilyTreePage() {
     }).length;
   }, [members, query]);
 
-  const openForm = (memberId?: string) => {
+  const openAddForm = (memberId?: string) => {
     if (!isAdmin) {
       return;
     }
+    setEditingMember(null);
     setConnectToId(memberId);
     setSelected(null);
     setFormOpen(true);
+  };
+
+  const openEditForm = (member: FamilyMember) => {
+    if (!isAdmin) {
+      return;
+    }
+    setSelected(null);
+    setConnectToId(undefined);
+    setEditingMember(member);
+    setFormOpen(true);
+  };
+
+  const closeForm = () => {
+    setFormOpen(false);
+    setConnectToId(undefined);
+    setEditingMember(null);
   };
 
   return (
@@ -55,7 +73,7 @@ export function FamilyTreePage() {
           </p>
         </div>
         {isAdmin && members.length > 0 ? (
-          <Button className="kds-top-action" icon="add" onClick={() => openForm()}>
+          <Button className="kds-top-action" icon="add" onClick={() => openAddForm()}>
             Add family member
           </Button>
         ) : null}
@@ -102,7 +120,7 @@ export function FamilyTreePage() {
           footnote="KANDAGATLA FAMILY · CONNECTED THROUGH GENERATIONS"
           action={
             isAdmin ? (
-              <Button icon="add" onClick={() => openForm()}>
+              <Button icon="add" onClick={() => openAddForm()}>
                 Add the first family member
               </Button>
             ) : undefined
@@ -115,7 +133,7 @@ export function FamilyTreePage() {
           members={members}
           query={query}
           canEdit={isAdmin}
-          onAdd={openForm}
+          onAdd={openAddForm}
           onSelect={setSelected}
         />
       ) : null}
@@ -124,17 +142,16 @@ export function FamilyTreePage() {
         <MemberForm
           open={formOpen}
           connectToId={connectToId}
-          onClose={() => {
-            setFormOpen(false);
-            setConnectToId(undefined);
-          }}
+          member={editingMember}
+          onClose={closeForm}
         />
       ) : null}
 
       <MemberDetail
         member={selected}
         onClose={() => setSelected(null)}
-        onAddRelative={(memberId) => openForm(memberId)}
+        onAddRelative={(memberId) => openAddForm(memberId)}
+        onEdit={openEditForm}
       />
     </section>
   );

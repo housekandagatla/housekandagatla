@@ -8,9 +8,10 @@ import { Icon } from '../ui/Icon';
 type FestivalDetailProps = {
   festival: Festival | null;
   onClose: () => void;
+  onEdit?: (festival: Festival) => void;
 };
 
-export function FestivalDetail({ festival, onClose }: FestivalDetailProps) {
+export function FestivalDetail({ festival, onClose, onEdit }: FestivalDetailProps) {
   const { removeFestival } = useFamily();
   const { isAdmin } = useAuth();
 
@@ -71,9 +72,16 @@ export function FestivalDetail({ festival, onClose }: FestivalDetailProps) {
             ) : (
               <span />
             )}
-            <Button variant="secondary" type="button" onClick={onClose}>
-              Close
-            </Button>
+            <div className="kds-dialog-actions-end">
+              <Button variant="secondary" type="button" onClick={onClose}>
+                Close
+              </Button>
+              {isAdmin && onEdit ? (
+                <Button icon="edit" type="button" onClick={() => onEdit(festival)}>
+                  Edit festival
+                </Button>
+              ) : null}
+            </div>
           </div>
         </>
       ) : null}

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { useFamily, type MemberInput } from '../../context/FamilyContext';
-import { RELATIONSHIPS, type Relationship } from '../../data/types';
+import { RELATIONSHIPS, type FamilyMember, type Relationship } from '../../data/types';
 import { Button } from '../ui/Button';
 import { DatePickerField } from '../ui/DatePickerField';
 import { Drawer } from '../ui/Drawer';
@@ -13,25 +13,30 @@ type MemberFormProps = {
   open: boolean;
   onClose: () => void;
   connectToId?: string;
+  member?: FamilyMember | null;
 };
 
 const ROOT_VALUE = '__root__';
 
-export function MemberForm({ open, onClose, connectToId }: MemberFormProps) {
-  const { members, addMember } = useFamily();
+export function MemberForm({ open, onClose, connectToId, member = null }: MemberFormProps) {
+  const { members, addMember, updateMember } = useFamily();
+  const isEditing = Boolean(member);
   const [fullName, setFullName] = useState('');
   const [connectedToId, setConnectedToId] = useState(ROOT_VALUE);
   const [relationship, setRelationship] = useState<string>('Family member');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [about, setAbout] = useState('');
   const [place, setPlace] = useState('');
+  const [saving, setSaving] = useState(false);
 
   const memberOptions = useMemo(
     () => [
       { value: ROOT_VALUE, label: 'Add as a family root' },
-      ...members.map((member) => ({ value: member.id, label: member.fullName })),
+      ...members
+        .filter((item) => item.id !== member?.id)
+        .map((item) => ({ value: item.id, label: item.fullName })),
     ],
-    [members],
+    [members, member?.id],
   );
 
   const relationshipOptions = useMemo(
@@ -49,11 +54,24 @@ export function MemberForm({ open, onClose, connectToId }: MemberFormProps) {
   };
 
   useEffect(() => {
-    if (open) {
-      setConnectedToId(connectToId ?? ROOT_VALUE);
-      setRelationship('Family member');
+    if (!open) {
+      return;
     }
-  }, [open, connectToId]);
+
+    if (member) {
+      setFullName(member.fullName);
+      setConnectedToId(member.isRoot || !member.connectedToId ? ROOT_VALUE : member.connectedToId);
+      setRelationship(member.relationship || 'Family member');
+      setDateOfBirth(member.dateOfBirth || '');
+      setAbout(member.about || '');
+      setPlace(member.place || '');
+      return;
+    }
+
+    reset();
+    setConnectedToId(connectToId ?? ROOT_VALUE);
+    setRelationship('Family member');
+  }, [open, connectToId, member]);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -61,7 +79,7 @@ export function MemberForm({ open, onClose, connectToId }: MemberFormProps) {
       return;
     }
 
-    const isRoot = connectedToId === ROOT_VALUE || members.length === 0;
+    const isRoot = connectedToId === ROOT_VALUE || (!isEditing && members.length === 0);
     const payload: MemberInput = {
       fullName,
       isRoot,
@@ -72,13 +90,20 @@ export function MemberForm({ open, onClose, connectToId }: MemberFormProps) {
       place,
     };
 
+    setSaving(true);
     try {
-      await addMember(payload);
+      if (member) {
+        await updateMember(member.id, payload);
+      } else {
+        await addMember(payload);
+      }
       reset();
       onClose();
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Could not save member';
       window.alert(message);
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -86,8 +111,12 @@ export function MemberForm({ open, onClose, connectToId }: MemberFormProps) {
     <Drawer
       open={open}
       onClose={onClose}
-      title="Welcome them to the tree"
-      subtitle="Every name carries a story worth keeping."
+      title={isEditing ? 'Update their place in the tree' : 'Welcome them to the tree'}
+      subtitle={
+        isEditing
+          ? 'Keep their story accurate as the family grows.'
+          : 'Every name carries a story worth keeping.'
+      }
       note="Saved to our shared family record."
     >
       <form className="kds-form-stack" onSubmit={handleSubmit}>
@@ -152,11 +181,15 @@ export function MemberForm({ open, onClose, connectToId }: MemberFormProps) {
         </Field>
 
         <div className="kds-dialog-actions">
-          <Button variant="secondary" type="button" onClick={onClose}>
+          <Button variant="secondary" type="button" onClick={onClose} disabled={saving}>
             Cancel
           </Button>
-          <Button type="submit" icon="add">
-            Add to family tree
+          <Button type="submit" icon={isEditing ? 'edit' : 'add'} disabled={saving}>
+            {saving
+              ? 'Saving…'
+              : isEditing
+                ? 'Save changes'
+                : 'Add to family tree'}
           </Button>
         </div>
       </form>

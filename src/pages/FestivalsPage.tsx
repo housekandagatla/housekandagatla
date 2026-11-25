@@ -15,7 +15,31 @@ export function FestivalsPage() {
   const { festivals, loading } = useFamily();
   const { isAdmin } = useAuth();
   const [formOpen, setFormOpen] = useState(false);
+  const [editingFestival, setEditingFestival] = useState<Festival | null>(null);
   const [selected, setSelected] = useState<Festival | null>(null);
+
+  const openAddForm = () => {
+    if (!isAdmin) {
+      return;
+    }
+    setEditingFestival(null);
+    setSelected(null);
+    setFormOpen(true);
+  };
+
+  const openEditForm = (festival: Festival) => {
+    if (!isAdmin) {
+      return;
+    }
+    setSelected(null);
+    setEditingFestival(festival);
+    setFormOpen(true);
+  };
+
+  const closeForm = () => {
+    setFormOpen(false);
+    setEditingFestival(null);
+  };
 
   return (
     <section className="kds-page" aria-labelledby="festivals-title">
@@ -30,7 +54,7 @@ export function FestivalsPage() {
           </p>
         </div>
         {isAdmin && festivals.length > 0 ? (
-          <Button className="kds-top-action" icon="add" onClick={() => setFormOpen(true)}>
+          <Button className="kds-top-action" icon="add" onClick={openAddForm}>
             Add a festival
           </Button>
         ) : null}
@@ -53,7 +77,7 @@ export function FestivalsPage() {
           icon="event"
           action={
             isAdmin ? (
-              <Button icon="add" onClick={() => setFormOpen(true)}>
+              <Button icon="add" onClick={openAddForm}>
                 Add the first festival
               </Button>
             ) : undefined
@@ -100,8 +124,14 @@ export function FestivalsPage() {
         </>
       ) : null}
 
-      {isAdmin ? <FestivalForm open={formOpen} onClose={() => setFormOpen(false)} /> : null}
-      <FestivalDetail festival={selected} onClose={() => setSelected(null)} />
+      {isAdmin ? (
+        <FestivalForm open={formOpen} festival={editingFestival} onClose={closeForm} />
+      ) : null}
+      <FestivalDetail
+        festival={selected}
+        onClose={() => setSelected(null)}
+        onEdit={openEditForm}
+      />
     </section>
   );
 }

@@ -52,9 +52,11 @@ export function Topbar({ pageTitle, onMenuClick }: TopbarProps) {
           ) : null}
           {user ? (
             <span className="kds-date-auth">
-              {isAdmin ? 'Admin' : 'Signed in'}
+              {isAdmin ? 'Admin · editing enabled' : 'Signed in · view only'}
               {user.email ? ` · ${user.email}` : ''}
             </span>
+          ) : configured ? (
+            <span className="kds-date-auth">Sign in to manage family records</span>
           ) : null}
         </div>
         {configured ? (
@@ -65,7 +67,7 @@ export function Topbar({ pageTitle, onMenuClick }: TopbarProps) {
             disabled={loading}
             className="kds-auth-button"
           >
-            {user ? 'Sign out' : 'Sign in with Google'}
+            {user ? 'Sign out' : 'Admin sign in'}
           </Button>
         ) : null}
       </div>
