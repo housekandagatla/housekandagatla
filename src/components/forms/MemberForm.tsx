@@ -1,6 +1,11 @@
 import { useLayoutEffect, useMemo, useState, type FormEvent } from 'react';
 import { useFamily, type MemberInput } from '../../context/FamilyContext';
-import { RELATIONSHIPS, type FamilyMember, type Relationship } from '../../data/types';
+import {
+  isAscendantRelationship,
+  RELATIONSHIPS,
+  type FamilyMember,
+  type Relationship,
+} from '../../data/types';
 import { getSpouseOf, isSpouse } from '../../utils/buildFamilyTree';
 import { Button } from '../ui/Button';
 import { DatePickerField } from '../ui/DatePickerField';
@@ -109,14 +114,17 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
   );
 
   const placementLabel = useMemo(() => {
-    if (!isEditing || !connectedPerson || resolvedConnectId === ROOT_VALUE) {
+    if (!connectedPerson || resolvedConnectId === ROOT_VALUE) {
       return null;
+    }
+    if (isAscendantRelationship(relationship)) {
+      return `${relationship} above ${coupleLabel(connectedPerson, connectedSpouse)}`;
     }
     if (isSpouse(relationship)) {
       return `${relationship} of ${connectedPerson.fullName}`;
     }
     return `${relationship} of ${coupleLabel(connectedPerson, connectedSpouse)}`;
-  }, [isEditing, connectedPerson, connectedSpouse, resolvedConnectId, relationship]);
+  }, [connectedPerson, connectedSpouse, resolvedConnectId, relationship]);
 
   useLayoutEffect(() => {
     if (!open) {
@@ -204,24 +212,34 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
           />
         </Field>
 
-        <Field label="Connect to a family member">
+        <Field
+          label={
+            isAscendantRelationship(relationship)
+              ? 'Place above this family member'
+              : 'Connect to a family member'
+          }
+        >
           <SelectField
             value={connectedToId}
             onValueChange={setConnectedToId}
             options={memberOptions}
             placeholder=""
-            aria-label="Connect to a family member"
+            aria-label={
+              isAscendantRelationship(relationship)
+                ? 'Place above this family member'
+                : 'Connect to a family member'
+            }
           />
         </Field>
 
-        <Field label="Relationship to them">
+        <Field label="Relationship">
           <SelectField
             value={relationship}
             onValueChange={setRelationship}
             options={relationshipOptions}
             placeholder=""
             required
-            aria-label="Relationship to them"
+            aria-label="Relationship"
           />
         </Field>
 

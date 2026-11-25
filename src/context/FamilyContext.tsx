@@ -23,15 +23,36 @@ import {
 } from '../data/firestore';
 import { createId } from '../data/ids';
 import { familyDeity, heritageItems } from '../data/seed';
-import type {
-  FamilyMember,
-  FamilyStory,
-  Festival,
-  HeritageData,
-  Relationship,
+import {
+  isAscendantRelationship,
+  type FamilyMember,
+  type FamilyStory,
+  type Festival,
+  type HeritageData,
+  type Relationship,
 } from '../data/types';
 import { isFirebaseConfigured } from '../lib/firebase';
 import { useAuth } from './AuthContext';
+
+function childRoleAfterAddingParent(
+  parentRelationship?: Relationship,
+  existing?: Relationship,
+): Relationship {
+  if (parentRelationship === 'Grandparent') {
+    return 'Grandchild';
+  }
+  if (existing === 'Son' || existing === 'Daughter') {
+    return existing;
+  }
+  return 'Son';
+}
+
+function inheritLinkToGrandparent(existing?: Relationship): Relationship {
+  if (existing === 'Son' || existing === 'Daughter' || existing === 'Grandchild') {
+    return existing;
+  }
+  return 'Son';
+}
 
 export interface MemberInput {
   fullName: string;
@@ -144,21 +165,55 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
     });
   }, [isAdmin, seedAttempted, loading]);
 
-  const addMember = useCallback(async (input: MemberInput) => {
-    const member: FamilyMember = {
-      id: createId('member'),
-      fullName: input.fullName.trim(),
-      isRoot: input.isRoot,
-      connectedToId: input.isRoot ? undefined : input.connectedToId,
-      relationship: input.isRoot ? undefined : input.relationship,
-      dateOfBirth: input.dateOfBirth?.trim() || undefined,
-      about: input.about?.trim() || undefined,
-      place: input.place?.trim() || undefined,
-      createdAt: new Date().toISOString(),
-    };
+  const addMember = useCallback(
+    async (input: MemberInput) => {
+      const anchor =
+        !input.isRoot && input.connectedToId
+          ? members.find((member) => member.id === input.connectedToId)
+          : undefined;
 
-    await upsertMember(member);
-  }, []);
+      // Father / Mother / Grandparent: create above the connected person and re-link them.
+      if (anchor && isAscendantRelationship(input.relationship)) {
+        const parentId = createId('member');
+        const wasRoot = anchor.isRoot || !anchor.connectedToId;
+        const parent: FamilyMember = {
+          id: parentId,
+          fullName: input.fullName.trim(),
+          isRoot: wasRoot,
+          connectedToId: wasRoot ? undefined : anchor.connectedToId,
+          relationship: wasRoot ? undefined : inheritLinkToGrandparent(anchor.relationship),
+          dateOfBirth: input.dateOfBirth?.trim() || undefined,
+          about: input.about?.trim() || undefined,
+          place: input.place?.trim() || undefined,
+          createdAt: new Date().toISOString(),
+        };
+
+        await upsertMember(parent);
+        await upsertMember({
+          ...anchor,
+          isRoot: false,
+          connectedToId: parentId,
+          relationship: childRoleAfterAddingParent(input.relationship, anchor.relationship),
+        });
+        return;
+      }
+
+      const member: FamilyMember = {
+        id: createId('member'),
+        fullName: input.fullName.trim(),
+        isRoot: input.isRoot,
+        connectedToId: input.isRoot ? undefined : input.connectedToId,
+        relationship: input.isRoot ? undefined : input.relationship,
+        dateOfBirth: input.dateOfBirth?.trim() || undefined,
+        about: input.about?.trim() || undefined,
+        place: input.place?.trim() || undefined,
+        createdAt: new Date().toISOString(),
+      };
+
+      await upsertMember(member);
+    },
+    [members],
+  );
 
   const updateMember = useCallback(
     async (id: string, input: MemberInput) => {
@@ -168,6 +223,32 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
       }
 
       const isRoot = input.isRoot || members.length <= 1;
+      const anchor =
+        !isRoot && input.connectedToId
+          ? members.find((member) => member.id === input.connectedToId)
+          : undefined;
+
+      if (anchor && anchor.id !== id && isAscendantRelationship(input.relationship)) {
+        const wasRoot = anchor.isRoot || !anchor.connectedToId;
+        await upsertMember({
+          ...existing,
+          fullName: input.fullName.trim(),
+          isRoot: wasRoot,
+          connectedToId: wasRoot ? undefined : anchor.connectedToId,
+          relationship: wasRoot ? undefined : inheritLinkToGrandparent(anchor.relationship),
+          dateOfBirth: input.dateOfBirth?.trim() || undefined,
+          about: input.about?.trim() || undefined,
+          place: input.place?.trim() || undefined,
+        });
+        await upsertMember({
+          ...anchor,
+          isRoot: false,
+          connectedToId: id,
+          relationship: childRoleAfterAddingParent(input.relationship, anchor.relationship),
+        });
+        return;
+      }
+
       await upsertMember({
         ...existing,
         fullName: input.fullName.trim(),

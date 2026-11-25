@@ -87,3 +87,10 @@ export const RELATIONSHIPS: Relationship[] = [
   'Cousin',
   'Other relative',
 ];
+
+const ASCENDANT_RELATIONSHIPS = new Set<Relationship>(['Father', 'Mother', 'Grandparent']);
+
+/** Father / Mother / Grandparent — place above the connected person in the tree. */
+export function isAscendantRelationship(relationship?: Relationship | string) {
+  return Boolean(relationship && ASCENDANT_RELATIONSHIPS.has(relationship as Relationship));
+}
