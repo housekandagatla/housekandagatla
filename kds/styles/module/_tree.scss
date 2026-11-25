@@ -37,16 +37,20 @@
   width: max-content;
   min-width: 100%;
   margin: 0;
-  padding: 4px 8px 0;
+  padding: 0;
   list-style: none;
 }
 
 .kds-family-tree-branch {
+  --tree-line: #cbd6c7;
+  --tree-gap: 16px;
+  --tree-pad-x: 12px;
+
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px 8px 0;
+  padding: var(--tree-gap) var(--tree-pad-x) 0;
   text-align: center;
 }
 
@@ -56,89 +60,81 @@
 
 .kds-family-tree-children {
   position: relative;
-  padding-top: 16px;
+  padding-top: var(--tree-gap);
 }
 
+/* Vertical drop from parent couple into the children row */
 .kds-family-tree-children::before {
   content: "";
   position: absolute;
   top: 0;
   left: 50%;
-  height: 16px;
-  border-left: 1px solid #cbd6c7;
+  width: 0;
+  height: var(--tree-gap);
+  border-left: 1px solid var(--tree-line);
+  transform: translateX(-50%);
 }
 
+/* Horizontal sibling connectors */
 .kds-family-tree-children > .kds-family-tree-branch::before,
 .kds-family-tree-children > .kds-family-tree-branch::after {
   content: "";
   position: absolute;
   top: 0;
+  width: calc(50% + var(--tree-pad-x));
+  border-top: 1px solid var(--tree-line);
+}
+
+.kds-family-tree-children > .kds-family-tree-branch::before {
   right: 50%;
-  width: calc(50% + 8px);
-  border-top: 1px solid #cbd6c7;
 }
 
 .kds-family-tree-children > .kds-family-tree-branch::after {
   left: 50%;
-  right: auto;
 }
 
 .kds-family-tree-children > .kds-family-tree-branch:first-child::before,
 .kds-family-tree-children > .kds-family-tree-branch:last-child::after {
-  border: 0;
+  display: none;
 }
 
-.kds-family-tree-children > .kds-family-tree-branch:only-child::before {
-  border: 0;
-  width: 0;
-  right: 50%;
-}
-
+.kds-family-tree-children > .kds-family-tree-branch:only-child::before,
 .kds-family-tree-children > .kds-family-tree-branch:only-child::after {
   display: none;
 }
 
-.kds-family-tree-branch > .kds-family-tree-couple::before {
+/* Vertical drop from the sibling bar onto each child couple */
+.kds-family-tree-children > .kds-family-tree-branch > .kds-family-tree-couple::before {
   content: "";
   position: absolute;
-  top: -16px;
+  top: calc(var(--tree-gap) * -1);
   left: 50%;
-  height: 16px;
-  border-left: 1px solid #cbd6c7;
-}
-
-.kds-family-tree-roots > .kds-family-tree-branch > .kds-family-tree-couple::before {
-  display: none;
+  width: 0;
+  height: var(--tree-gap);
+  border-left: 1px solid var(--tree-line);
+  transform: translateX(-50%);
 }
 
 .kds-family-tree-couple {
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   width: max-content;
-  padding: 0 8px 12px;
+  padding: 0;
 }
 
+/* Partner link between two cards in a couple */
 .kds-family-tree-couple.kds-has-partner::after {
   content: "";
   position: absolute;
-  top: calc(50% - 6px);
+  top: 28px;
   left: 50%;
   width: 12px;
-  border-top: 1px solid #cbd6c7;
-  transform: translate(-50%);
-}
-
-.kds-family-tree-couple-stem {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 0;
-  height: 12px;
-  border-left: 1px solid #cbd6c7;
+  border-top: 1px solid var(--tree-line);
   transform: translateX(-50%);
+  z-index: 0;
 }
 
 .kds-family-tree-couple.kds-has-partner .kds-family-node-card {
@@ -419,7 +415,7 @@
   align-items: center;
   gap: 12px;
   margin: 4px 0 24px;
-  padding-right: 120px;
+  padding-right: 96px;
 
   h2 {
     margin: 4px 0;
@@ -566,26 +562,12 @@
   }
 
   .kds-family-tree-branch {
-    padding-right: 8px;
-    padding-left: 8px;
-  }
-
-  .kds-family-tree-children {
-    padding-top: 16px;
-  }
-
-  .kds-family-tree-children::before {
-    height: 20px;
-  }
-
-  .kds-family-tree-children > .kds-family-tree-branch::before,
-  .kds-family-tree-children > .kds-family-tree-branch::after {
-    width: calc(50% + 9px);
+    --tree-gap: 16px;
+    --tree-pad-x: 8px;
   }
 
   .kds-family-tree-couple {
     gap: 8px;
-    padding: 0 4px 12px;
   }
 
   .kds-family-tree-couple.kds-has-partner::after {

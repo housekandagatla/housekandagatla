@@ -113,10 +113,9 @@ function TreeBranch({
   const selfMuted = !matchesQuery(node.member, query);
   const partnerMuted = node.partner ? !matchesQuery(node.partner, query) : false;
   const hasChildren = node.children.length > 0;
-  const firstName = (name: string) => name.trim().split(/\s+/)[0] || name;
   const asParentsLabel = node.partner
-    ? `${firstName(node.member.fullName)} & ${firstName(node.partner.fullName)}`
-    : firstName(node.member.fullName);
+    ? `${node.member.fullName} & ${node.partner.fullName}`
+    : node.member.fullName;
 
   return (
     <li className="kds-family-tree-branch">
@@ -144,7 +143,6 @@ function TreeBranch({
             onSelect={onSelect}
           />
         ) : null}
-        {hasChildren ? <span className="kds-family-tree-couple-stem" aria-hidden="true" /> : null}
       </div>
 
       {hasChildren ? (

@@ -362,31 +362,37 @@ textarea.kds-control {
 }
 
 .kds-detail-icon-actions {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 4px;
+  gap: 2px;
 }
 
 .kds-detail-icon-actions-float {
   position: absolute;
-  top: 52px;
-  right: 16px;
+  top: 48px;
+  right: 15px;
   z-index: 2;
 }
 
-.kds-detail-icon-button {
+.kds-detail-icon-button,
+.kds-icon-danger {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  flex: none;
+  width: 28px;
+  height: 28px;
   margin: 0;
   padding: 0;
   border: 0;
-  border-radius: 8px;
+  border-radius: 6px;
   background: transparent;
-  color: var(--text-secondary);
   cursor: pointer;
+  line-height: 0;
+}
+
+.kds-detail-icon-button {
+  color: var(--text-secondary);
 
   &:hover {
     background: #f1f1eb;
@@ -395,17 +401,7 @@ textarea.kds-control {
 }
 
 .kds-icon-danger {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
   color: var(--error-main);
-  cursor: pointer;
 
   &:hover {
     background: #f8ece8;

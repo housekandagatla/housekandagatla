@@ -55,7 +55,7 @@ export function FestivalDetail({ festival, onClose, onEdit }: FestivalDetailProp
                   title="Edit"
                   onClick={() => onEdit(festival)}
                 >
-                  <Icon name="edit" size={16} strokeWidth={1.8} />
+                  <Icon name="edit" size={14} strokeWidth={1.8} />
                 </button>
               ) : null}
               <button
@@ -65,7 +65,7 @@ export function FestivalDetail({ festival, onClose, onEdit }: FestivalDetailProp
                 title="Delete"
                 onClick={handleDelete}
               >
-                <Icon name="delete" size={16} strokeWidth={1.8} />
+                <Icon name="delete" size={14} strokeWidth={1.8} />
               </button>
             </div>
           ) : null}

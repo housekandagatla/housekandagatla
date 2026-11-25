@@ -83,7 +83,7 @@ export function MemberDetail({ member, onClose, onAddRelative, onEdit }: MemberD
                   title="Edit"
                   onClick={() => onEdit(member)}
                 >
-                  <Icon name="edit" size={16} strokeWidth={1.8} />
+                  <Icon name="edit" size={14} strokeWidth={1.8} />
                 </button>
               ) : null}
               <button
@@ -93,7 +93,7 @@ export function MemberDetail({ member, onClose, onAddRelative, onEdit }: MemberD
                 title="Add relative"
                 onClick={() => onAddRelative(member.id)}
               >
-                <Icon name="add" size={16} strokeWidth={2} />
+                <Icon name="add" size={14} strokeWidth={2} />
               </button>
               <button
                 type="button"
@@ -102,7 +102,7 @@ export function MemberDetail({ member, onClose, onAddRelative, onEdit }: MemberD
                 title="Delete"
                 onClick={handleDelete}
               >
-                <Icon name="delete" size={16} strokeWidth={1.8} />
+                <Icon name="delete" size={14} strokeWidth={1.8} />
               </button>
             </div>
           ) : null}

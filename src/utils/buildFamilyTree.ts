@@ -43,11 +43,7 @@ export function getSpouseOf(member: FamilyMember, members: FamilyMember[]) {
   return undefined;
 }
 
-function firstName(name: string) {
-  return name.trim().split(/\s+/)[0] || name;
-}
-
-/** Human-readable placement like "Son of Ramdev & Ramadevi" or "Wife of Ramdev". */
+/** Human-readable placement like "Son of Krishna Murthy & Somalakshmi" or "Wife of Ramdev". */
 export function getMemberPlacementLabel(member: FamilyMember, members: FamilyMember[]) {
   if (member.isRoot || !member.connectedToId) {
     return member.isRoot ? 'Family root' : member.relationship || 'Family member';
@@ -69,7 +65,7 @@ export function getMemberPlacementLabel(member: FamilyMember, members: FamilyMem
     : connected;
   const spouse = getSpouseOf(primary, members);
   const parents = spouse
-    ? `${firstName(primary.fullName)} & ${firstName(spouse.fullName)}`
+    ? `${primary.fullName} & ${spouse.fullName}`
     : primary.fullName;
 
   return `${relation} of ${parents}`;
@@ -168,10 +164,9 @@ export function buildFamilyGenerations(members: FamilyMember[]): FamilyGeneratio
     });
     rows.set(level, units);
 
-    const firstName = (name: string) => name.trim().split(/\s+/)[0] || name;
     const asParentsLabel = node.partner
-      ? `${firstName(node.member.fullName)} & ${firstName(node.partner.fullName)}`
-      : firstName(node.member.fullName);
+      ? `${node.member.fullName} & ${node.partner.fullName}`
+      : node.member.fullName;
 
     node.children.forEach((child) => visit(child, level + 1, asParentsLabel));
   };

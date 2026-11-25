@@ -19,15 +19,11 @@ type MemberFormProps = {
 
 const ROOT_VALUE = '__root__';
 
-function firstName(name: string) {
-  return name.trim().split(/\s+/)[0] || name;
-}
-
 function coupleLabel(person: FamilyMember, spouse?: FamilyMember) {
   if (!spouse) {
     return person.fullName;
   }
-  return `${firstName(person.fullName)} & ${firstName(spouse.fullName)}`;
+  return `${person.fullName} & ${spouse.fullName}`;
 }
 
 export function MemberForm({ open, onClose, connectToId, member = null }: MemberFormProps) {
