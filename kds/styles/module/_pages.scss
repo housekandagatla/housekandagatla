@@ -63,11 +63,22 @@
 }
 
 .kds-mini-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 105px;
   margin: 16px 0 8px;
   padding: 16px;
   color: var(--text-secondary);
   font-size: 12px;
   line-height: 1.65;
+  text-align: center;
+}
+
+.kds-family-story-space .kds-mini-empty {
+  min-height: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .kds-mini-member {

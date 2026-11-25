@@ -10,7 +10,13 @@ export function OverviewPage() {
   const { isAdmin } = useAuth();
   const previewFestivals = festivals.slice(0, 2);
   const previewMembers = members.slice(0, 3);
-  const heritageFacts = heritage.items.map((item) => ({ te: item.telugu }));
+  const heritageFacts = heritage.items.map((item) => {
+    const label = item.teluguLabel?.trim();
+    return {
+      key: `${item.index ?? item.label}-${item.telugu}`,
+      te: label ? `${label} — ${item.telugu}` : item.telugu,
+    };
+  });
 
   return (
     <section className="kds-page" aria-labelledby="overview-title">
@@ -66,7 +72,7 @@ export function OverviewPage() {
             <span className="kds-banner-roots-label">THE ROOTS THAT CONNECT US</span>
             <div className="kds-banner-roots-facts">
               {heritageFacts.map((fact, index) => (
-                <span key={fact.te}>
+                <span key={fact.key}>
                   {index > 0 ? (
                     <span className="kds-roots-divider" aria-hidden="true">
                       ·
@@ -173,17 +179,21 @@ export function OverviewPage() {
             </div>
           </div>
 
-          <div className="kds-event-list">
-            {previewFestivals.map((festival) => (
-              <Link key={festival.id} className="kds-event-card" to="/festivals">
-                <div className="kds-event-info">
-                  <div className="kds-event-kind">{festival.category}</div>
-                  <h3>{festival.title}</h3>
-                </div>
-                <Icon name="arrow_forward" className="kds-event-arrow" size={16} strokeWidth={1.8} />
-              </Link>
-            ))}
-          </div>
+          {previewFestivals.length === 0 ? (
+            <p className="kds-mini-empty">Our festivals and gatherings will appear here.</p>
+          ) : (
+            <div className="kds-event-list">
+              {previewFestivals.map((festival) => (
+                <Link key={festival.id} className="kds-event-card" to="/festivals">
+                  <div className="kds-event-info">
+                    <div className="kds-event-kind">{festival.category}</div>
+                    <h3>{festival.title}</h3>
+                  </div>
+                  <Icon name="arrow_forward" className="kds-event-arrow" size={16} strokeWidth={1.8} />
+                </Link>
+              ))}
+            </div>
+          )}
 
           <Link className="kds-add-event-link" to="/festivals">
             View festivals <Icon name="arrow_forward" size={14} strokeWidth={2} />

@@ -20,14 +20,16 @@ export function EmptyState({
 }: EmptyStateProps) {
   return (
     <section className="kds-empty-state">
-      <div className="kds-empty-icon">
-        <Icon name={icon} size={29} strokeWidth={1.2} />
+      <div className="kds-empty-inner">
+        <div className="kds-empty-icon">
+          <Icon name={icon} size={29} strokeWidth={1.2} />
+        </div>
+        {kicker ? <p className="kds-empty-kicker">{kicker}</p> : null}
+        <h2 className="kds-serif">{title}</h2>
+        <p>{description}</p>
+        {action ? <div className="kds-empty-action">{action}</div> : null}
+        {footnote ? <span className="kds-empty-footnote">{footnote}</span> : null}
       </div>
-      {kicker ? <div className="kds-eyebrow">{kicker}</div> : null}
-      <h2 className="kds-serif">{title}</h2>
-      <p>{description}</p>
-      {action}
-      {footnote ? <span className="kds-empty-footnote">{footnote}</span> : null}
     </section>
   );
 }

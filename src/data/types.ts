@@ -37,6 +37,8 @@ export interface Festival {
 export interface HeritageItem {
   index?: string;
   label: string;
+  /** Short Telugu label shown on Overview roots strip (e.g. ఇంటి పేరు). */
+  teluguLabel?: string;
   telugu: string;
   english: string;
 }

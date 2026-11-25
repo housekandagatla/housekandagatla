@@ -277,6 +277,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
   min-height: 330px;
   padding: 32px 16px;
   text-align: center;
@@ -288,18 +289,29 @@
   overflow: hidden;
 }
 
+.kds-empty-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
 .kds-empty-icon {
   display: grid;
   place-items: center;
   width: 51px;
   height: 51px;
-  margin-bottom: 16px;
+  margin: 0 auto 16px;
   color: var(--primary-light);
   background: #f7f8f2;
   border: 1px solid #d7dfd2;
   border-radius: 50%;
 
   svg {
+    display: block;
     font-size: 24px;
   }
 }
@@ -308,6 +320,7 @@
   margin: 0;
   color: var(--text-secondary);
   font-size: 12px;
+  font-weight: 700;
   letter-spacing: 1.3px;
   text-transform: uppercase;
 }
@@ -321,6 +334,7 @@
   font-size: 24px;
   font-weight: 500;
   line-height: 1.2;
+  text-align: center;
 
   em {
     color: var(--primary-light);
@@ -329,12 +343,19 @@
   }
 }
 
-.kds-empty-state p {
+.kds-empty-state .kds-empty-inner > p {
   margin: 0 0 16px;
   max-width: 355px;
   color: var(--text-secondary);
   font-size: 12px;
   line-height: 1.7;
+  text-align: center;
+}
+
+.kds-empty-action {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .kds-empty-footnote {
@@ -343,11 +364,8 @@
   color: var(--text-secondary);
   font-size: 12px;
   letter-spacing: 1.3px;
+  text-align: center;
   text-transform: uppercase;
-}
-
-.kds-empty-icon svg {
-  display: block;
 }
 
 .kds-footer-flower {

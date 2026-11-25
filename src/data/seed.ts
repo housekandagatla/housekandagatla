@@ -39,18 +39,21 @@ export const heritageItems: HeritageItem[] = [
   {
     index: '01',
     label: 'Our community',
+    teluguLabel: 'కులం',
     telugu: 'పద్మశాలి',
     english: 'Kulam · Community',
   },
   {
     index: '02',
     label: 'Our family name',
+    teluguLabel: 'ఇంటి పేరు',
     telugu: 'కందగట్ల',
     english: 'Inti peru · Family name',
   },
   {
     index: '03',
     label: 'Our gotram',
+    teluguLabel: 'గోత్రం',
     telugu: 'విదురిషి',
     english: 'Gotram · Ancestral lineage',
   },

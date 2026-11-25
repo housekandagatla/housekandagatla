@@ -57,7 +57,7 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
           >
             <Icon name={item.icon} size={18} strokeWidth={1.8} />
             <span>{item.label}</span>
-            {'showCount' in item && item.showCount ? (
+            {'showCount' in item && item.showCount && festivals.length > 0 ? (
               <span className="kds-nav-count">{festivals.length}</span>
             ) : null}
           </NavLink>

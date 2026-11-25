@@ -91,8 +91,15 @@ export function subscribeHeritage(
         return;
       }
       const data = snapshot.data() as HeritageData;
+      const items = Array.isArray(data.items) ? data.items : heritageItems;
       onData({
-        items: Array.isArray(data.items) ? data.items : heritageItems,
+        items: items.map((item, index) => {
+          const seed = heritageItems[index];
+          return {
+            ...item,
+            teluguLabel: item.teluguLabel || seed?.teluguLabel,
+          };
+        }),
         deity: data.deity ?? familyDeity,
       });
     },
