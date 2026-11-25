@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FestivalForm } from '../components/forms/FestivalForm';
 import { FestivalDetail } from '../components/tree/FestivalDetail';
 import { Button } from '../components/ui/Button';
+import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Eyebrow } from '../components/ui/Eyebrow';
 import { Icon } from '../components/ui/Icon';
@@ -17,6 +18,8 @@ export function FestivalsPage() {
   const [formOpen, setFormOpen] = useState(false);
   const [editingFestival, setEditingFestival] = useState<Festival | null>(null);
   const [selected, setSelected] = useState<Festival | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<Festival | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const openAddForm = () => {
     if (!isAdmin) {
@@ -41,24 +44,20 @@ export function FestivalsPage() {
     setEditingFestival(null);
   };
 
-  const handleDelete = async (festival: Festival) => {
-    if (!isAdmin) {
+  const handleConfirmDelete = async () => {
+    if (!isAdmin || !pendingDelete) {
       return;
     }
 
-    const confirmed = window.confirm(`Remove “${festival.title}” from family festivals?`);
-    if (!confirmed) {
-      return;
-    }
-
+    setDeleteError(null);
     try {
-      await removeFestival(festival.id);
-      if (selected?.id === festival.id) {
+      await removeFestival(pendingDelete.id);
+      if (selected?.id === pendingDelete.id) {
         setSelected(null);
       }
+      setPendingDelete(null);
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Could not delete festival';
-      window.alert(message);
+      setDeleteError(error instanceof Error ? error.message : 'Could not delete festival');
     }
   };
 
@@ -133,7 +132,10 @@ export function FestivalsPage() {
                     className="kds-festival-card-delete"
                     aria-label={`Delete ${festival.title}`}
                     title="Delete"
-                    onClick={() => handleDelete(festival)}
+                    onClick={() => {
+                      setDeleteError(null);
+                      setPendingDelete(festival);
+                    }}
                   >
                     <Icon name="delete" size={16} strokeWidth={1.8} />
                   </button>
@@ -151,6 +153,18 @@ export function FestivalsPage() {
         festival={selected}
         onClose={() => setSelected(null)}
         onEdit={openEditForm}
+      />
+      <ConfirmDialog
+        open={Boolean(pendingDelete)}
+        title={`Remove “${pendingDelete?.title ?? 'this festival'}”?`}
+        description="This festival will be removed from the shared family record."
+        confirmLabel="Delete festival"
+        error={deleteError}
+        onClose={() => {
+          setPendingDelete(null);
+          setDeleteError(null);
+        }}
+        onConfirm={handleConfirmDelete}
       />
     </section>
   );

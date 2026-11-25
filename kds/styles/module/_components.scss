@@ -107,6 +107,17 @@
   }
 }
 
+.kds-btn_danger {
+  background: var(--error-main);
+  color: #fff;
+
+  &:hover {
+    background: var(--error-dark);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+}
+
 .kds-btn_secondary {
   background: #fffefa;
   color: #495348;

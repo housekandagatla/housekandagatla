@@ -413,6 +413,31 @@ textarea.kds-control {
   margin: 8px 0;
 }
 
+.kds-confirm-dialog {
+  width: min(100%, 400px);
+}
+
+.kds-confirm-error {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  color: var(--error-dark);
+  font-size: 12px;
+  line-height: 1.4;
+  background: #f8ece8;
+  border: 1px solid #efd2cb;
+  border-radius: 8px;
+}
+
+.kds-drawer-backdrop:has(.kds-confirm-dialog) {
+  z-index: 60;
+}
+
+.kds-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .kds-form-note,
 .kds-form-hint {
   margin: 12px 0 0;
