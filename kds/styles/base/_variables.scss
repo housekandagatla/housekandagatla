@@ -1,0 +1,100 @@
+:root {
+    --font-family:                           Arial, Helvetica, sans-serif;
+    --font-family-headings:                  Georgia, "Times New Roman", serif;
+    --font-family-telugu:                    "Noto Sans Telugu", sans-serif;
+
+    --font-size-10:                           0.625rem; //10px
+    --font-size-12:                           0.75rem; //12px
+    --font-size-14:                           0.875rem; //14px
+    --font-size-16:                           1rem; //16px
+    --font-size-18:                           1.125rem; //18px
+    --font-size-20:                           1.25rem; //20px
+    --font-size-22:                           1.375rem; //22px
+    --font-size-24:                           1.5rem; //24px                 
+    --font-size-32:                           2rem; //32px
+    --font-size-40:                           2.5rem; //40px
+    --font-size-48:                           3rem; //48px
+
+    // Brand Colors
+    --primary-main:                      #315B46;
+    --primary-dark:                      #315B46;
+    --primary-light:                     #78947D;
+
+    --primary-lightest:                  #EAF0E8;
+    --primary-lightest-2:                #E7EDE4;
+    --primary-lightest-3:                #E8EFE5;
+
+    //Text Colors
+    --text-primary:                      #27312B;
+    --text-secondary:                    #5C645E;
+    --text-disabled:                     #7E8178;
+
+    //input
+    --input-border:                      #E9E6DC;
+
+    //misc colors
+    --warm-border:                       #E9E6DC;
+    --muted-surface:                     #EFEEE8;
+    --gold-accent:                       #B58D50;
+    --clay-accent:                       #BF8566;
+    --rose-accent:                       #C4787A;
+    --other-divider:                     #E4E1D7;
+
+    // Status
+    --success-main:                      #315B46;
+    --success-dark:                      #274937;
+    --warning-main:                      #B58D50;
+    --error-main:                        #B54A4A;
+    --error-dark:                        #8F3A3A;
+
+    // Generic
+    --background-default:                #F8F7F3;
+    --white:                             #FFFFFF;
+    --soft-white:                        #FFFEFA;
+    --black:                             #000000;
+
+
+    //spacings (Use this for padding, margin, width, height)
+    
+    --spacing-xxx-small:                     0.25rem;  //4px
+    --spacing-xx-small:                      0.5rem;   //8px
+    --spacing-x-small:                       0.75rem;  //12px
+    --spacing-small:                         1rem;     //16px
+    --spacing-medium:                        1.25rem;  //20px
+    --spacing-large:                         1.5rem;   //24px
+    --spacing-x-large:                       2rem;     //32px
+    --spacing-xm-large:                      2.5rem;   //40px
+    --spacing-xx-large:                      3rem;     //48px
+    --spacing-xxx-large:                     4rem;     //64px
+    --spacing-xxxx-large:                    5rem;    //80px
+
+    //Font-weight
+    --font-weight-light:                     300;
+    --font-weight-regular:                   400;
+    --font-weight-medium:                    500;
+    --font-weight-semi-bold:                 600;
+    --font-weight-bold:                      700;
+    --font-weight-extra-bold:                800;
+
+    //Border Radius
+    --border-radius-small:                   0.125rem; //2px
+    --border-radius-medium:                  0.25rem; //4px
+    --border-radius-large:                   0.5rem; //8px
+    --border-radius-x-large:                 1rem; //16px
+    --border-radius-xx-large:                1.5rem; //24px
+    --border-radius-circle:                  50%;
+
+    //Border Width
+    --border-width-thin:                     0.063rem; //1px
+} 
+
+    // Viewports
+    $mobile-start:                          320px;   //max-width
+    $mobile-portrait-start:                 576px;   //max-width
+    $mobile-end:                            767px;   //max-width
+    $tablet-portrait-start:                 768px;   //min-width
+    $tablet-portrait-end:                   1023px;  //max-width
+    $tablet-landscape-start:                1024px;  //min-width
+    $tablet-landscape-end:                  1280px;  //max-width
+    $desktop-start:                         1281px;  //max-width
+    $desktop-large:                         1440px;  //max-width

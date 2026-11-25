@@ -1,0 +1,140 @@
+/*************** Grid ***************/
+
+.kds-grid {
+    display: flex;
+
+    &_vertical {
+        flex-direction: column;
+    }
+
+    &_vertical-reverse {
+        flex-direction: column-reverse;
+    }
+
+    &_reverse {
+        flex-direction: row-reverse;
+    }
+    &_vertical-stretch {
+        align-items: stretch;
+        align-content: stretch;
+    }
+}
+.kds-wrap {
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.kds-nowrap {
+    flex-wrap: nowrap;
+}
+/*************** Grid container ***************/
+
+.kds-container {
+    &_small {
+        max-width: 30rem;
+    }
+
+    &_medium {
+        max-width: 48rem;
+    }
+
+    &_large{
+        max-width: 64rem;
+    }
+    &_x-large{
+        max-width: 80rem;
+    }
+    &_fluid{
+        width: 100%;
+    }
+    &_center{
+        margin-left: auto;
+        margin-right: auto;
+    }
+    &_left{
+        margin-left: auto;
+    }
+    &_right{
+        margin-right: auto;
+    }
+}
+/*************** Gutters ***************/
+.kds-gutters, 
+.kds-gutters_small,
+.kds-gutters_direct,
+.kds-gutters_direct-small {
+    margin-right: calc(-1* var(--spacing-x-small));
+    margin-left: calc(-1* var(--spacing-x-small));
+
+    // small gutters 
+    &_xx-small,
+    &_direct-xx-small {
+        margin-right: calc(-1* var(--spacing-xxx-small));
+        margin-left: calc(-1* var(--spacing-xxx-small));
+    }
+
+    &_x-small,
+    &_direct-x-small {
+        margin-right: calc(-1* var(--spacing-xx-small));
+        margin-left: calc(-1* var(--spacing-xx-small));
+    }
+    // medium gutters 
+    &_medium,
+    &_direct-medium {
+        margin-right: calc(-1* var(--spacing-small));
+        margin-left: calc(-1* var(--spacing-small));
+    }
+    // large gutters 
+    &_large,
+    &_direct-large {
+        margin-right: calc(-1* var(--spacing-large));
+        margin-left: calc(-1* var(--spacing-large));
+    }
+
+    &_x-large,
+    &_direct-x-large {
+        margin-right: calc(-1* var(--spacing-x-large));
+        margin-left: calc(-1* var(--spacing-x-large));
+    }
+
+    &_xx-large,
+    &_direct-xx-large {
+        margin-right: calc(-1* var(--spacing-xx-large));
+        margin-left: calc(-1* var(--spacing-xx-large));
+    }
+}
+/*************** Gap ***************/
+.kds-gap {
+    &_xx-small {
+        gap: var(--spacing-xx-small);
+    }
+    &_x-small{
+        gap: var(--spacing-x-small);
+    }
+    &_small{
+        gap: var(--spacing-small);
+    }
+}
+/*************** Align items ***************/
+.kds-align-items{
+    &_center{
+        align-items: center;
+    }
+}
+/*************** Grid alignments ***************/
+.kds-grid_align{
+    &-center{
+        justify-content: center;
+    }
+    &-spread{
+        justify-content: space-between;
+    }
+    &-end{
+        justify-content: flex-end;
+    }
+}
+/*************** other ***************/
+.kds-has-flexi-truncate{
+    flex: 1 1 0%;
+    min-width: 0;
+}

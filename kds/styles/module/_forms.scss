@@ -1,0 +1,172 @@
+/*******************************
+  Dialogs / forms — match live dialog-card
+*******************************/
+
+.kds-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  overflow-y: auto;
+  background: rgba(35, 42, 35, 0.38);
+  backdrop-filter: blur(3px);
+}
+
+.kds-drawer {
+  position: relative;
+  width: min(100%, 460px);
+  max-height: calc(100vh - 40px);
+  padding: 24px;
+  background: #fffefa;
+  border: 1px solid #e7e4d9;
+  border-radius: 13px;
+  box-shadow: 0 22px 70px rgba(23, 35, 25, 0.19);
+  overflow-y: auto;
+  animation: kds-dialog-in 0.18s ease-out;
+}
+
+.kds-drawer-wide {
+  width: min(100%, 500px);
+}
+
+@keyframes kds-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.kds-drawer-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #70766e;
+  cursor: pointer;
+
+  &:hover {
+    background: #f1f1eb;
+  }
+}
+
+.kds-drawer .kds-eyebrow {
+  margin: 0;
+}
+
+.kds-drawer h2,
+.kds-drawer .kds-serif {
+  margin: 8px 0 4px;
+  color: #35473a;
+  font-family: var(--font-family-headings);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.kds-dialog-copy {
+  margin: 0 0 16px;
+  color: #85867d;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.kds-form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: #60685e;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    min-height: 39px;
+    padding: 8px 12px;
+    color: #3d473e;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: inherit;
+    background: #fff;
+    border: 1px solid #e4e2d8;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &::placeholder {
+      color: #aaa99f;
+    }
+
+    &:focus {
+      border-color: #9aad94;
+      box-shadow: 0 0 0 3px #eaf0e7;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      background: #f7f7f3;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+.kds-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.kds-dialog-actions-split {
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.kds-dialog-actions-end {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.kds-form-note,
+.kds-form-hint {
+  margin: 12px 0 0;
+  color: #9b9b92;
+  font-size: 12px;
+  text-align: center;
+}
+
+@media screen and (max-width: 760px) {
+  .kds-drawer-backdrop {
+    min-height: 100dvh;
+    padding: 12px;
+  }
+
+  .kds-drawer {
+    max-height: calc(100dvh - 24px);
+    padding: 24px 16px;
+  }
+}

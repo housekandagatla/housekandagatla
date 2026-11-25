@@ -1,0 +1,454 @@
+/*******************************
+  Responsive breakpoints
+  Matched to kandagatla.vercel.app
+*******************************/
+
+@media screen and (min-width: 1500px) {
+  .kds-page-wrap {
+    padding-top: 32px;
+  }
+
+  .kds-heritage-banner {
+    min-height: 338px;
+  }
+
+  .kds-banner-art {
+    transform: scale(1.1);
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .kds-sidebar {
+    width: 220px;
+    min-width: 220px;
+  }
+
+  .kds-main-content {
+    width: calc(100% - 220px);
+    margin-left: 220px;
+  }
+
+  .kds-topbar {
+    padding: 0 32px;
+  }
+
+  .kds-page-wrap {
+    padding: 32px 32px 16px;
+  }
+
+  .kds-heritage-banner {
+    padding: 24px 32px;
+  }
+
+  .kds-banner-art {
+    margin-right: 0;
+    transform: scale(0.88);
+  }
+
+  .kds-overview-grid {
+    gap: 12px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .kds-content-panel {
+    padding: 16px 12px 12px;
+  }
+
+  .kds-member-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .kds-festival-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .kds-heritage-banner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .kds-banner-text {
+    width: min(100%, 340px);
+  }
+
+  .kds-banner-art {
+    position: absolute;
+    top: 0;
+    right: -42px;
+    opacity: 0.42;
+    transform: scale(0.84);
+  }
+
+  .kds-art-caption {
+    display: none;
+  }
+
+  .kds-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kds-heritage-facts,
+  .kds-heritage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .kds-sidebar {
+    width: 246px;
+    min-width: 246px;
+    z-index: 10;
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    box-shadow: 10px 0 28px rgba(37, 48, 36, 0.075);
+
+    &.kds-is-open {
+      transform: translateX(0);
+    }
+  }
+
+  .kds-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0 0 0 min(246px, 70vw);
+    z-index: 9;
+    background: rgba(35, 42, 35, 0.28);
+    border: 0;
+    cursor: pointer;
+  }
+
+  .kds-main-content {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .kds-topbar {
+    height: 58px;
+    padding: 0 16px;
+    gap: 8px;
+  }
+
+  .kds-menu-toggle {
+    display: grid;
+    margin-left: -8px;
+  }
+
+  .kds-breadcrumb {
+    flex: 1;
+    font-size: 12px;
+  }
+
+  .kds-topbar-right {
+    gap: 8px;
+  }
+
+  .kds-date-label {
+    display: none;
+  }
+
+  .kds-page-wrap {
+    min-width: 0;
+    padding: 32px 16px 16px;
+  }
+
+  .kds-welcome-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .kds-welcome-row h1,
+  .kds-page-hero h1 {
+    font-size: 32px;
+  }
+
+  .kds-welcome-subtitle {
+    max-width: 440px;
+    font-size: 12px;
+  }
+
+  .kds-top-action {
+    min-height: 36px;
+  }
+
+  .kds-heritage-banner {
+    gap: 16px;
+    min-height: 229px;
+    padding: 24px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+  }
+
+  .kds-banner-text {
+    grid-row: 1;
+    width: 75%;
+  }
+
+  .kds-banner-text h2 {
+    font-size: 32px;
+  }
+
+  .kds-banner-text p {
+    max-width: 290px;
+    font-size: 12px;
+  }
+
+  .kds-banner-art {
+    position: absolute;
+    top: 9px;
+    right: -72px;
+    opacity: 0.43;
+    transform: scale(0.79);
+  }
+
+  .kds-banner-corner {
+    z-index: 1;
+  }
+
+  .kds-banner-roots {
+    align-items: start;
+    gap: 8px;
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+
+  .kds-banner-roots-mark {
+    grid-row: 1 / span 2;
+  }
+
+  .kds-banner-roots-content {
+    grid-column: 2;
+    min-width: 0;
+  }
+
+  .kds-banner-roots .kds-inline-link {
+    grid-column: 2;
+    justify-self: start;
+    margin: 0;
+  }
+
+  .kds-banner-roots-facts {
+    gap: 4px 8px;
+    font-size: 12px;
+  }
+
+  .kds-stat-row {
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  .kds-stat-card {
+    gap: 8px;
+    min-height: 70px;
+    padding: 8px;
+  }
+
+  .kds-stat-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .kds-stat-action {
+    display: none;
+  }
+
+  .kds-overview-grid {
+    gap: 8px;
+    grid-template-columns: 1fr;
+  }
+
+  .kds-content-panel {
+    padding: 16px;
+  }
+
+  .kds-feature-strip,
+  .kds-events-intro {
+    align-items: flex-start;
+    gap: 8px;
+    padding: 16px;
+  }
+
+  .kds-member-grid {
+    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .kds-member-card {
+    padding: 12px;
+  }
+
+  .kds-search-bar {
+    margin: 4px 0 16px;
+  }
+
+  .kds-empty-state {
+    min-height: 310px;
+  }
+
+  .kds-heritage-hero {
+    min-height: 255px;
+    padding: 24px;
+  }
+
+  .kds-heritage-hero-copy {
+    max-width: 75%;
+  }
+
+  .kds-heritage-hero h2 {
+    font-size: 32px;
+  }
+
+  .kds-heritage-hero-copy > p {
+    font-size: 12px;
+  }
+
+  .kds-heritage-hero-flower {
+    opacity: 0.35;
+    right: -66px;
+  }
+
+  .kds-heritage-facts,
+  .kds-heritage-grid {
+    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .kds-heritage-card {
+    min-height: 127px;
+    padding: 12px 8px;
+  }
+
+  .kds-heritage-card h3 {
+    font-size: 16px;
+  }
+
+  .kds-deity-card {
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .kds-festival-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .kds-events-intro h2 {
+    font-size: 16px;
+  }
+
+  .kds-events-intro-mark {
+    font-size: 32px;
+    right: 12px;
+  }
+
+  .kds-drawer-backdrop {
+    min-height: 100dvh;
+    padding: 12px;
+  }
+
+  .kds-drawer {
+    max-height: calc(100dvh - 24px);
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .kds-topbar {
+    padding: 0 12px;
+  }
+
+  .kds-page-wrap {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .kds-heritage-banner {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .kds-banner-text {
+    width: 87%;
+  }
+
+  .kds-banner-art {
+    right: -113px;
+  }
+
+  .kds-banner-roots {
+    padding: 12px;
+  }
+
+  .kds-banner-roots .kds-inline-link {
+    margin-left: 0;
+  }
+
+  .kds-stat-row {
+    grid-template-columns: 1fr;
+  }
+
+  .kds-stat-card {
+    min-height: 56px;
+    padding: 8px 12px;
+  }
+
+  .kds-stat-action {
+    display: grid;
+  }
+
+  .kds-member-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kds-search-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .kds-member-count {
+    align-self: flex-end;
+  }
+
+  .kds-heritage-facts,
+  .kds-heritage-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kds-heritage-card {
+    min-height: 118px;
+    padding: 8px;
+  }
+
+  .kds-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .kds-drawer {
+    padding: 24px 16px;
+  }
+
+  .kds-page-footer {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .kds-events-intro {
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .kds-events-intro-mark {
+    top: 10px;
+    right: 12px;
+  }
+
+  .kds-festival-card {
+    gap: 12px;
+  }
+
+  .kds-festival-card-art {
+    width: 40px;
+    height: 40px;
+  }
+}
