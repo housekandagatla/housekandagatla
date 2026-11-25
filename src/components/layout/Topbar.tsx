@@ -29,6 +29,24 @@ export function Topbar({ pageTitle, onMenuClick }: TopbarProps) {
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Sign-in failed';
+      const code =
+        error && typeof error === 'object' && 'code' in error
+          ? String((error as { code?: string }).code)
+          : '';
+
+      if (code === 'auth/unauthorized-domain' || message.includes('unauthorized-domain')) {
+        const host = window.location.hostname;
+        window.alert(
+          `Firebase blocked sign-in from “${host}”.\n\n` +
+            `Add this domain in Firebase Console:\n` +
+            `Authentication → Settings → Authorized domains → Add domain\n\n` +
+            `Add: ${host}\n` +
+            (host === 'localhost' ? '' : 'Also keep: localhost\n') +
+            `\nProject: the-house-of-kandagatla`,
+        );
+        return;
+      }
+
       window.alert(message);
     }
   };

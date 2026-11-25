@@ -5,8 +5,13 @@
 1. Open [Firebase Console](https://console.firebase.google.com/) with `thehouseofkandagatla@gmail.com`.
 2. Select (or create) the web project for this site.
 3. **Authentication → Sign-in method → Google → Enable**.
-4. **Authentication → Settings → Authorized domains**: add `localhost` and `housekandagatla.github.io`
-   (after the GitHub rename; remove the old `thehouseofkandagatla.github.io` if it is unused).
+4. **Authentication → Settings → Authorized domains** must include every host you sign in from:
+   - `localhost` (local Vite)
+   - `127.0.0.1` (if you open the app that way)
+   - `housekandagatla.github.io` (live GitHub Pages after the rename)
+   
+   `auth/unauthorized-domain` means the current hostname is missing from this list.
+   Add the domain shown in the browser address bar (hostname only, no `https://` or path).
 5. **Firestore Database → Create database** (production mode).
 6. **Firestore → Rules**: paste contents of `firestore.rules` and Publish.
 7. **Project settings → Your apps → Web app**: copy the config values.
