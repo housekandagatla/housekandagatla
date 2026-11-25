@@ -1,0 +1,152 @@
+/*******************************
+  Loading skeletons
+*******************************/
+
+@keyframes kds-skeleton-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.kds-skeleton {
+  display: block;
+  flex: none;
+  width: 100%;
+  height: 12px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    #ecebe4 0%,
+    #f7f6f1 45%,
+    #ecebe4 90%
+  );
+  background-size: 200% 100%;
+  animation: kds-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.kds-skeleton-block {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  margin: 8px 0 24px;
+}
+
+.kds-skeleton-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+}
+
+.kds-skeleton-circle {
+  flex: none;
+}
+
+.kds-skeleton-banner,
+.kds-skeleton-heritage-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 180px;
+  padding: 24px;
+  background: #fffefa;
+  border: 1px solid var(--warm-border);
+  border-radius: 16px;
+}
+
+.kds-skeleton-stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.kds-skeleton-stat,
+.kds-skeleton-panel,
+.kds-skeleton-festival-card,
+.kds-skeleton-heritage-card,
+.kds-skeleton-deity,
+.kds-skeleton-story-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: #fffefa;
+  border: 1px solid var(--warm-border);
+  border-radius: 12px;
+}
+
+.kds-skeleton-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.kds-skeleton-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.kds-skeleton-search {
+  width: min(100%, 440px);
+}
+
+.kds-skeleton-tree-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  min-height: 280px;
+  padding: 24px 16px;
+  background: #fffefa;
+  border: 1px solid var(--warm-border);
+  border-radius: 12px;
+}
+
+.kds-skeleton-tree-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.kds-skeleton-card {
+  width: min(216px, 100%);
+}
+
+.kds-skeleton-festival-grid,
+.kds-skeleton-heritage-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.kds-skeleton-festival-card,
+.kds-skeleton-deity {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+@media screen and (max-width: 900px) {
+  .kds-skeleton-stat-row,
+  .kds-skeleton-overview-grid,
+  .kds-skeleton-festival-grid,
+  .kds-skeleton-heritage-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .kds-skeleton-banner,
+  .kds-skeleton-heritage-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

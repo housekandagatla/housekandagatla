@@ -3,9 +3,9 @@ import { FestivalForm } from '../components/forms/FestivalForm';
 import { FestivalDetail } from '../components/tree/FestivalDetail';
 import { Button } from '../components/ui/Button';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
-import { EmptyState } from '../components/ui/EmptyState';
 import { Eyebrow } from '../components/ui/Eyebrow';
 import { Icon } from '../components/ui/Icon';
+import { FestivalsSkeleton } from '../components/ui/Skeleton';
 import { useAuth } from '../context/AuthContext';
 import { useFamily } from '../context/FamilyContext';
 import type { Festival } from '../data/types';
@@ -80,25 +80,20 @@ export function FestivalsPage() {
         ) : null}
       </div>
 
-      {loading ? <p className="kds-mini-empty">Loading our festivals…</p> : null}
+      {loading ? <FestivalsSkeleton /> : null}
 
       {!loading && festivals.length === 0 ? (
-        <EmptyState
-          kicker="MOMENTS WORTH GATHERING"
-          title={
-            <>
-              Every tradition starts
-              <br />
-              with a shared <em>moment.</em>
-            </>
-          }
-          description="Add the first festival to begin collecting the celebrations, reunions, and little gatherings that bring our family home."
-          footnote="KANDAGATLA FAMILY · CELEBRATING TOGETHER"
-          icon="event"
-        />
+        <section className="kds-family-story-space" aria-label="Family festivals">
+          <Icon name="event" size={35} strokeWidth={1} />
+          <p className="kds-mini-empty">
+            {isAdmin
+              ? 'No festivals yet. Add the first celebration to get started.'
+              : 'Family festivals will appear here soon.'}
+          </p>
+        </section>
       ) : null}
 
-      {festivals.length > 0 ? (
+      {!loading && festivals.length > 0 ? (
         <>
           <div className="kds-events-section-title">
             <span className="kds-event-total">

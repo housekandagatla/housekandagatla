@@ -3,6 +3,7 @@ import { Button } from '../components/ui/Button';
 import { Eyebrow } from '../components/ui/Eyebrow';
 import { Field } from '../components/ui/Field';
 import { Icon } from '../components/ui/Icon';
+import { FamilyStorySkeleton } from '../components/ui/Skeleton';
 import { TextArea } from '../components/ui/TextArea';
 import { TextInput } from '../components/ui/TextInput';
 import { useAuth } from '../context/AuthContext';
@@ -57,9 +58,9 @@ export function FamilyStoryPage() {
         ) : null}
       </div>
 
-      {loading ? <p className="kds-mini-empty">Loading our story…</p> : null}
+      {loading ? <FamilyStorySkeleton /> : null}
 
-      {editing ? (
+      {!loading && editing ? (
         <form className="kds-form-stack" onSubmit={handleSave}>
           <Field label="Title" htmlFor="story-heading">
             <TextInput
@@ -85,7 +86,7 @@ export function FamilyStoryPage() {
             </Button>
           </div>
         </form>
-      ) : story.body.trim() ? (
+      ) : !loading && story.body.trim() ? (
         <article className="kds-family-story-content">
           <h2 className="kds-serif">{story.title}</h2>
           <p className="kds-family-story-body">{story.body}</p>
@@ -100,7 +101,7 @@ export function FamilyStoryPage() {
             </p>
           ) : null}
         </article>
-      ) : (
+      ) : !loading ? (
         <section className="kds-family-story-space" aria-label="Family story space">
           <Icon name="local_florist" size={35} strokeWidth={1} />
           <p className="kds-mini-empty">
@@ -109,7 +110,7 @@ export function FamilyStoryPage() {
               : 'Our family story will appear here soon.'}
           </p>
         </section>
-      )}
+      ) : null}
     </section>
   );
 }

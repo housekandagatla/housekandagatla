@@ -9,6 +9,7 @@ import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Eyebrow } from '../components/ui/Eyebrow';
 import { Icon } from '../components/ui/Icon';
+import { FamilyTreeSkeleton } from '../components/ui/Skeleton';
 import { useAuth } from '../context/AuthContext';
 import { useFamily } from '../context/FamilyContext';
 import type { FamilyMember } from '../data/types';
@@ -83,9 +84,9 @@ export function FamilyTreePage() {
         ) : null}
       </div>
 
-      {loading ? <p className="kds-mini-empty">Loading our family tree…</p> : null}
+      {loading ? <FamilyTreeSkeleton /> : null}
 
-      {members.length > 0 ? (
+      {!loading && members.length > 0 ? (
         <div className="kds-tree-toolbar">
           <label className="kds-search-field">
             <Icon name="search" size={17} strokeWidth={2} />
@@ -143,7 +144,7 @@ export function FamilyTreePage() {
         />
       ) : null}
 
-      {members.length > 0 ? (
+      {!loading && members.length > 0 ? (
         <FamilyTreeCanvas
           members={members}
           query={query}

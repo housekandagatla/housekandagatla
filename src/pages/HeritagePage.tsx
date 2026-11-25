@@ -3,6 +3,7 @@ import { Button } from '../components/ui/Button';
 import { Eyebrow } from '../components/ui/Eyebrow';
 import { Field } from '../components/ui/Field';
 import { Icon } from '../components/ui/Icon';
+import { HeritageSkeleton } from '../components/ui/Skeleton';
 import { TextInput } from '../components/ui/TextInput';
 import { useAuth } from '../context/AuthContext';
 import { useFamily } from '../context/FamilyContext';
@@ -60,9 +61,9 @@ export function HeritagePage() {
         ) : null}
       </div>
 
-      {loading ? <p className="kds-mini-empty">Loading our heritage…</p> : null}
+      {loading ? <HeritageSkeleton /> : null}
 
-      {editing ? (
+      {!loading && editing ? (
         <form className="kds-form-stack kds-heritage-edit" onSubmit={handleSave}>
           {items.map((item, index) => (
             <div key={item.index ?? index} className="kds-heritage-edit-block">
@@ -150,7 +151,7 @@ export function HeritagePage() {
             </Button>
           </div>
         </form>
-      ) : (
+      ) : !loading ? (
         <>
           <section className="kds-heritage-hero" aria-label="Kandagatla family heritage">
             <div className="kds-heritage-hero-copy">
@@ -220,7 +221,7 @@ export function HeritagePage() {
             </div>
           </section>
         </>
-      )}
+      ) : null}
     </section>
   );
 }
