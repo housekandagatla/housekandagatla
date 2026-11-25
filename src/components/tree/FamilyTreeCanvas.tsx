@@ -73,7 +73,7 @@ function NodeCard({
             aria-label={`Add relative of ${member.fullName}`}
             onClick={() => onAdd(member.id)}
           >
-            <Icon name="add" size={10} strokeWidth={2} />
+            <Icon name="add" size={8} strokeWidth={2.2} />
           </button>
         ) : null}
       </div>

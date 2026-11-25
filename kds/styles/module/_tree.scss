@@ -277,11 +277,14 @@
 }
 
 .kds-node-add-button {
-  color: #fff;
-  background: var(--primary-light);
+  width: 16px;
+  height: 16px;
+  color: var(--primary-main);
+  background: #e7ede4;
 
   &:hover {
-    background: var(--primary-main);
+    color: #fff;
+    background: var(--primary-light);
   }
 }
 

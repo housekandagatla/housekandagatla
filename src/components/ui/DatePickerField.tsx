@@ -59,7 +59,9 @@ export function DatePickerField({
       <button
         id={id}
         type="button"
-        className="kds-datepicker-trigger"
+        className={`kds-datepicker-trigger${open ? ' is-open' : ''}${
+          selected ? ' has-value' : ''
+        }`}
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={() => setOpen((current) => !current)}
@@ -67,7 +69,7 @@ export function DatePickerField({
         <span className={selected ? 'kds-datepicker-value' : 'kds-datepicker-placeholder'}>
           {selected ? format(selected, 'MMM d, yyyy') : placeholder}
         </span>
-        <CalendarDays size={16} strokeWidth={1.8} />
+        <CalendarDays size={16} strokeWidth={1.8} aria-hidden="true" />
       </button>
 
       {open ? (
@@ -76,6 +78,7 @@ export function DatePickerField({
             mode="single"
             selected={selected}
             captionLayout="dropdown"
+            navLayout="around"
             startMonth={new Date(1920, 0)}
             endMonth={new Date()}
             defaultMonth={selected ?? new Date(1990, 0)}
@@ -85,6 +88,16 @@ export function DatePickerField({
             }}
           />
           <div className="kds-datepicker-actions">
+            <button
+              type="button"
+              className="kds-datepicker-today"
+              onClick={() => {
+                onChange(format(new Date(), 'yyyy-MM-dd'));
+                setOpen(false);
+              }}
+            >
+              Today
+            </button>
             <button
               type="button"
               className="kds-datepicker-clear"

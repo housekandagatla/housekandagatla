@@ -182,15 +182,9 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
     <Drawer
       open={open}
       onClose={onClose}
-      title={isEditing ? 'Update their place in the tree' : 'Welcome them to the tree'}
-      subtitle={
-        placementLabel
-          ? undefined
-          : isEditing
-            ? 'Keep their story accurate as the family grows.'
-            : 'Every name carries a story worth keeping.'
-      }
-      note="Saved to our shared family record."
+      title={isEditing ? 'Edit family member' : 'Add family member'}
+      subtitle={undefined}
+      note={undefined}
     >
       <form className="kds-form-stack" onSubmit={handleSubmit}>
         {placementLabel ? (
@@ -264,7 +258,7 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
           <Button variant="secondary" type="button" onClick={onClose} disabled={saving}>
             Cancel
           </Button>
-          <Button type="submit" icon={isEditing ? 'edit' : 'add'} disabled={saving}>
+          <Button type="submit" icon={isEditing ? 'check' : 'add'} disabled={saving}>
             {saving
               ? 'Saving…'
               : isEditing
