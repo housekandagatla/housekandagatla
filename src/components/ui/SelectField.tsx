@@ -21,7 +21,7 @@ export function SelectField({
   value,
   onValueChange,
   options,
-  placeholder = 'Select…',
+  placeholder = '',
   required = false,
   disabled = false,
   id,

@@ -81,7 +81,6 @@ export function FestivalForm({ open, onClose, festival = null }: FestivalFormPro
             id="festival-title"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            placeholder="e.g. Diwali gathering"
             required
             autoFocus
           />
@@ -92,7 +91,6 @@ export function FestivalForm({ open, onClose, festival = null }: FestivalFormPro
             id="festival-description"
             value={description}
             onChange={(event) => setDescription(event.target.value)}
-            placeholder="What makes this celebration special?"
             rows={3}
             required
           />

@@ -199,7 +199,6 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
             id="member-full-name"
             value={fullName}
             onChange={(event) => setFullName(event.target.value)}
-            placeholder="e.g. Sita Kandagatla"
             required
             autoFocus
           />
@@ -210,7 +209,7 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
             value={connectedToId}
             onValueChange={setConnectedToId}
             options={memberOptions}
-            placeholder="Add as a family root"
+            placeholder=""
             aria-label="Connect to a family member"
           />
         </Field>
@@ -220,7 +219,7 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
             value={relationship}
             onValueChange={setRelationship}
             options={relationshipOptions}
-            placeholder="Choose relationship"
+            placeholder=""
             required
             aria-label="Relationship to them"
           />
@@ -231,7 +230,7 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
             id="member-dob"
             value={dateOfBirth}
             onChange={setDateOfBirth}
-            placeholder="Pick a date of birth"
+            placeholder=""
           />
         </Field>
 
@@ -240,7 +239,6 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
             id="member-about"
             value={about}
             onChange={(event) => setAbout(event.target.value)}
-            placeholder="A few words about them…"
             rows={3}
           />
         </Field>
@@ -250,7 +248,6 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
             id="member-place"
             value={place}
             onChange={(event) => setPlace(event.target.value)}
-            placeholder="Add a town or venue"
           />
         </Field>
 

@@ -67,7 +67,6 @@ export function FamilyStoryPage() {
               id="story-heading"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
-              placeholder="Our family story"
               required
             />
           </Field>
@@ -76,7 +75,6 @@ export function FamilyStoryPage() {
               id="story-body"
               value={body}
               onChange={(event) => setBody(event.target.value)}
-              placeholder="Share where we come from, and the people who shaped us…"
               rows={12}
             />
           </Field>

@@ -23,7 +23,7 @@ export function DatePickerField({
   value,
   onChange,
   id,
-  placeholder = 'Pick a date',
+  placeholder = '',
 }: DatePickerFieldProps) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
