@@ -9,6 +9,23 @@ type MemberDetailProps = {
   onAddRelative: (memberId: string) => void;
 };
 
+function formatDate(value?: string) {
+  if (!value) {
+    return '—';
+  }
+
+  const date = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return date.toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+
 export function MemberDetail({ member, onClose, onAddRelative }: MemberDetailProps) {
   const { removeMember } = useFamily();
 
@@ -18,7 +35,7 @@ export function MemberDetail({ member, onClose, onAddRelative }: MemberDetailPro
     }
 
     const confirmed = window.confirm(
-      `Delete ${member.fullName} from the family tree? People connected to them will become family roots.`,
+      `Remove ${member.fullName} from the family tree? Connected people will become family roots.`,
     );
     if (!confirmed) {
       return;
@@ -35,6 +52,7 @@ export function MemberDetail({ member, onClose, onAddRelative }: MemberDetailPro
       title={member?.fullName ?? 'Family member'}
       eyebrow="FAMILY PROFILE"
       wide
+      hideTitle
       className="kds-member-details-dialog"
     >
       {member ? (
@@ -44,6 +62,7 @@ export function MemberDetail({ member, onClose, onAddRelative }: MemberDetailPro
               {member.fullName.charAt(0).toUpperCase()}
             </span>
             <div>
+              <h2>{member.fullName}</h2>
               <p>{member.isRoot ? 'Family root' : member.relationship || 'Family member'}</p>
             </div>
           </div>
@@ -55,7 +74,7 @@ export function MemberDetail({ member, onClose, onAddRelative }: MemberDetailPro
             </div>
             <div>
               <span>Date of birth</span>
-              <strong>{member.dateOfBirth || '—'}</strong>
+              <strong>{formatDate(member.dateOfBirth)}</strong>
             </div>
             <div>
               <span>Place</span>
@@ -68,9 +87,9 @@ export function MemberDetail({ member, onClose, onAddRelative }: MemberDetailPro
           </div>
 
           <div className="kds-dialog-actions kds-dialog-actions-split">
-            <Button variant="danger" type="button" icon="delete" onClick={handleDelete}>
-              Delete
-            </Button>
+            <button type="button" className="kds-text-danger" onClick={handleDelete}>
+              Delete member
+            </button>
             <div className="kds-dialog-actions-end">
               <Button variant="secondary" type="button" onClick={onClose}>
                 Close

@@ -339,6 +339,30 @@ textarea.kds-control {
   display: flex;
   gap: 8px;
   margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.kds-text-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 8px 0;
+  border: 0;
+  background: transparent;
+  color: #9a4f3f;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+
+  &:hover {
+    color: #823d2f;
+  }
+}
+
+.kds-festival-details-dialog h2 {
+  margin: 8px 0;
 }
 
 .kds-form-note,

@@ -10,23 +10,11 @@ import { useFamily } from '../context/FamilyContext';
 import type { FamilyMember } from '../data/types';
 
 export function FamilyTreePage() {
-  const { members, removeMember } = useFamily();
+  const { members } = useFamily();
   const [query, setQuery] = useState('');
   const [formOpen, setFormOpen] = useState(false);
   const [connectToId, setConnectToId] = useState<string | undefined>();
   const [selected, setSelected] = useState<FamilyMember | null>(null);
-
-  const handleDelete = (member: FamilyMember) => {
-    const confirmed = window.confirm(
-      `Delete ${member.fullName} from the family tree? People connected to them will become family roots.`,
-    );
-    if (!confirmed) {
-      return;
-    }
-
-    removeMember(member.id);
-    setSelected((current) => (current?.id === member.id ? null : current));
-  };
 
   const filteredCount = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -66,9 +54,9 @@ export function FamilyTreePage() {
         </Button>
       </div>
 
-      <div className="kds-search-bar">
+      <div className="kds-tree-toolbar">
         <label className="kds-search-field">
-          <Icon name="search" size={16} strokeWidth={1.8} />
+          <Icon name="search" size={17} strokeWidth={2} />
           <input
             type="search"
             placeholder="Search names, relationships, places…"
@@ -77,8 +65,8 @@ export function FamilyTreePage() {
             onChange={(event) => setQuery(event.target.value)}
           />
         </label>
-        <span className="kds-member-count">
-          <Icon name="people" size={16} strokeWidth={1.8} />
+        <span className="kds-tree-count">
+          <Icon name="people" size={15} strokeWidth={1.8} />
           {members.length} {members.length === 1 ? 'member' : 'members'}
         </span>
       </div>
@@ -113,7 +101,6 @@ export function FamilyTreePage() {
           query={query}
           onAdd={openForm}
           onSelect={setSelected}
-          onDelete={handleDelete}
         />
       )}
 

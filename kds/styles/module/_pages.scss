@@ -429,19 +429,11 @@
   line-height: 1.5;
 }
 
-.kds-festival-card-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 4px;
-}
-
 .kds-festival-view-more {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  margin-top: 0;
+  margin-top: 4px;
   padding: 4px 0;
   border: 0;
   background: transparent;
@@ -452,23 +444,6 @@
 
   &:hover {
     color: #345b42;
-  }
-}
-
-.kds-festival-delete {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 0;
-  border: 0;
-  background: transparent;
-  color: #9a4f3f;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-
-  &:hover {
-    color: #823d2f;
   }
 }
 

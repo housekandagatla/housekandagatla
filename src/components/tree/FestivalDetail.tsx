@@ -17,7 +17,7 @@ export function FestivalDetail({ festival, onClose }: FestivalDetailProps) {
       return;
     }
 
-    const confirmed = window.confirm(`Delete “${festival.title}” from family festivals?`);
+    const confirmed = window.confirm(`Remove “${festival.title}” from family festivals?`);
     if (!confirmed) {
       return;
     }
@@ -33,21 +33,22 @@ export function FestivalDetail({ festival, onClose }: FestivalDetailProps) {
       title={festival?.title ?? 'Festival'}
       subtitle="A family celebration to keep close."
       eyebrow="FAMILY FESTIVAL"
+      className="kds-festival-details-dialog"
     >
       {festival ? (
         <>
           <span className="kds-festival-detail-icon" aria-hidden="true">
-            <Icon name="local_florist" size={20} />
+            <Icon name="local_florist" size={20} strokeWidth={1.6} />
           </span>
           <span className="kds-sample-detail-label">{festival.category}</span>
           <p className="kds-festival-detail-description">{festival.description}</p>
           <div className="kds-festival-detail-list">
             <div>
-              <Icon name="event" size={16} />
+              <Icon name="event" size={16} strokeWidth={1.8} />
               <span>{festival.dateLabel || 'Date to be decided'}</span>
             </div>
             <div>
-              <Icon name="spa" size={16} />
+              <Icon name="spa" size={16} strokeWidth={1.8} />
               <span>House of Kandagatla tradition</span>
             </div>
           </div>
@@ -56,9 +57,9 @@ export function FestivalDetail({ festival, onClose }: FestivalDetailProps) {
             <span>✳</span>
           </div>
           <div className="kds-dialog-actions kds-dialog-actions-split">
-            <Button variant="danger" type="button" icon="delete" onClick={handleDelete}>
-              Delete
-            </Button>
+            <button type="button" className="kds-text-danger" onClick={handleDelete}>
+              Delete festival
+            </button>
             <Button variant="secondary" type="button" onClick={onClose}>
               Close
             </Button>

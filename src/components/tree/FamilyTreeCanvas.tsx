@@ -7,7 +7,6 @@ type FamilyTreeCanvasProps = {
   query?: string;
   onAdd: (connectToId?: string) => void;
   onSelect: (member: FamilyMember) => void;
-  onDelete: (member: FamilyMember) => void;
 };
 
 function avatarTone(index: number) {
@@ -21,20 +20,16 @@ function NodeCard({
   muted,
   onAdd,
   onSelect,
-  onDelete,
 }: {
   member: FamilyMember;
   tone: string;
   muted?: boolean;
   onAdd: (connectToId?: string) => void;
   onSelect: (member: FamilyMember) => void;
-  onDelete: (member: FamilyMember) => void;
 }) {
   return (
     <article
-      className={`kds-family-node-card transition-all duration-200 ease-out hover:-translate-y-0.5 ${
-        muted ? 'kds-tree-node-muted' : ''
-      }`}
+      className={`kds-family-node-card${muted ? ' kds-tree-node-muted' : ''}`}
     >
       <span className={`kds-member-avatar ${tone}`}>{member.fullName.charAt(0).toUpperCase()}</span>
       <div className="kds-family-node-copy">
@@ -45,27 +40,19 @@ function NodeCard({
       <div className="kds-family-node-actions">
         <button
           type="button"
-          className="kds-node-edit-button transition-colors duration-150"
+          className="kds-node-edit-button"
           aria-label={`View ${member.fullName}`}
           onClick={() => onSelect(member)}
         >
-          <Icon name="visibility" size={14} strokeWidth={1.8} />
+          <Icon name="edit" size={13} strokeWidth={1.8} />
         </button>
         <button
           type="button"
-          className="kds-node-add-button transition-colors duration-150"
+          className="kds-node-add-button"
           aria-label={`Add relative of ${member.fullName}`}
           onClick={() => onAdd(member.id)}
         >
           <Icon name="add" size={14} strokeWidth={2} />
-        </button>
-        <button
-          type="button"
-          className="kds-node-delete-button transition-colors duration-150"
-          aria-label={`Delete ${member.fullName}`}
-          onClick={() => onDelete(member)}
-        >
-          <Icon name="delete" size={14} strokeWidth={1.8} />
         </button>
       </div>
     </article>
@@ -78,14 +65,12 @@ function TreeBranch({
   query,
   onAdd,
   onSelect,
-  onDelete,
 }: {
   node: FamilyTreeNode;
   toneIndex: number;
   query: string;
   onAdd: (connectToId?: string) => void;
   onSelect: (member: FamilyMember) => void;
-  onDelete: (member: FamilyMember) => void;
 }) {
   const needle = query.trim().toLowerCase();
   const matches = (member: FamilyMember) => {
@@ -111,7 +96,6 @@ function TreeBranch({
           muted={selfMuted}
           onAdd={onAdd}
           onSelect={onSelect}
-          onDelete={onDelete}
         />
         {node.partner ? (
           <NodeCard
@@ -120,7 +104,6 @@ function TreeBranch({
             muted={partnerMuted}
             onAdd={onAdd}
             onSelect={onSelect}
-            onDelete={onDelete}
           />
         ) : null}
       </div>
@@ -135,7 +118,6 @@ function TreeBranch({
               query={query}
               onAdd={onAdd}
               onSelect={onSelect}
-              onDelete={onDelete}
             />
           ))}
         </ul>
@@ -149,7 +131,6 @@ export function FamilyTreeCanvas({
   query = '',
   onAdd,
   onSelect,
-  onDelete,
 }: FamilyTreeCanvasProps) {
   const tree = buildFamilyTree(members);
 
@@ -172,7 +153,6 @@ export function FamilyTreeCanvas({
               query={query}
               onAdd={onAdd}
               onSelect={onSelect}
-              onDelete={onDelete}
             />
           ))}
         </ul>

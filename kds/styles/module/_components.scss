@@ -387,6 +387,7 @@
   color: #9d916e;
 }
 
+.kds-tree-toolbar,
 .kds-search-bar {
   display: flex;
   align-items: center;
@@ -394,6 +395,16 @@
   flex-wrap: wrap;
   gap: 16px;
   margin: 4px 0 24px;
+}
+
+.kds-tree-count,
+.kds-member-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #85867b;
+  font-size: 12px;
+  white-space: nowrap;
 }
 
 .kds-search-field {
@@ -410,7 +421,7 @@
 
   svg {
     color: #898c81;
-    font-size: 16px;
+    flex: none;
   }
 
   &:focus-within {
@@ -431,19 +442,6 @@
     &::placeholder {
       color: #a1a198;
     }
-  }
-}
-
-.kds-member-count {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: #85867b;
-  font-size: 12px;
-  white-space: nowrap;
-
-  svg {
-    font-size: 14px;
   }
 }
 

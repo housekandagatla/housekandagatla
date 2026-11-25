@@ -11,6 +11,7 @@ type DrawerProps = {
   note?: string;
   wide?: boolean;
   className?: string;
+  hideTitle?: boolean;
 };
 
 export function Drawer({
@@ -23,6 +24,7 @@ export function Drawer({
   note,
   wide = false,
   className = '',
+  hideTitle = false,
 }: DrawerProps) {
   useEffect(() => {
     if (!open) {
@@ -75,7 +77,10 @@ export function Drawer({
         </button>
 
         <div className="kds-eyebrow">{eyebrow}</div>
-        <h2 id="kds-dialog-title" className="kds-serif">
+        <h2
+          id="kds-dialog-title"
+          className={hideTitle ? 'sr-only' : 'kds-serif'}
+        >
           {title}
         </h2>
         {subtitle ? <p className="kds-dialog-copy">{subtitle}</p> : null}
