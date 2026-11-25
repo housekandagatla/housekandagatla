@@ -237,13 +237,22 @@
 
 .kds-content-panel,
 .kds-card {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   padding: 16px 16px 12px;
   background: #fffefa;
   border: 1px solid var(--warm-border);
   border-radius: 10px;
+}
 
-  
+.kds-panel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid #f0eee7;
 }
 
 .kds-panel-heading {
@@ -266,10 +275,7 @@
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
   gap: 16px;
-
-  
-
-  
+  align-items: stretch;
 }
 
 .kds-empty-state {

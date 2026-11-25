@@ -139,7 +139,6 @@ export function HeritagePage() {
         <>
           <section className="kds-heritage-hero" aria-label="Kandagatla family heritage">
             <div className="kds-heritage-hero-copy">
-              <span className="kds-banner-kicker">KANDAGATLA FAMILY · TELANGANA</span>
               <h2 className="kds-serif">
                 A name that carries
                 <br />

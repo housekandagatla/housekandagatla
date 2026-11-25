@@ -161,10 +161,7 @@ export function OverviewPage() {
             </div>
           )}
 
-          <div className="kds-tree-footer">
-            <span>
-              <span className="kds-tiny-dot" />A living family record
-            </span>
+          <div className="kds-panel-footer">
             <Link className="kds-text-link" to="/family-tree">
               View the tree <Icon name="arrow_forward" size={14} strokeWidth={2} />
             </Link>
@@ -195,9 +192,11 @@ export function OverviewPage() {
             </div>
           )}
 
-          <Link className="kds-add-event-link" to="/festivals">
-            View festivals <Icon name="arrow_forward" size={14} strokeWidth={2} />
-          </Link>
+          <div className="kds-panel-footer">
+            <Link className="kds-text-link" to="/festivals">
+              View festivals <Icon name="arrow_forward" size={14} strokeWidth={2} />
+            </Link>
+          </div>
         </section>
       </div>
     </section>
