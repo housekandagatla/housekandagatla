@@ -86,49 +86,239 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
 
-  label {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    color: #60685e;
+.kds-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kds-field-label {
+  color: #60685e;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.kds-field-hint {
+  color: #9b9b92;
+  font-size: 12px;
+}
+
+.kds-control,
+.kds-select-trigger,
+.kds-datepicker-trigger {
+  width: 100%;
+  min-height: 39px;
+  padding: 8px 12px;
+  color: #3d473e;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: inherit;
+  background: #fff;
+  border: 1px solid #e4e2d8;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &::placeholder {
+    color: #aaa99f;
+  }
+
+  &:focus,
+  &:focus-visible,
+  &[data-state="open"] {
+    border-color: #9aad94;
+    box-shadow: 0 0 0 3px #eaf0e7;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    background: #f7f7f3;
+  }
+}
+
+textarea.kds-control {
+  resize: vertical;
+  min-height: 78px;
+  line-height: 1.5;
+}
+
+.kds-select-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.kds-select-icon {
+  display: grid;
+  place-items: center;
+  color: #7a8478;
+}
+
+.kds-select-content {
+  z-index: 80;
+  overflow: hidden;
+  min-width: var(--radix-select-trigger-width);
+  max-height: min(280px, var(--radix-select-content-available-height));
+  background: #fffefa;
+  border: 1px solid #e4e2d8;
+  border-radius: 8px;
+  box-shadow: 0 14px 40px rgba(23, 35, 25, 0.14);
+  animation: kds-dialog-in 0.14s ease-out;
+}
+
+.kds-select-viewport {
+  padding: 4px;
+}
+
+.kds-select-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 6px 28px 6px 10px;
+  color: #3d473e;
+  font-size: 12px;
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+
+  &[data-highlighted] {
+    background: #edf2ec;
+    color: #345b42;
+  }
+
+  &[data-state="checked"] {
+    font-weight: 600;
+  }
+}
+
+.kds-select-check {
+  position: absolute;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  color: #5e7b60;
+}
+
+.kds-datepicker {
+  position: relative;
+}
+
+.kds-datepicker-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+  cursor: pointer;
+  color: #3d473e;
+
+  svg {
+    color: #7a8478;
+    flex: none;
+  }
+}
+
+.kds-datepicker-placeholder {
+  color: #aaa99f;
+}
+
+.kds-datepicker-value {
+  color: #3d473e;
+}
+
+.kds-datepicker-popover {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 90;
+  width: min(100%, 320px);
+  padding: 10px;
+  background: #fffefa;
+  border: 1px solid #e4e2d8;
+  border-radius: 10px;
+  box-shadow: 0 16px 40px rgba(23, 35, 25, 0.16);
+  animation: kds-dialog-in 0.14s ease-out;
+
+  .rdp-root {
+    --rdp-accent-color: #4f6f57;
+    --rdp-accent-background-color: #edf2ec;
+    --rdp-day-height: 34px;
+    --rdp-day-width: 34px;
+    --rdp-day_button-height: 32px;
+    --rdp-day_button-width: 32px;
+    --rdp-nav-height: 2rem;
+    margin: 0;
     font-size: 12px;
+    color: #3d473e;
+  }
+
+  .rdp-months {
+    justify-content: center;
+  }
+
+  .rdp-month_caption {
+    font-family: var(--font-family-headings);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .rdp-dropdowns {
+    gap: 6px;
+  }
+
+  .rdp-dropdown_root select,
+  .rdp-dropdown {
+    border: 1px solid #e4e2d8;
+    border-radius: 6px;
+    background: #fff;
+    color: #3d473e;
+    font-size: 12px;
+  }
+
+  .rdp-weekday {
+    color: #8a9086;
+    font-size: 11px;
     font-weight: 600;
   }
 
-  input,
-  select,
-  textarea {
-    width: 100%;
-    min-height: 39px;
-    padding: 8px 12px;
-    color: #3d473e;
-    font-size: 12px;
-    font-weight: 400;
-    font-family: inherit;
-    background: #fff;
-    border: 1px solid #e4e2d8;
-    border-radius: 6px;
-    outline: none;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-
-    &::placeholder {
-      color: #aaa99f;
-    }
-
-    &:focus {
-      border-color: #9aad94;
-      box-shadow: 0 0 0 3px #eaf0e7;
-    }
-
-    &:disabled {
-      opacity: 0.6;
-      background: #f7f7f3;
-    }
+  .rdp-selected .rdp-day_button {
+    background: #4f6f57;
+    border-color: #4f6f57;
   }
 
-  textarea {
-    resize: vertical;
+  .rdp-today:not(.rdp-selected) .rdp-day_button {
+    color: #4f6f57;
+    font-weight: 700;
+  }
+}
+
+.kds-datepicker-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 4px;
+  border-top: 1px solid #efede6;
+  margin-top: 4px;
+}
+
+.kds-datepicker-clear {
+  border: 0;
+  background: transparent;
+  color: #9a4f3f;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 4px;
+
+  &:hover {
+    color: #823d2f;
   }
 }
 
@@ -168,5 +358,9 @@
   .kds-drawer {
     max-height: calc(100dvh - 24px);
     padding: 24px 16px;
+  }
+
+  .kds-datepicker-popover {
+    width: min(100vw - 48px, 320px);
   }
 }

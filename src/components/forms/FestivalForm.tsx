@@ -2,11 +2,23 @@ import { useState, type FormEvent } from 'react';
 import { useFamily } from '../../context/FamilyContext';
 import { Button } from '../ui/Button';
 import { Drawer } from '../ui/Drawer';
+import { Field } from '../ui/Field';
+import { SelectField } from '../ui/SelectField';
+import { TextArea } from '../ui/TextArea';
+import { TextInput } from '../ui/TextInput';
 
 type FestivalFormProps = {
   open: boolean;
   onClose: () => void;
 };
+
+const CATEGORY_OPTIONS = [
+  { value: 'Family tradition', label: 'Family tradition' },
+  { value: 'Festival of lights', label: 'Festival of lights' },
+  { value: 'Family gathering', label: 'Family gathering' },
+  { value: 'Celebration', label: 'Celebration' },
+  { value: 'Other', label: 'Other' },
+];
 
 export function FestivalForm({ open, onClose }: FestivalFormProps) {
   const { addFestival } = useFamily();
@@ -42,42 +54,46 @@ export function FestivalForm({ open, onClose }: FestivalFormProps) {
       note="Saved in this browser with local storage."
     >
       <form className="kds-form-stack" onSubmit={handleSubmit}>
-        <label>
-          Festival name
-          <input
+        <Field label="Festival name" htmlFor="festival-title">
+          <TextInput
+            id="festival-title"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
             placeholder="e.g. Diwali gathering"
             required
             autoFocus
           />
-        </label>
-        <label>
-          Category
-          <input
+        </Field>
+
+        <Field label="Category">
+          <SelectField
             value={category}
-            onChange={(event) => setCategory(event.target.value)}
-            placeholder="Family tradition"
+            onValueChange={setCategory}
+            options={CATEGORY_OPTIONS}
+            placeholder="Choose category"
+            aria-label="Festival category"
           />
-        </label>
-        <label>
-          Date label
-          <input
+        </Field>
+
+        <Field label="Date label" htmlFor="festival-date">
+          <TextInput
+            id="festival-date"
             value={dateLabel}
             onChange={(event) => setDateLabel(event.target.value)}
             placeholder="e.g. August or TBD"
           />
-        </label>
-        <label>
-          Description
-          <textarea
+        </Field>
+
+        <Field label="Description" htmlFor="festival-description">
+          <TextArea
+            id="festival-description"
             value={description}
             onChange={(event) => setDescription(event.target.value)}
             placeholder="What makes this celebration special?"
             rows={3}
             required
           />
-        </label>
+        </Field>
 
         <div className="kds-dialog-actions">
           <Button variant="secondary" type="button" onClick={onClose}>

@@ -29,7 +29,10 @@
   gap: 24px;
   margin-bottom: 24px;
 
-  
+  > div {
+    min-width: 0;
+    flex: 1;
+  }
 }
 
 .kds-welcome-row h1,
@@ -388,10 +391,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 16px;
   margin: 4px 0 24px;
-
-  
 }
 
 .kds-search-field {

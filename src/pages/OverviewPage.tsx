@@ -78,7 +78,7 @@ export function OverviewPage() {
             </div>
           </div>
           <Link className="kds-inline-link" to="/heritage">
-            Our heritage <Icon name="arrow_forward" />
+            Our heritage <Icon name="arrow_forward" size={14} strokeWidth={2} />
           </Link>
         </div>
       </section>
@@ -118,7 +118,7 @@ export function OverviewPage() {
               <h2>The family tree</h2>
             </div>
             <Link className="kds-text-link" to="/family-tree">
-              View the tree <Icon name="arrow_forward" />
+              View the tree <Icon name="arrow_forward" size={14} strokeWidth={2} />
             </Link>
           </div>
 
@@ -144,7 +144,7 @@ export function OverviewPage() {
               ))}
               <Link className="kds-tree-add-node" to="/family-tree">
                 <span className="kds-node-plus" aria-hidden="true">
-                  <Icon name="add" />
+                  <Icon name="add" size={16} strokeWidth={2} />
                 </span>
                 <span>
                   <strong>Add someone</strong>
@@ -171,7 +171,7 @@ export function OverviewPage() {
               <h2>Family festivals</h2>
             </div>
             <Link className="kds-text-link" to="/festivals">
-              Family festivals <Icon name="arrow_forward" />
+              Family festivals <Icon name="arrow_forward" size={14} strokeWidth={2} />
             </Link>
           </div>
 
@@ -182,13 +182,13 @@ export function OverviewPage() {
                   <div className="kds-event-kind">{festival.category}</div>
                   <h3>{festival.title}</h3>
                 </div>
-                <Icon name="arrow_forward" className="kds-event-arrow" />
+                  <Icon name="arrow_forward" className="kds-event-arrow" size={16} strokeWidth={1.8} />
               </article>
             ))}
           </div>
 
           <Link className="kds-add-event-link" to="/festivals">
-            <Icon name="add" /> Plan a family festival
+            <Icon name="add" size={16} strokeWidth={2} /> Plan a family festival
           </Link>
         </section>
       </div>

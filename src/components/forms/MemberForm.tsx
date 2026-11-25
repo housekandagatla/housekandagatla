@@ -1,8 +1,13 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { useFamily, type MemberInput } from '../../context/FamilyContext';
 import { RELATIONSHIPS, type Relationship } from '../../data/types';
 import { Button } from '../ui/Button';
+import { DatePickerField } from '../ui/DatePickerField';
 import { Drawer } from '../ui/Drawer';
+import { Field } from '../ui/Field';
+import { SelectField } from '../ui/SelectField';
+import { TextArea } from '../ui/TextArea';
+import { TextInput } from '../ui/TextInput';
 
 type MemberFormProps = {
   open: boolean;
@@ -10,18 +15,33 @@ type MemberFormProps = {
   connectToId?: string;
 };
 
+const ROOT_VALUE = '__root__';
+
 export function MemberForm({ open, onClose, connectToId }: MemberFormProps) {
   const { members, addMember } = useFamily();
   const [fullName, setFullName] = useState('');
-  const [connectedToId, setConnectedToId] = useState('');
-  const [relationship, setRelationship] = useState<Relationship | ''>('Family member');
+  const [connectedToId, setConnectedToId] = useState(ROOT_VALUE);
+  const [relationship, setRelationship] = useState<string>('Family member');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [about, setAbout] = useState('');
   const [place, setPlace] = useState('');
 
+  const memberOptions = useMemo(
+    () => [
+      { value: ROOT_VALUE, label: 'Add as a family root' },
+      ...members.map((member) => ({ value: member.id, label: member.fullName })),
+    ],
+    [members],
+  );
+
+  const relationshipOptions = useMemo(
+    () => RELATIONSHIPS.map((item) => ({ value: item, label: item })),
+    [],
+  );
+
   const reset = () => {
     setFullName('');
-    setConnectedToId(connectToId ?? '');
+    setConnectedToId(connectToId ?? ROOT_VALUE);
     setRelationship('Family member');
     setDateOfBirth('');
     setAbout('');
@@ -30,7 +50,7 @@ export function MemberForm({ open, onClose, connectToId }: MemberFormProps) {
 
   useEffect(() => {
     if (open) {
-      setConnectedToId(connectToId ?? '');
+      setConnectedToId(connectToId ?? ROOT_VALUE);
       setRelationship('Family member');
     }
   }, [open, connectToId]);
@@ -41,12 +61,12 @@ export function MemberForm({ open, onClose, connectToId }: MemberFormProps) {
       return;
     }
 
-    const isRoot = !connectedToId || members.length === 0;
+    const isRoot = connectedToId === ROOT_VALUE || members.length === 0;
     const payload: MemberInput = {
       fullName,
       isRoot,
       connectedToId: isRoot ? undefined : connectedToId,
-      relationship: isRoot ? undefined : relationship || 'Family member',
+      relationship: isRoot ? undefined : (relationship as Relationship) || 'Family member',
       dateOfBirth,
       about,
       place,
@@ -66,75 +86,65 @@ export function MemberForm({ open, onClose, connectToId }: MemberFormProps) {
       note="Saved in this browser with local storage."
     >
       <form className="kds-form-stack" onSubmit={handleSubmit}>
-        <label>
-          Full name
-          <input
+        <Field label="Full name" htmlFor="member-full-name">
+          <TextInput
+            id="member-full-name"
             value={fullName}
             onChange={(event) => setFullName(event.target.value)}
             placeholder="e.g. Sita Kandagatla"
             required
             autoFocus
           />
-        </label>
+        </Field>
 
-        <label>
-          Connect to a family member
-          <select
+        <Field label="Connect to a family member">
+          <SelectField
             value={connectedToId}
-            onChange={(event) => setConnectedToId(event.target.value)}
-          >
-            <option value="">Add as a family root</option>
-            {members.map((member) => (
-              <option key={member.id} value={member.id}>
-                {member.fullName}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          Relationship to them
-          <select
-            value={relationship}
-            onChange={(event) => setRelationship(event.target.value as Relationship | '')}
-            required
-          >
-            <option value="">Choose relationship</option>
-            {RELATIONSHIPS.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          Date of birth
-          <input
-            type="date"
-            value={dateOfBirth}
-            onChange={(event) => setDateOfBirth(event.target.value)}
+            onValueChange={setConnectedToId}
+            options={memberOptions}
+            placeholder="Add as a family root"
+            aria-label="Connect to a family member"
           />
-        </label>
+        </Field>
 
-        <label>
-          About this person
-          <textarea
+        <Field label="Relationship to them">
+          <SelectField
+            value={relationship}
+            onValueChange={setRelationship}
+            options={relationshipOptions}
+            placeholder="Choose relationship"
+            required
+            aria-label="Relationship to them"
+          />
+        </Field>
+
+        <Field label="Date of birth" htmlFor="member-dob">
+          <DatePickerField
+            id="member-dob"
+            value={dateOfBirth}
+            onChange={setDateOfBirth}
+            placeholder="Pick a date of birth"
+          />
+        </Field>
+
+        <Field label="About this person" htmlFor="member-about">
+          <TextArea
+            id="member-about"
             value={about}
             onChange={(event) => setAbout(event.target.value)}
             placeholder="A few words about them…"
             rows={3}
           />
-        </label>
+        </Field>
 
-        <label>
-          Place
-          <input
+        <Field label="Place" htmlFor="member-place">
+          <TextInput
+            id="member-place"
             value={place}
             onChange={(event) => setPlace(event.target.value)}
             placeholder="Add a town or venue"
           />
-        </label>
+        </Field>
 
         <div className="kds-dialog-actions">
           <Button variant="secondary" type="button" onClick={onClose}>

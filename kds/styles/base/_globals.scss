@@ -2,7 +2,28 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: #789078 #f1f2ec;
 }
+
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #f1f2ec;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #789078;
+    border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: #5e7b60;
+}
+
 html {
     font-size: 16px;
     scroll-behavior: smooth;
@@ -13,7 +34,7 @@ body {
     color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    min-height: 100vh; // Temporary purpose
+    min-height: 100vh;
     background: var(--background-default);
 }
 .sr-only {
