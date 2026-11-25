@@ -1,3 +1,4 @@
+import { useAuth } from '../../context/AuthContext';
 import { useFamily } from '../../context/FamilyContext';
 import type { FamilyMember } from '../../data/types';
 import { Button } from '../ui/Button';
@@ -28,8 +29,9 @@ function formatDate(value?: string) {
 
 export function MemberDetail({ member, onClose, onAddRelative }: MemberDetailProps) {
   const { removeMember } = useFamily();
+  const { isAdmin } = useAuth();
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!member) {
       return;
     }
@@ -41,8 +43,13 @@ export function MemberDetail({ member, onClose, onAddRelative }: MemberDetailPro
       return;
     }
 
-    removeMember(member.id);
-    onClose();
+    try {
+      await removeMember(member.id);
+      onClose();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Could not delete member';
+      window.alert(message);
+    }
   };
 
   return (
@@ -87,22 +94,28 @@ export function MemberDetail({ member, onClose, onAddRelative }: MemberDetailPro
           </div>
 
           <div className="kds-dialog-actions kds-dialog-actions-split">
-            <button type="button" className="kds-text-danger" onClick={handleDelete}>
-              Delete member
-            </button>
+            {isAdmin ? (
+              <button type="button" className="kds-text-danger" onClick={handleDelete}>
+                Delete member
+              </button>
+            ) : (
+              <span />
+            )}
             <div className="kds-dialog-actions-end">
               <Button variant="secondary" type="button" onClick={onClose}>
                 Close
               </Button>
-              <Button
-                icon="add"
-                type="button"
-                onClick={() => {
-                  onAddRelative(member.id);
-                }}
-              >
-                Add relative
-              </Button>
+              {isAdmin ? (
+                <Button
+                  icon="add"
+                  type="button"
+                  onClick={() => {
+                    onAddRelative(member.id);
+                  }}
+                >
+                  Add relative
+                </Button>
+              ) : null}
             </div>
           </div>
         </>

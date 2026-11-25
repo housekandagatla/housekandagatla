@@ -61,9 +61,3 @@ export const familyDeity = {
   telugu: 'లక్ష్మీ నరసింహ స్వామి',
   english: 'Lakshmi Narasimha Swamy · Our family deity',
 };
-
-export const heritageFacts = [
-  { te: 'కులం — పద్మశాలి' },
-  { te: 'ఇంటి పేరు — కందగట్ల' },
-  { te: 'గోత్రం — విదురిషి' },
-];

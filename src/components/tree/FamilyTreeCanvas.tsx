@@ -5,6 +5,7 @@ import { Icon } from '../ui/Icon';
 type FamilyTreeCanvasProps = {
   members: FamilyMember[];
   query?: string;
+  canEdit?: boolean;
   onAdd: (connectToId?: string) => void;
   onSelect: (member: FamilyMember) => void;
 };
@@ -18,12 +19,14 @@ function NodeCard({
   member,
   tone,
   muted,
+  canEdit,
   onAdd,
   onSelect,
 }: {
   member: FamilyMember;
   tone: string;
   muted?: boolean;
+  canEdit?: boolean;
   onAdd: (connectToId?: string) => void;
   onSelect: (member: FamilyMember) => void;
 }) {
@@ -46,14 +49,16 @@ function NodeCard({
         >
           <Icon name="edit" size={13} strokeWidth={1.8} />
         </button>
-        <button
-          type="button"
-          className="kds-node-add-button"
-          aria-label={`Add relative of ${member.fullName}`}
-          onClick={() => onAdd(member.id)}
-        >
-          <Icon name="add" size={14} strokeWidth={2} />
-        </button>
+        {canEdit ? (
+          <button
+            type="button"
+            className="kds-node-add-button"
+            aria-label={`Add relative of ${member.fullName}`}
+            onClick={() => onAdd(member.id)}
+          >
+            <Icon name="add" size={14} strokeWidth={2} />
+          </button>
+        ) : null}
       </div>
     </article>
   );
@@ -63,12 +68,14 @@ function TreeBranch({
   node,
   toneIndex,
   query,
+  canEdit,
   onAdd,
   onSelect,
 }: {
   node: FamilyTreeNode;
   toneIndex: number;
   query: string;
+  canEdit?: boolean;
   onAdd: (connectToId?: string) => void;
   onSelect: (member: FamilyMember) => void;
 }) {
@@ -94,6 +101,7 @@ function TreeBranch({
           member={node.member}
           tone={avatarTone(toneIndex)}
           muted={selfMuted}
+          canEdit={canEdit}
           onAdd={onAdd}
           onSelect={onSelect}
         />
@@ -102,6 +110,7 @@ function TreeBranch({
             member={node.partner}
             tone={avatarTone(toneIndex + 1)}
             muted={partnerMuted}
+            canEdit={canEdit}
             onAdd={onAdd}
             onSelect={onSelect}
           />
@@ -116,6 +125,7 @@ function TreeBranch({
               node={child}
               toneIndex={toneIndex + index + 2}
               query={query}
+              canEdit={canEdit}
               onAdd={onAdd}
               onSelect={onSelect}
             />
@@ -129,6 +139,7 @@ function TreeBranch({
 export function FamilyTreeCanvas({
   members,
   query = '',
+  canEdit = false,
   onAdd,
   onSelect,
 }: FamilyTreeCanvasProps) {
@@ -151,6 +162,7 @@ export function FamilyTreeCanvas({
               node={node}
               toneIndex={index}
               query={query}
+              canEdit={canEdit}
               onAdd={onAdd}
               onSelect={onSelect}
             />

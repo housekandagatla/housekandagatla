@@ -324,11 +324,50 @@
 .kds-family-story-space {
   display: grid;
   place-items: center;
+  gap: 12px;
   min-height: 320px;
+  padding: 24px;
   color: #80927d;
   background: linear-gradient(145deg, #f7f8f3, #eef2e9);
   border: 1px dashed #d9dfd3;
   border-radius: 12px;
+  text-align: center;
+}
+
+.kds-family-story-content {
+  max-width: 720px;
+  padding: 28px 32px;
+  background: linear-gradient(145deg, #f7f8f3, #eef2e9);
+  border-radius: 12px;
+
+  h2 {
+    margin: 0 0 16px;
+    color: #2f3b31;
+    font-size: clamp(1.6rem, 2vw, 2rem);
+  }
+}
+
+.kds-family-story-body {
+  margin: 0;
+  white-space: pre-wrap;
+  color: #4a554c;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.kds-heritage-edit {
+  max-width: 720px;
+}
+
+.kds-heritage-edit-block {
+  display: grid;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e2e7dd;
+
+  &:last-of-type {
+    border-bottom: 0;
+  }
 }
 
 .kds-heritage-hero {

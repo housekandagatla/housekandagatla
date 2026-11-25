@@ -55,7 +55,7 @@ export function MemberForm({ open, onClose, connectToId }: MemberFormProps) {
     }
   }, [open, connectToId]);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (!fullName.trim()) {
       return;
@@ -72,9 +72,14 @@ export function MemberForm({ open, onClose, connectToId }: MemberFormProps) {
       place,
     };
 
-    addMember(payload);
-    reset();
-    onClose();
+    try {
+      await addMember(payload);
+      reset();
+      onClose();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Could not save member';
+      window.alert(message);
+    }
   };
 
   return (
@@ -83,7 +88,7 @@ export function MemberForm({ open, onClose, connectToId }: MemberFormProps) {
       onClose={onClose}
       title="Welcome them to the tree"
       subtitle="Every name carries a story worth keeping."
-      note="Saved in this browser with local storage."
+      note="Saved to our shared family record."
     >
       <form className="kds-form-stack" onSubmit={handleSubmit}>
         <Field label="Full name" htmlFor="member-full-name">

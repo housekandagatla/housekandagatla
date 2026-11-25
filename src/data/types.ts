@@ -41,6 +41,23 @@ export interface HeritageItem {
   english: string;
 }
 
+export interface FamilyDeity {
+  label: string;
+  telugu: string;
+  english: string;
+}
+
+export interface HeritageData {
+  items: HeritageItem[];
+  deity: FamilyDeity;
+}
+
+export interface FamilyStory {
+  title: string;
+  body: string;
+  updatedAt: string;
+}
+
 export interface FamilyState {
   members: FamilyMember[];
   festivals: Festival[];
@@ -61,5 +78,3 @@ export const RELATIONSHIPS: Relationship[] = [
   'Cousin',
   'Other relative',
 ];
-
-export const STORAGE_KEY = 'hok-family-data-v1';

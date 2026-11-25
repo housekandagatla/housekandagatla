@@ -7,8 +7,30 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { createId, loadFamilyState, saveFamilyState } from '../data/storage';
-import type { FamilyMember, Festival, Relationship } from '../data/types';
+import {
+  deleteFestivalDoc,
+  deleteMemberDoc,
+  ensureSeedData,
+  saveHeritage,
+  saveStory,
+  subscribeFestivals,
+  subscribeHeritage,
+  subscribeMembers,
+  subscribeStory,
+  upsertFestival,
+  upsertMember,
+} from '../data/firestore';
+import { createId } from '../data/ids';
+import { familyDeity, heritageItems } from '../data/seed';
+import type {
+  FamilyMember,
+  FamilyStory,
+  Festival,
+  HeritageData,
+  Relationship,
+} from '../data/types';
+import { isFirebaseConfigured } from '../lib/firebase';
+import { useAuth } from './AuthContext';
 
 export interface MemberInput {
   fullName: string;
@@ -30,35 +52,95 @@ export interface FestivalInput {
 interface FamilyContextValue {
   members: FamilyMember[];
   festivals: Festival[];
-  addMember: (input: MemberInput) => void;
-  addFestival: (input: FestivalInput) => void;
-  removeMember: (id: string) => void;
-  removeFestival: (id: string) => void;
+  heritage: HeritageData;
+  story: FamilyStory;
+  loading: boolean;
+  error: string | null;
+  addMember: (input: MemberInput) => Promise<void>;
+  addFestival: (input: FestivalInput) => Promise<void>;
+  removeMember: (id: string) => Promise<void>;
+  removeFestival: (id: string) => Promise<void>;
+  updateHeritage: (heritage: HeritageData) => Promise<void>;
+  updateStory: (story: Pick<FamilyStory, 'title' | 'body'>) => Promise<void>;
 }
+
+const defaultStory: FamilyStory = {
+  title: 'Our family story',
+  body: '',
+  updatedAt: '',
+};
 
 const FamilyContext = createContext<FamilyContextValue | null>(null);
 
 export function FamilyProvider({ children }: { children: ReactNode }) {
+  const { isAdmin } = useAuth();
   const [members, setMembers] = useState<FamilyMember[]>([]);
   const [festivals, setFestivals] = useState<Festival[]>([]);
-  const [ready, setReady] = useState(false);
+  const [heritage, setHeritage] = useState<HeritageData>({
+    items: heritageItems,
+    deity: familyDeity,
+  });
+  const [story, setStory] = useState<FamilyStory>(defaultStory);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [seedAttempted, setSeedAttempted] = useState(false);
 
   useEffect(() => {
-    const state = loadFamilyState();
-    setMembers(state.members);
-    setFestivals(state.festivals);
-    setReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (!ready) {
+    if (!isFirebaseConfigured) {
+      setError('Firebase is not configured. Add VITE_FIREBASE_* values to .env');
+      setLoading(false);
       return;
     }
 
-    saveFamilyState({ members, festivals });
-  }, [members, festivals, ready]);
+    const ready = new Set<string>();
+    const markReady = (key: string) => {
+      ready.add(key);
+      if (ready.size >= 4) {
+        setLoading(false);
+      }
+    };
 
-  const addMember = useCallback((input: MemberInput) => {
+    const handleError = (key: string) => (err: Error) => {
+      setError(err.message);
+      markReady(key);
+    };
+
+    const unsubs = [
+      subscribeMembers((next) => {
+        setMembers(next);
+        markReady('members');
+      }, handleError('members')),
+      subscribeFestivals((next) => {
+        setFestivals(next);
+        markReady('festivals');
+      }, handleError('festivals')),
+      subscribeHeritage((next) => {
+        setHeritage(next);
+        markReady('heritage');
+      }, handleError('heritage')),
+      subscribeStory((next) => {
+        setStory(next);
+        markReady('story');
+      }, handleError('story')),
+    ];
+
+    return () => {
+      unsubs.forEach((unsub) => unsub());
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isAdmin || seedAttempted || !isFirebaseConfigured || loading) {
+      return;
+    }
+
+    setSeedAttempted(true);
+    ensureSeedData().catch((err: Error) => {
+      console.warn('Seed skipped or failed:', err.message);
+    });
+  }, [isAdmin, seedAttempted, loading]);
+
+  const addMember = useCallback(async (input: MemberInput) => {
     const member: FamilyMember = {
       id: createId('member'),
       fullName: input.fullName.trim(),
@@ -71,10 +153,10 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
       createdAt: new Date().toISOString(),
     };
 
-    setMembers((current) => [...current, member]);
+    await upsertMember(member);
   }, []);
 
-  const addFestival = useCallback((input: FestivalInput) => {
+  const addFestival = useCallback(async (input: FestivalInput) => {
     const festival: Festival = {
       id: createId('fest'),
       title: input.title.trim(),
@@ -84,40 +166,72 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
       createdAt: new Date().toISOString(),
     };
 
-    setFestivals((current) => [...current, festival]);
+    await upsertFestival(festival);
   }, []);
 
-  const removeMember = useCallback((id: string) => {
-    setMembers((current) =>
-      current
-        .filter((member) => member.id !== id)
-        .map((member) =>
-          member.connectedToId === id
-            ? {
-                ...member,
-                connectedToId: undefined,
-                isRoot: true,
-                relationship: undefined,
-              }
-            : member,
+  const removeMember = useCallback(
+    async (id: string) => {
+      const connected = members.filter((member) => member.connectedToId === id);
+      await deleteMemberDoc(id);
+      await Promise.all(
+        connected.map((member) =>
+          upsertMember({
+            ...member,
+            connectedToId: undefined,
+            isRoot: true,
+            relationship: undefined,
+          }),
         ),
-    );
+      );
+    },
+    [members],
+  );
+
+  const removeFestival = useCallback(async (id: string) => {
+    await deleteFestivalDoc(id);
   }, []);
 
-  const removeFestival = useCallback((id: string) => {
-    setFestivals((current) => current.filter((festival) => festival.id !== id));
+  const updateHeritage = useCallback(async (next: HeritageData) => {
+    await saveHeritage(next);
+  }, []);
+
+  const updateStory = useCallback(async (next: Pick<FamilyStory, 'title' | 'body'>) => {
+    await saveStory({
+      title: next.title.trim() || 'Our family story',
+      body: next.body.trim(),
+      updatedAt: new Date().toISOString(),
+    });
   }, []);
 
   const value = useMemo(
     () => ({
       members,
       festivals,
+      heritage,
+      story,
+      loading,
+      error,
       addMember,
       addFestival,
       removeMember,
       removeFestival,
+      updateHeritage,
+      updateStory,
     }),
-    [members, festivals, addMember, addFestival, removeMember, removeFestival],
+    [
+      members,
+      festivals,
+      heritage,
+      story,
+      loading,
+      error,
+      addMember,
+      addFestival,
+      removeMember,
+      removeFestival,
+      updateHeritage,
+      updateStory,
+    ],
   );
 
   return <FamilyContext.Provider value={value}>{children}</FamilyContext.Provider>;

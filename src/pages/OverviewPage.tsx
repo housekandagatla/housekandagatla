@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { useFamily } from '../context/FamilyContext';
-import { heritageFacts } from '../data/seed';
 import { Eyebrow } from '../components/ui/Eyebrow';
 import { Icon } from '../components/ui/Icon';
 import { StatCard } from '../components/ui/StatCard';
 
 export function OverviewPage() {
-  const { members, festivals } = useFamily();
+  const { members, festivals, heritage } = useFamily();
+  const { isAdmin } = useAuth();
   const previewFestivals = festivals.slice(0, 2);
   const previewMembers = members.slice(0, 3);
+  const heritageFacts = heritage.items.map((item) => ({ te: item.telugu }));
 
   return (
     <section className="kds-page" aria-labelledby="overview-title">
@@ -139,15 +141,17 @@ export function OverviewPage() {
                   </span>
                 </article>
               ))}
-              <Link className="kds-tree-add-node" to="/family-tree">
-                <span className="kds-node-plus" aria-hidden="true">
-                  <Icon name="add" size={16} strokeWidth={2} />
-                </span>
-                <span>
-                  <strong>Add someone</strong>
-                  <small>Grow the family tree</small>
-                </span>
-              </Link>
+              {isAdmin ? (
+                <Link className="kds-tree-add-node" to="/family-tree">
+                  <span className="kds-node-plus" aria-hidden="true">
+                    <Icon name="add" size={16} strokeWidth={2} />
+                  </span>
+                  <span>
+                    <strong>Add someone</strong>
+                    <small>Grow the family tree</small>
+                  </span>
+                </Link>
+              ) : null}
             </div>
           )}
 

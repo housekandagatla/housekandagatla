@@ -34,15 +34,20 @@ export function FestivalForm({ open, onClose }: FestivalFormProps) {
     setDateLabel('');
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (!title.trim() || !description.trim()) {
       return;
     }
 
-    addFestival({ title, category, description, dateLabel });
-    reset();
-    onClose();
+    try {
+      await addFestival({ title, category, description, dateLabel });
+      reset();
+      onClose();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Could not save festival';
+      window.alert(message);
+    }
   };
 
   return (
@@ -51,7 +56,7 @@ export function FestivalForm({ open, onClose }: FestivalFormProps) {
       onClose={onClose}
       title="Add a festival"
       subtitle="Keep everyone in the loop for the moments that matter."
-      note="Saved in this browser with local storage."
+      note="Saved to our shared family record."
     >
       <form className="kds-form-stack" onSubmit={handleSubmit}>
         <Field label="Festival name" htmlFor="festival-title">

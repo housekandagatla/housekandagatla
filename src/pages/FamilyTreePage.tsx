@@ -6,11 +6,13 @@ import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Eyebrow } from '../components/ui/Eyebrow';
 import { Icon } from '../components/ui/Icon';
+import { useAuth } from '../context/AuthContext';
 import { useFamily } from '../context/FamilyContext';
 import type { FamilyMember } from '../data/types';
 
 export function FamilyTreePage() {
-  const { members } = useFamily();
+  const { members, loading } = useFamily();
+  const { isAdmin } = useAuth();
   const [query, setQuery] = useState('');
   const [formOpen, setFormOpen] = useState(false);
   const [connectToId, setConnectToId] = useState<string | undefined>();
@@ -32,6 +34,9 @@ export function FamilyTreePage() {
   }, [members, query]);
 
   const openForm = (memberId?: string) => {
+    if (!isAdmin) {
+      return;
+    }
     setConnectToId(memberId);
     setSelected(null);
     setFormOpen(true);
@@ -49,12 +54,14 @@ export function FamilyTreePage() {
             Every branch holds a name. Every name holds a story.
           </p>
         </div>
-        {members.length > 0 ? (
+        {isAdmin && members.length > 0 ? (
           <Button className="kds-top-action" icon="add" onClick={() => openForm()}>
             Add family member
           </Button>
         ) : null}
       </div>
+
+      {loading ? <p className="kds-mini-empty">Loading our family tree…</p> : null}
 
       {members.length > 0 ? (
         <div className="kds-tree-toolbar">
@@ -81,7 +88,7 @@ export function FamilyTreePage() {
         </p>
       ) : null}
 
-      {members.length === 0 ? (
+      {!loading && members.length === 0 ? (
         <EmptyState
           kicker="ROOTS BEFORE BRANCHES"
           title={
@@ -94,28 +101,35 @@ export function FamilyTreePage() {
           description="Add the first person to begin gathering our family story. Grow the tree one generation, one memory, one name at a time."
           footnote="KANDAGATLA FAMILY · CONNECTED THROUGH GENERATIONS"
           action={
-            <Button icon="add" onClick={() => openForm()}>
-              Add the first family member
-            </Button>
+            isAdmin ? (
+              <Button icon="add" onClick={() => openForm()}>
+                Add the first family member
+              </Button>
+            ) : undefined
           }
         />
-      ) : (
+      ) : null}
+
+      {members.length > 0 ? (
         <FamilyTreeCanvas
           members={members}
           query={query}
+          canEdit={isAdmin}
           onAdd={openForm}
           onSelect={setSelected}
         />
-      )}
+      ) : null}
 
-      <MemberForm
-        open={formOpen}
-        connectToId={connectToId}
-        onClose={() => {
-          setFormOpen(false);
-          setConnectToId(undefined);
-        }}
-      />
+      {isAdmin ? (
+        <MemberForm
+          open={formOpen}
+          connectToId={connectToId}
+          onClose={() => {
+            setFormOpen(false);
+            setConnectToId(undefined);
+          }}
+        />
+      ) : null}
 
       <MemberDetail
         member={selected}

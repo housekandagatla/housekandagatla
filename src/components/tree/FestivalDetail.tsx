@@ -1,3 +1,4 @@
+import { useAuth } from '../../context/AuthContext';
 import { useFamily } from '../../context/FamilyContext';
 import type { Festival } from '../../data/types';
 import { Button } from '../ui/Button';
@@ -11,8 +12,9 @@ type FestivalDetailProps = {
 
 export function FestivalDetail({ festival, onClose }: FestivalDetailProps) {
   const { removeFestival } = useFamily();
+  const { isAdmin } = useAuth();
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!festival) {
       return;
     }
@@ -22,8 +24,13 @@ export function FestivalDetail({ festival, onClose }: FestivalDetailProps) {
       return;
     }
 
-    removeFestival(festival.id);
-    onClose();
+    try {
+      await removeFestival(festival.id);
+      onClose();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Could not delete festival';
+      window.alert(message);
+    }
   };
 
   return (
@@ -53,13 +60,17 @@ export function FestivalDetail({ festival, onClose }: FestivalDetailProps) {
             </div>
           </div>
           <div className="kds-festival-sync-note">
-            <span>Saved locally in this browser</span>
+            <span>Saved in our shared family record</span>
             <span>✳</span>
           </div>
           <div className="kds-dialog-actions kds-dialog-actions-split">
-            <button type="button" className="kds-text-danger" onClick={handleDelete}>
-              Delete festival
-            </button>
+            {isAdmin ? (
+              <button type="button" className="kds-text-danger" onClick={handleDelete}>
+                Delete festival
+              </button>
+            ) : (
+              <span />
+            )}
             <Button variant="secondary" type="button" onClick={onClose}>
               Close
             </Button>

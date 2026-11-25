@@ -4,13 +4,15 @@ import { FestivalDetail } from '../components/tree/FestivalDetail';
 import { Button } from '../components/ui/Button';
 import { Eyebrow } from '../components/ui/Eyebrow';
 import { Icon } from '../components/ui/Icon';
+import { useAuth } from '../context/AuthContext';
 import { useFamily } from '../context/FamilyContext';
 import type { Festival } from '../data/types';
 
 const toneIcons = ['local_florist', 'spa', 'favorite', 'event'] as const;
 
 export function FestivalsPage() {
-  const { festivals } = useFamily();
+  const { festivals, loading } = useFamily();
+  const { isAdmin } = useAuth();
   const [formOpen, setFormOpen] = useState(false);
   const [selected, setSelected] = useState<Festival | null>(null);
 
@@ -26,10 +28,14 @@ export function FestivalsPage() {
             The celebrations, reunions, and little moments that bring us home.
           </p>
         </div>
-        <Button className="kds-top-action" icon="add" onClick={() => setFormOpen(true)}>
-          Add a festival
-        </Button>
+        {isAdmin ? (
+          <Button className="kds-top-action" icon="add" onClick={() => setFormOpen(true)}>
+            Add a festival
+          </Button>
+        ) : null}
       </div>
+
+      {loading ? <p className="kds-mini-empty">Loading our festivals…</p> : null}
 
       <div className="kds-events-section-title">
         <div>
@@ -66,7 +72,7 @@ export function FestivalsPage() {
         ))}
       </div>
 
-      <FestivalForm open={formOpen} onClose={() => setFormOpen(false)} />
+      {isAdmin ? <FestivalForm open={formOpen} onClose={() => setFormOpen(false)} /> : null}
       <FestivalDetail festival={selected} onClose={() => setSelected(null)} />
     </section>
   );
