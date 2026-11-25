@@ -14,6 +14,13 @@ export function Topbar({ pageTitle, onMenuClick }: TopbarProps) {
   const dateLabel = useMemo(() => getFamilyDateLabel(), []);
 
   const handleAuth = async () => {
+    if (!configured) {
+      window.alert(
+        'Firebase is not configured for this environment.\n\nAdd your VITE_FIREBASE_* values to a local .env file (see .env.example), then restart the dev server.\n\nOn the live site, those values come from GitHub Actions secrets.',
+      );
+      return;
+    }
+
     try {
       if (user) {
         await signOut();
@@ -25,6 +32,14 @@ export function Topbar({ pageTitle, onMenuClick }: TopbarProps) {
       window.alert(message);
     }
   };
+
+  const authStatus = !configured
+    ? 'Firebase not configured'
+    : user
+      ? isAdmin
+        ? 'Admin · editing enabled'
+        : 'Signed in · view only'
+      : 'Sign in to manage family records';
 
   return (
     <header className="kds-topbar">
@@ -50,26 +65,20 @@ export function Topbar({ pageTitle, onMenuClick }: TopbarProps) {
               {dateLabel.telugu}
             </span>
           ) : null}
-          {user ? (
-            <span className="kds-date-auth">
-              {isAdmin ? 'Admin · editing enabled' : 'Signed in · view only'}
-              {user.email ? ` · ${user.email}` : ''}
-            </span>
-          ) : configured ? (
-            <span className="kds-date-auth">Sign in to manage family records</span>
-          ) : null}
+          <span className="kds-date-auth">
+            {authStatus}
+            {user?.email ? ` · ${user.email}` : ''}
+          </span>
         </div>
-        {configured ? (
-          <Button
-            variant="secondary"
-            type="button"
-            onClick={handleAuth}
-            disabled={loading}
-            className="kds-auth-button"
-          >
-            {user ? 'Sign out' : 'Admin sign in'}
-          </Button>
-        ) : null}
+        <Button
+          variant="secondary"
+          type="button"
+          onClick={handleAuth}
+          disabled={loading}
+          className="kds-auth-button"
+        >
+          {user ? 'Sign out' : 'Admin sign in'}
+        </Button>
       </div>
     </header>
   );
