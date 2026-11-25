@@ -20,6 +20,7 @@ function NodeCard({
   tone,
   muted,
   canEdit,
+  parentsLabel,
   onAdd,
   onSelect,
 }: {
@@ -27,18 +28,27 @@ function NodeCard({
   tone: string;
   muted?: boolean;
   canEdit?: boolean;
+  parentsLabel?: string;
   onAdd: (connectToId?: string) => void;
   onSelect: (member: FamilyMember) => void;
 }) {
+  const relation = member.isRoot
+    ? 'Family root'
+    : member.relationship || 'Family member';
+
   return (
     <article
       className={`kds-family-node-card${muted ? ' kds-tree-node-muted' : ''}`}
     >
-      <span className={`kds-member-avatar ${tone}`}>{member.fullName.charAt(0).toUpperCase()}</span>
+      <span className={`kds-member-avatar ${tone}`} aria-hidden="true">
+        {member.fullName.charAt(0).toUpperCase()}
+      </span>
       <div className="kds-family-node-copy">
         <strong>{member.fullName}</strong>
-        <span>{member.isRoot ? 'Family root' : member.relationship || 'Family member'}</span>
-        {member.about ? <p className="kds-family-node-bio">{member.about}</p> : null}
+        <span className="kds-family-node-meta">
+          {relation}
+          {parentsLabel ? ` · ${parentsLabel}` : ''}
+        </span>
       </div>
       <div className="kds-family-node-actions">
         <button
@@ -47,7 +57,7 @@ function NodeCard({
           aria-label={`View ${member.fullName}`}
           onClick={() => onSelect(member)}
         >
-          <Icon name="edit" size={13} strokeWidth={1.8} />
+          <Icon name="edit" size={12} strokeWidth={1.8} />
         </button>
         {canEdit ? (
           <button
@@ -56,7 +66,7 @@ function NodeCard({
             aria-label={`Add relative of ${member.fullName}`}
             onClick={() => onAdd(member.id)}
           >
-            <Icon name="add" size={14} strokeWidth={2} />
+            <Icon name="add" size={12} strokeWidth={2} />
           </button>
         ) : null}
       </div>
@@ -69,6 +79,7 @@ function TreeBranch({
   toneIndex,
   query,
   canEdit,
+  parentsLabel,
   onAdd,
   onSelect,
 }: {
@@ -76,6 +87,7 @@ function TreeBranch({
   toneIndex: number;
   query: string;
   canEdit?: boolean;
+  parentsLabel?: string;
   onAdd: (connectToId?: string) => void;
   onSelect: (member: FamilyMember) => void;
 }) {
@@ -93,15 +105,25 @@ function TreeBranch({
 
   const selfMuted = !matches(node.member);
   const partnerMuted = node.partner ? !matches(node.partner) : false;
+  const hasChildren = node.children.length > 0;
+  const firstName = (name: string) => name.trim().split(/\s+/)[0] || name;
+  const asParentsLabel = node.partner
+    ? `${firstName(node.member.fullName)} & ${firstName(node.partner.fullName)}`
+    : firstName(node.member.fullName);
 
   return (
     <li className="kds-family-tree-branch">
-      <div className={`kds-family-tree-couple${node.partner ? ' kds-has-partner' : ''}`}>
+      <div
+        className={`kds-family-tree-couple${node.partner ? ' kds-has-partner' : ''}${
+          hasChildren ? ' kds-has-children' : ''
+        }`}
+      >
         <NodeCard
           member={node.member}
           tone={avatarTone(toneIndex)}
           muted={selfMuted}
           canEdit={canEdit}
+          parentsLabel={parentsLabel}
           onAdd={onAdd}
           onSelect={onSelect}
         />
@@ -115,9 +137,10 @@ function TreeBranch({
             onSelect={onSelect}
           />
         ) : null}
+        {hasChildren ? <span className="kds-family-tree-couple-stem" aria-hidden="true" /> : null}
       </div>
 
-      {node.children.length > 0 ? (
+      {hasChildren ? (
         <ul className="kds-family-tree-children">
           {node.children.map((child, index) => (
             <TreeBranch
@@ -126,6 +149,7 @@ function TreeBranch({
               toneIndex={toneIndex + index + 2}
               query={query}
               canEdit={canEdit}
+              parentsLabel={asParentsLabel}
               onAdd={onAdd}
               onSelect={onSelect}
             />
