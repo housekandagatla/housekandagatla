@@ -45,6 +45,31 @@ export function FestivalDetail({ festival, onClose, onEdit }: FestivalDetailProp
     >
       {festival ? (
         <>
+          {isAdmin ? (
+            <div className="kds-detail-icon-actions kds-detail-icon-actions-float">
+              {onEdit ? (
+                <button
+                  type="button"
+                  className="kds-detail-icon-button"
+                  aria-label={`Edit ${festival.title}`}
+                  title="Edit"
+                  onClick={() => onEdit(festival)}
+                >
+                  <Icon name="edit" size={16} strokeWidth={1.8} />
+                </button>
+              ) : null}
+              <button
+                type="button"
+                className="kds-icon-danger"
+                aria-label={`Delete ${festival.title}`}
+                title="Delete"
+                onClick={handleDelete}
+              >
+                <Icon name="delete" size={16} strokeWidth={1.8} />
+              </button>
+            </div>
+          ) : null}
+
           <span className="kds-festival-detail-icon" aria-hidden="true">
             <Icon name="local_florist" size={20} strokeWidth={1.6} />
           </span>
@@ -53,30 +78,10 @@ export function FestivalDetail({ festival, onClose, onEdit }: FestivalDetailProp
             <span>Saved in our shared family record</span>
             <span>✳</span>
           </div>
-          <div className="kds-dialog-actions kds-dialog-actions-split">
-            {isAdmin ? (
-              <button
-                type="button"
-                className="kds-icon-danger"
-                aria-label="Delete festival"
-                title="Delete"
-                onClick={handleDelete}
-              >
-                <Icon name="delete" size={18} strokeWidth={1.8} />
-              </button>
-            ) : (
-              <span />
-            )}
-            <div className="kds-dialog-actions-end">
-              <Button variant="secondary" type="button" onClick={onClose}>
-                Close
-              </Button>
-              {isAdmin && onEdit ? (
-                <Button icon="edit" type="button" onClick={() => onEdit(festival)}>
-                  Edit festival
-                </Button>
-              ) : null}
-            </div>
+          <div className="kds-dialog-actions">
+            <Button variant="secondary" type="button" onClick={onClose}>
+              Close
+            </Button>
           </div>
         </>
       ) : null}

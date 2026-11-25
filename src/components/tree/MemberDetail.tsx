@@ -1,8 +1,11 @@
+import { useMemo } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useFamily } from '../../context/FamilyContext';
 import type { FamilyMember } from '../../data/types';
+import { getMemberPlacementLabel } from '../../utils/buildFamilyTree';
 import { Button } from '../ui/Button';
 import { Drawer } from '../ui/Drawer';
+import { Icon } from '../ui/Icon';
 
 type MemberDetailProps = {
   member: FamilyMember | null;
@@ -29,8 +32,13 @@ function formatDate(value?: string) {
 }
 
 export function MemberDetail({ member, onClose, onAddRelative, onEdit }: MemberDetailProps) {
-  const { removeMember } = useFamily();
+  const { members, removeMember } = useFamily();
   const { isAdmin } = useAuth();
+
+  const placementLabel = useMemo(
+    () => (member ? getMemberPlacementLabel(member, members) : null),
+    [member, members],
+  );
 
   const handleDelete = async () => {
     if (!member) {
@@ -65,20 +73,54 @@ export function MemberDetail({ member, onClose, onAddRelative, onEdit }: MemberD
     >
       {member ? (
         <>
+          {isAdmin ? (
+            <div className="kds-detail-icon-actions kds-detail-icon-actions-float">
+              {onEdit ? (
+                <button
+                  type="button"
+                  className="kds-detail-icon-button"
+                  aria-label={`Edit ${member.fullName}`}
+                  title="Edit"
+                  onClick={() => onEdit(member)}
+                >
+                  <Icon name="edit" size={16} strokeWidth={1.8} />
+                </button>
+              ) : null}
+              <button
+                type="button"
+                className="kds-detail-icon-button"
+                aria-label={`Add relative of ${member.fullName}`}
+                title="Add relative"
+                onClick={() => onAddRelative(member.id)}
+              >
+                <Icon name="add" size={16} strokeWidth={2} />
+              </button>
+              <button
+                type="button"
+                className="kds-icon-danger"
+                aria-label={`Delete ${member.fullName}`}
+                title="Delete"
+                onClick={handleDelete}
+              >
+                <Icon name="delete" size={16} strokeWidth={1.8} />
+              </button>
+            </div>
+          ) : null}
+
           <div className="kds-member-details-heading">
             <span className="kds-member-avatar kds-member-avatar-lg">
               {member.fullName.charAt(0).toUpperCase()}
             </span>
             <div>
               <h2>{member.fullName}</h2>
-              <p>{member.isRoot ? 'Family root' : member.relationship || 'Family member'}</p>
+              <p>{placementLabel}</p>
             </div>
           </div>
 
           <div className="kds-member-details-list">
             <div>
               <span>Relationship</span>
-              <strong>{member.isRoot ? 'Family root' : member.relationship || '—'}</strong>
+              <strong>{placementLabel || '—'}</strong>
             </div>
             <div>
               <span>Date of birth</span>
@@ -94,40 +136,10 @@ export function MemberDetail({ member, onClose, onAddRelative, onEdit }: MemberD
             </div>
           </div>
 
-          <div className="kds-dialog-actions kds-dialog-actions-split">
-            {isAdmin ? (
-              <button type="button" className="kds-text-danger" onClick={handleDelete}>
-                Delete member
-              </button>
-            ) : (
-              <span />
-            )}
-            <div className="kds-dialog-actions-end">
-              <Button variant="secondary" type="button" onClick={onClose}>
-                Close
-              </Button>
-              {isAdmin && onEdit ? (
-                <Button
-                  variant="secondary"
-                  icon="edit"
-                  type="button"
-                  onClick={() => onEdit(member)}
-                >
-                  Edit
-                </Button>
-              ) : null}
-              {isAdmin ? (
-                <Button
-                  icon="add"
-                  type="button"
-                  onClick={() => {
-                    onAddRelative(member.id);
-                  }}
-                >
-                  Add relative
-                </Button>
-              ) : null}
-            </div>
+          <div className="kds-dialog-actions">
+            <Button variant="secondary" type="button" onClick={onClose}>
+              Close
+            </Button>
           </div>
         </>
       ) : null}

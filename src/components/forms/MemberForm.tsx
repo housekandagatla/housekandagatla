@@ -119,7 +119,7 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
     if (isSpouse(relationship)) {
       return `${relationship} of ${connectedPerson.fullName}`;
     }
-    return `${relationship} · ${coupleLabel(connectedPerson, connectedSpouse)}`;
+    return `${relationship} of ${coupleLabel(connectedPerson, connectedSpouse)}`;
   }, [isEditing, connectedPerson, connectedSpouse, resolvedConnectId, relationship]);
 
   useLayoutEffect(() => {

@@ -361,6 +361,39 @@ textarea.kds-control {
   }
 }
 
+.kds-detail-icon-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.kds-detail-icon-actions-float {
+  position: absolute;
+  top: 52px;
+  right: 16px;
+  z-index: 2;
+}
+
+.kds-detail-icon-button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+
+  &:hover {
+    background: #f1f1eb;
+    color: var(--primary-main);
+  }
+}
+
 .kds-icon-danger {
   display: grid;
   place-items: center;

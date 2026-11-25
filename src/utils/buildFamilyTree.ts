@@ -43,6 +43,38 @@ export function getSpouseOf(member: FamilyMember, members: FamilyMember[]) {
   return undefined;
 }
 
+function firstName(name: string) {
+  return name.trim().split(/\s+/)[0] || name;
+}
+
+/** Human-readable placement like "Son of Ramdev & Ramadevi" or "Wife of Ramdev". */
+export function getMemberPlacementLabel(member: FamilyMember, members: FamilyMember[]) {
+  if (member.isRoot || !member.connectedToId) {
+    return member.isRoot ? 'Family root' : member.relationship || 'Family member';
+  }
+
+  const connected = members.find((item) => item.id === member.connectedToId);
+  if (!connected) {
+    return member.relationship || 'Family member';
+  }
+
+  const relation = member.relationship || 'Family member';
+
+  if (isSpouse(member.relationship)) {
+    return `${relation} of ${connected.fullName}`;
+  }
+
+  const primary = isSpouse(connected.relationship)
+    ? members.find((item) => item.id === connected.connectedToId) ?? connected
+    : connected;
+  const spouse = getSpouseOf(primary, members);
+  const parents = spouse
+    ? `${firstName(primary.fullName)} & ${firstName(spouse.fullName)}`
+    : primary.fullName;
+
+  return `${relation} of ${parents}`;
+}
+
 function findPartner(member: FamilyMember, members: FamilyMember[], used: Set<string>) {
   const partner = getSpouseOf(member, members);
   if (partner && !used.has(partner.id)) {
