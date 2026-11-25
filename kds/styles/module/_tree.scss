@@ -152,8 +152,7 @@
   display: grid;
   grid-template-columns: 32px minmax(0, 1fr) auto;
   column-gap: 8px;
-  row-gap: 0;
-  align-items: start;
+  align-items: center;
   width: 216px;
   padding: 10px 8px 10px 10px;
   text-align: left;
@@ -173,7 +172,6 @@
 .kds-family-node-card > .kds-member-avatar {
   width: 32px;
   height: 32px;
-  margin-top: 2px;
   border: 0;
   color: var(--text-on-tint);
   background: var(--primary-lightest);
@@ -205,7 +203,6 @@
   justify-content: center;
   gap: 4px;
   min-width: 0;
-  padding-top: 1px;
 
   strong {
     color: var(--text-primary);
@@ -230,11 +227,11 @@
 
 .kds-family-node-actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
   gap: 4px;
-  padding-top: 2px;
+  align-self: center;
 }
 
 .kds-node-edit-button,
@@ -244,9 +241,11 @@
   flex: none;
   width: 24px;
   height: 24px;
+  padding: 0;
   border-radius: 50%;
   cursor: pointer;
   border: 0;
+  line-height: 0;
   transition: background 0.15s ease, color 0.15s ease;
 }
 

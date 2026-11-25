@@ -392,6 +392,22 @@ textarea.kds-control {
   text-align: center;
 }
 
+.kds-member-placement {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  max-width: 100%;
+  margin: 0 0 4px;
+  padding: 8px 12px;
+  color: var(--primary-dark);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  background: #edf2e9;
+  border: 1px solid #d7e2d4;
+  border-radius: 999px;
+}
+
 @media screen and (max-width: 760px) {
   .kds-drawer-backdrop {
     min-height: 100dvh;

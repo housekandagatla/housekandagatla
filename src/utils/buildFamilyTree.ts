@@ -8,28 +8,34 @@ export type FamilyTreeNode = {
 
 const SPOUSE_RELS = new Set(['Husband', 'Wife']);
 
-function isSpouse(relationship?: string) {
+export function isSpouse(relationship?: string) {
   return Boolean(relationship && SPOUSE_RELS.has(relationship));
 }
 
-function findPartner(member: FamilyMember, members: FamilyMember[], used: Set<string>) {
+/** Spouse linked either way (Husband/Wife), ignoring tree-build visitation. */
+export function getSpouseOf(member: FamilyMember, members: FamilyMember[]) {
   const asSpouse = members.find(
     (candidate) =>
+      candidate.id !== member.id &&
       candidate.connectedToId === member.id &&
-      isSpouse(candidate.relationship) &&
-      !used.has(candidate.id),
+      isSpouse(candidate.relationship),
   );
   if (asSpouse) {
     return asSpouse;
   }
 
   if (member.connectedToId && isSpouse(member.relationship)) {
-    const partner = members.find((candidate) => candidate.id === member.connectedToId);
-    if (partner && !used.has(partner.id)) {
-      return partner;
-    }
+    return members.find((candidate) => candidate.id === member.connectedToId);
   }
 
+  return undefined;
+}
+
+function findPartner(member: FamilyMember, members: FamilyMember[], used: Set<string>) {
+  const partner = getSpouseOf(member, members);
+  if (partner && !used.has(partner.id)) {
+    return partner;
+  }
   return undefined;
 }
 

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { useFamily, type MemberInput } from '../../context/FamilyContext';
 import { RELATIONSHIPS, type FamilyMember, type Relationship } from '../../data/types';
+import { getSpouseOf, isSpouse } from '../../utils/buildFamilyTree';
 import { Button } from '../ui/Button';
 import { DatePickerField } from '../ui/DatePickerField';
 import { Drawer } from '../ui/Drawer';
@@ -29,25 +30,81 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
   const [place, setPlace] = useState('');
   const [saving, setSaving] = useState(false);
 
-  const memberOptions = useMemo(
-    () => [
-      { value: ROOT_VALUE, label: 'Add as a family root' },
-      ...members
-        .filter((item) => item.id !== member?.id)
-        .map((item) => ({ value: item.id, label: item.fullName })),
-    ],
-    [members, member?.id],
-  );
+  const normalizeConnectId = (id?: string) => {
+    if (!id) {
+      return ROOT_VALUE;
+    }
+    const person = members.find((item) => item.id === id);
+    if (!person) {
+      return id;
+    }
+    const spouse = getSpouseOf(person, members);
+    if (spouse && isSpouse(person.relationship)) {
+      return spouse.id;
+    }
+    return id;
+  };
+
+  const memberOptions = useMemo(() => {
+    const options = [{ value: ROOT_VALUE, label: 'Add as a family root' }];
+    const seen = new Set<string>();
+
+    members.forEach((item) => {
+      if (item.id === member?.id || seen.has(item.id)) {
+        return;
+      }
+
+      const spouse = getSpouseOf(item, members);
+      if (spouse && spouse.id !== member?.id) {
+        const primary = isSpouse(item.relationship) ? spouse : item;
+        const partner = primary.id === item.id ? spouse : item;
+        if (seen.has(primary.id)) {
+          return;
+        }
+        seen.add(primary.id);
+        seen.add(partner.id);
+        options.push({
+          value: primary.id,
+          label: `${primary.fullName} & ${partner.fullName}`,
+        });
+        return;
+      }
+
+      seen.add(item.id);
+      options.push({ value: item.id, label: item.fullName });
+    });
+
+    return options;
+  }, [members, member?.id]);
 
   const relationshipOptions = useMemo(
     () => RELATIONSHIPS.map((item) => ({ value: item, label: item })),
     [],
   );
 
+  const connectedPerson = useMemo(
+    () => members.find((item) => item.id === connectedToId),
+    [members, connectedToId],
+  );
+  const connectedSpouse = useMemo(
+    () => (connectedPerson ? getSpouseOf(connectedPerson, members) : undefined),
+    [connectedPerson, members],
+  );
+
+  const placementLabel = useMemo(() => {
+    if (!connectedPerson || connectedToId === ROOT_VALUE || isSpouse(relationship)) {
+      return null;
+    }
+    const parents = connectedSpouse
+      ? `${connectedPerson.fullName} & ${connectedSpouse.fullName}`
+      : connectedPerson.fullName;
+    return `${relationship} · ${parents}`;
+  }, [connectedPerson, connectedSpouse, connectedToId, relationship]);
+
   const reset = () => {
     setFullName('');
-    setConnectedToId(connectToId ?? ROOT_VALUE);
-    setRelationship('Family member');
+    setConnectedToId(normalizeConnectId(connectToId));
+    setRelationship(connectToId ? 'Son' : 'Family member');
     setDateOfBirth('');
     setAbout('');
     setPlace('');
@@ -60,7 +117,11 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
 
     if (member) {
       setFullName(member.fullName);
-      setConnectedToId(member.isRoot || !member.connectedToId ? ROOT_VALUE : member.connectedToId);
+      setConnectedToId(
+        member.isRoot || !member.connectedToId
+          ? ROOT_VALUE
+          : normalizeConnectId(member.connectedToId),
+      );
       setRelationship(member.relationship || 'Family member');
       setDateOfBirth(member.dateOfBirth || '');
       setAbout(member.about || '');
@@ -69,9 +130,7 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
     }
 
     reset();
-    setConnectedToId(connectToId ?? ROOT_VALUE);
-    setRelationship('Family member');
-  }, [open, connectToId, member]);
+  }, [open, connectToId, member, members]);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -120,6 +179,12 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
       note="Saved to our shared family record."
     >
       <form className="kds-form-stack" onSubmit={handleSubmit}>
+        {placementLabel ? (
+          <p className="kds-member-placement" aria-live="polite">
+            {placementLabel}
+          </p>
+        ) : null}
+
         <Field label="Full name" htmlFor="member-full-name">
           <TextInput
             id="member-full-name"
