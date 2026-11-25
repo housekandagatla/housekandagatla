@@ -6,7 +6,7 @@ export function FamilyStoryPage() {
     <section className="kds-page" aria-labelledby="story-title">
       <div className="kds-welcome-row">
         <div>
-          <Eyebrow mark>YOUR FAMILY, YOUR STORY</Eyebrow>
+          <Eyebrow mark>OUR FAMILY, OUR STORY</Eyebrow>
           <h1 id="story-title" className="kds-serif">
             Family <em>story</em>
           </h1>

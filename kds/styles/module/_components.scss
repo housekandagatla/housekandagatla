@@ -35,8 +35,7 @@
   }
 }
 
-.kds-welcome-row h1,
-.kds-page-hero h1 {
+.kds-welcome-row h1 {
   margin: 8px 0;
   color: #26342c;
   font-family: var(--font-family-headings);
@@ -53,22 +52,12 @@
   }
 }
 
-.kds-welcome-subtitle,
-.kds-page-hero p {
+.kds-welcome-subtitle {
   margin: 0;
   max-width: 36rem;
   color: #7b7d74;
   font-size: 12px;
   line-height: 1.65;
-}
-
-.kds-page-hero {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 24px;
 }
 
 .kds-top-action {
@@ -126,27 +115,6 @@
   &:hover {
     background: #f4f4ee;
     color: #495348;
-  }
-}
-
-.kds-btn_ghost {
-  background: transparent;
-  color: #70766e;
-
-  &:hover {
-    background: #f1f1eb;
-    color: var(--text-primary);
-  }
-}
-
-.kds-btn_danger {
-  background: #fff5f2;
-  color: #9a4f3f;
-  border-color: #e8d2cb;
-
-  &:hover {
-    background: #f8ebe7;
-    color: #823d2f;
   }
 }
 

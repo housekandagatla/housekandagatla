@@ -14,7 +14,7 @@ export function OverviewPage() {
     <section className="kds-page" aria-labelledby="overview-title">
       <div className="kds-welcome-row">
         <div>
-          <Eyebrow mark>YOUR FAMILY, YOUR STORY</Eyebrow>
+          <Eyebrow mark>OUR FAMILY, OUR STORY</Eyebrow>
           <h1 id="overview-title">
             Welcome to the <em>family</em>
           </h1>
@@ -58,7 +58,7 @@ export function OverviewPage() {
 
         <div className="kds-banner-roots">
           <span className="kds-banner-roots-mark">
-            <Icon name="spa" />
+            <Icon name="spa" size={16} strokeWidth={1.8} />
           </span>
           <div className="kds-banner-roots-content">
             <span className="kds-banner-roots-label">THE ROOTS THAT CONNECT US</span>
@@ -117,13 +117,10 @@ export function OverviewPage() {
               <Eyebrow>OUR PEOPLE</Eyebrow>
               <h2>The family tree</h2>
             </div>
-            <Link className="kds-text-link" to="/family-tree">
-              View the tree <Icon name="arrow_forward" size={14} strokeWidth={2} />
-            </Link>
           </div>
 
           {previewMembers.length === 0 ? (
-            <p className="kds-mini-empty">Your family story starts in the family tree.</p>
+            <p className="kds-mini-empty">Our family story starts in the family tree.</p>
           ) : (
             <div className="kds-mini-members">
               <span className="kds-tree-stem" aria-hidden="true" />
@@ -159,7 +156,7 @@ export function OverviewPage() {
               <span className="kds-tiny-dot" />A living family record
             </span>
             <Link className="kds-text-link" to="/family-tree">
-              {members.length} {members.length === 1 ? 'name' : 'names'}
+              View the tree <Icon name="arrow_forward" size={14} strokeWidth={2} />
             </Link>
           </div>
         </section>
@@ -170,25 +167,22 @@ export function OverviewPage() {
               <Eyebrow>MAKE MEMORIES</Eyebrow>
               <h2>Family festivals</h2>
             </div>
-            <Link className="kds-text-link" to="/festivals">
-              Family festivals <Icon name="arrow_forward" size={14} strokeWidth={2} />
-            </Link>
           </div>
 
           <div className="kds-event-list">
             {previewFestivals.map((festival) => (
-              <article key={festival.id} className="kds-event-card">
+              <Link key={festival.id} className="kds-event-card" to="/festivals">
                 <div className="kds-event-info">
                   <div className="kds-event-kind">{festival.category}</div>
                   <h3>{festival.title}</h3>
                 </div>
-                  <Icon name="arrow_forward" className="kds-event-arrow" size={16} strokeWidth={1.8} />
-              </article>
+                <Icon name="arrow_forward" className="kds-event-arrow" size={16} strokeWidth={1.8} />
+              </Link>
             ))}
           </div>
 
           <Link className="kds-add-event-link" to="/festivals">
-            <Icon name="add" size={16} strokeWidth={2} /> Plan a family festival
+            View festivals <Icon name="arrow_forward" size={14} strokeWidth={2} />
           </Link>
         </section>
       </div>

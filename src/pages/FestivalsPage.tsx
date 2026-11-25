@@ -31,20 +31,6 @@ export function FestivalsPage() {
         </Button>
       </div>
 
-      <section className="kds-events-intro">
-        <span className="kds-events-intro-icon" aria-hidden="true">
-          <Icon name="calendar_today" size={23} strokeWidth={2} />
-        </span>
-        <div>
-          <Eyebrow>FESTIVALS &amp; CELEBRATIONS</Eyebrow>
-          <h2>A reason to come together.</h2>
-          <p>Keep everyone in the loop and make room for the moments that matter.</p>
-        </div>
-        <span className="kds-events-intro-mark" aria-hidden="true">
-          ✳
-        </span>
-      </section>
-
       <div className="kds-events-section-title">
         <div>
           <Eyebrow>OUR FAMILY TRADITIONS</Eyebrow>
@@ -78,13 +64,6 @@ export function FestivalsPage() {
             </div>
           </article>
         ))}
-      </div>
-
-      <div className="kds-festivals-footer-row">
-        <p className="kds-member-count">Festival traditions for the whole family</p>
-        <Button icon="add" onClick={() => setFormOpen(true)}>
-          Add a festival
-        </Button>
       </div>
 
       <FestivalForm open={formOpen} onClose={() => setFormOpen(false)} />

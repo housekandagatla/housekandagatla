@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { Icon } from './Icon';
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
+type ButtonVariant = 'primary' | 'secondary';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
@@ -12,8 +12,6 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 const variantClass: Record<ButtonVariant, string> = {
   primary: 'kds-btn_primary',
   secondary: 'kds-btn_secondary',
-  ghost: 'kds-btn_ghost',
-  danger: 'kds-btn_danger',
 };
 
 export function Button({

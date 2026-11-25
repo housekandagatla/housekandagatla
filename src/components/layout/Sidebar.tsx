@@ -44,7 +44,7 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
         </span>
       </div>
 
-      <p className="kds-nav-caption">YOUR FAMILY</p>
+      <p className="kds-nav-caption">OUR FAMILY</p>
 
       <nav className="kds-main-nav" aria-label="Main navigation">
         {navItems.map((item) => (

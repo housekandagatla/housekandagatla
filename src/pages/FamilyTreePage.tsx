@@ -49,27 +49,31 @@ export function FamilyTreePage() {
             Every branch holds a name. Every name holds a story.
           </p>
         </div>
-        <Button className="kds-top-action" icon="add" onClick={() => openForm()}>
-          Add family member
-        </Button>
+        {members.length > 0 ? (
+          <Button className="kds-top-action" icon="add" onClick={() => openForm()}>
+            Add family member
+          </Button>
+        ) : null}
       </div>
 
-      <div className="kds-tree-toolbar">
-        <label className="kds-search-field">
-          <Icon name="search" size={17} strokeWidth={2} />
-          <input
-            type="search"
-            placeholder="Search names, relationships, places…"
-            aria-label="Search family members"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-        </label>
-        <span className="kds-tree-count">
-          <Icon name="people" size={15} strokeWidth={1.8} />
-          {members.length} {members.length === 1 ? 'member' : 'members'}
-        </span>
-      </div>
+      {members.length > 0 ? (
+        <div className="kds-tree-toolbar">
+          <label className="kds-search-field">
+            <Icon name="search" size={17} strokeWidth={2} />
+            <input
+              type="search"
+              placeholder="Search names, relationships, places…"
+              aria-label="Search family members"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+            />
+          </label>
+          <span className="kds-tree-count">
+            <Icon name="people" size={15} strokeWidth={1.8} />
+            {members.length} {members.length === 1 ? 'member' : 'members'}
+          </span>
+        </div>
+      ) : null}
 
       {query.trim() && filteredCount !== members.length ? (
         <p className="kds-tree-search-message">
@@ -87,7 +91,7 @@ export function FamilyTreePage() {
               with a single <em>name.</em>
             </>
           }
-          description="Add the first person to begin gathering your family story. Grow the tree one generation, one memory, one name at a time."
+          description="Add the first person to begin gathering our family story. Grow the tree one generation, one memory, one name at a time."
           footnote="KANDAGATLA FAMILY · CONNECTED THROUGH GENERATIONS"
           action={
             <Button icon="add" onClick={() => openForm()}>
