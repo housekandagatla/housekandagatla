@@ -1,6 +1,9 @@
 import { useMemo, useState } from 'react';
 import { MemberForm } from '../components/forms/MemberForm';
-import { FamilyTreeCanvas } from '../components/tree/FamilyTreeCanvas';
+import {
+  FamilyTreeCanvas,
+  type FamilyTreeLayout,
+} from '../components/tree/FamilyTreeCanvas';
 import { MemberDetail } from '../components/tree/MemberDetail';
 import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/EmptyState';
@@ -14,6 +17,7 @@ export function FamilyTreePage() {
   const { members, loading } = useFamily();
   const { isAdmin } = useAuth();
   const [query, setQuery] = useState('');
+  const [layout, setLayout] = useState<FamilyTreeLayout>('tree');
   const [formOpen, setFormOpen] = useState(false);
   const [connectToId, setConnectToId] = useState<string | undefined>();
   const [editingMember, setEditingMember] = useState<FamilyMember | null>(null);
@@ -93,10 +97,30 @@ export function FamilyTreePage() {
               onChange={(event) => setQuery(event.target.value)}
             />
           </label>
-          <span className="kds-tree-count">
-            <Icon name="people" size={15} strokeWidth={1.8} />
-            {members.length} {members.length === 1 ? 'member' : 'members'}
-          </span>
+          <div className="kds-tree-toolbar-end">
+            <div className="kds-tree-layout-switch" role="group" aria-label="Tree layout">
+              <button
+                type="button"
+                className={layout === 'tree' ? 'is-active' : undefined}
+                aria-pressed={layout === 'tree'}
+                onClick={() => setLayout('tree')}
+              >
+                Tree
+              </button>
+              <button
+                type="button"
+                className={layout === 'generations' ? 'is-active' : undefined}
+                aria-pressed={layout === 'generations'}
+                onClick={() => setLayout('generations')}
+              >
+                Generations
+              </button>
+            </div>
+            <span className="kds-tree-count">
+              <Icon name="people" size={15} strokeWidth={1.8} />
+              {members.length} {members.length === 1 ? 'member' : 'members'}
+            </span>
+          </div>
         </div>
       ) : null}
 
@@ -123,6 +147,7 @@ export function FamilyTreePage() {
         <FamilyTreeCanvas
           members={members}
           query={query}
+          layout={layout}
           canEdit={isAdmin}
           onAdd={openAddForm}
           onSelect={setSelected}

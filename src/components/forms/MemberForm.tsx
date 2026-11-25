@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from 'react';
+import { useLayoutEffect, useMemo, useState, type FormEvent } from 'react';
 import { useFamily, type MemberInput } from '../../context/FamilyContext';
 import { RELATIONSHIPS, type FamilyMember, type Relationship } from '../../data/types';
 import { getSpouseOf, isSpouse } from '../../utils/buildFamilyTree';
@@ -19,12 +19,23 @@ type MemberFormProps = {
 
 const ROOT_VALUE = '__root__';
 
+function firstName(name: string) {
+  return name.trim().split(/\s+/)[0] || name;
+}
+
+function coupleLabel(person: FamilyMember, spouse?: FamilyMember) {
+  if (!spouse) {
+    return person.fullName;
+  }
+  return `${firstName(person.fullName)} & ${firstName(spouse.fullName)}`;
+}
+
 export function MemberForm({ open, onClose, connectToId, member = null }: MemberFormProps) {
   const { members, addMember, updateMember } = useFamily();
   const isEditing = Boolean(member);
   const [fullName, setFullName] = useState('');
   const [connectedToId, setConnectedToId] = useState(ROOT_VALUE);
-  const [relationship, setRelationship] = useState<string>('Family member');
+  const [relationship, setRelationship] = useState<string>('Son');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [about, setAbout] = useState('');
   const [place, setPlace] = useState('');
@@ -82,9 +93,19 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
     [],
   );
 
+  const resolvedConnectId = useMemo(() => {
+    if (connectedToId && connectedToId !== ROOT_VALUE) {
+      return connectedToId;
+    }
+    if (!isEditing && connectToId) {
+      return normalizeConnectId(connectToId);
+    }
+    return ROOT_VALUE;
+  }, [connectedToId, connectToId, isEditing, members]);
+
   const connectedPerson = useMemo(
-    () => members.find((item) => item.id === connectedToId),
-    [members, connectedToId],
+    () => members.find((item) => item.id === resolvedConnectId),
+    [members, resolvedConnectId],
   );
   const connectedSpouse = useMemo(
     () => (connectedPerson ? getSpouseOf(connectedPerson, members) : undefined),
@@ -92,25 +113,16 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
   );
 
   const placementLabel = useMemo(() => {
-    if (!connectedPerson || connectedToId === ROOT_VALUE || isSpouse(relationship)) {
+    if (!connectedPerson || resolvedConnectId === ROOT_VALUE) {
       return null;
     }
-    const parents = connectedSpouse
-      ? `${connectedPerson.fullName} & ${connectedSpouse.fullName}`
-      : connectedPerson.fullName;
-    return `${relationship} · ${parents}`;
-  }, [connectedPerson, connectedSpouse, connectedToId, relationship]);
+    if (isSpouse(relationship)) {
+      return `${relationship} of ${connectedPerson.fullName}`;
+    }
+    return `${relationship} · ${coupleLabel(connectedPerson, connectedSpouse)}`;
+  }, [connectedPerson, connectedSpouse, resolvedConnectId, relationship]);
 
-  const reset = () => {
-    setFullName('');
-    setConnectedToId(normalizeConnectId(connectToId));
-    setRelationship(connectToId ? 'Son' : 'Family member');
-    setDateOfBirth('');
-    setAbout('');
-    setPlace('');
-  };
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!open) {
       return;
     }
@@ -129,8 +141,13 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
       return;
     }
 
-    reset();
-  }, [open, connectToId, member, members]);
+    setFullName('');
+    setConnectedToId(normalizeConnectId(connectToId));
+    setRelationship(connectToId ? 'Son' : 'Family member');
+    setDateOfBirth('');
+    setAbout('');
+    setPlace('');
+  }, [open, connectToId, member?.id]);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -156,7 +173,6 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
       } else {
         await addMember(payload);
       }
-      reset();
       onClose();
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Could not save member';
@@ -172,17 +188,20 @@ export function MemberForm({ open, onClose, connectToId, member = null }: Member
       onClose={onClose}
       title={isEditing ? 'Update their place in the tree' : 'Welcome them to the tree'}
       subtitle={
-        isEditing
-          ? 'Keep their story accurate as the family grows.'
-          : 'Every name carries a story worth keeping.'
+        placementLabel
+          ? undefined
+          : isEditing
+            ? 'Keep their story accurate as the family grows.'
+            : 'Every name carries a story worth keeping.'
       }
       note="Saved to our shared family record."
     >
       <form className="kds-form-stack" onSubmit={handleSubmit}>
         {placementLabel ? (
-          <p className="kds-member-placement" aria-live="polite">
-            {placementLabel}
-          </p>
+          <div className="kds-member-placement" aria-live="polite">
+            <span className="kds-member-placement-label">Placing as</span>
+            <strong>{placementLabel}</strong>
+          </div>
         ) : null}
 
         <Field label="Full name" htmlFor="member-full-name">

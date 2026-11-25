@@ -6,10 +6,10 @@ export type FamilyTreeNode = {
   children: FamilyTreeNode[];
 };
 
-const SPOUSE_RELS = new Set(['Husband', 'Wife']);
+const SPOUSE_RELS = new Set(['husband', 'wife']);
 
 export function isSpouse(relationship?: string) {
-  return Boolean(relationship && SPOUSE_RELS.has(relationship));
+  return Boolean(relationship && SPOUSE_RELS.has(relationship.trim().toLowerCase()));
 }
 
 /** Spouse linked either way (Husband/Wife), ignoring tree-build visitation. */
@@ -26,6 +26,18 @@ export function getSpouseOf(member: FamilyMember, members: FamilyMember[]) {
 
   if (member.connectedToId && isSpouse(member.relationship)) {
     return members.find((candidate) => candidate.id === member.connectedToId);
+  }
+
+  // Mutual spouse links where the partner also points back.
+  if (member.connectedToId) {
+    const linked = members.find((candidate) => candidate.id === member.connectedToId);
+    if (
+      linked &&
+      linked.connectedToId === member.id &&
+      (isSpouse(member.relationship) || isSpouse(linked.relationship))
+    ) {
+      return linked;
+    }
   }
 
   return undefined;
@@ -96,4 +108,49 @@ export function buildFamilyTree(members: FamilyMember[]): FamilyTreeNode[] {
     .map((member) => buildNode(member, members, used));
 
   return [...tree, ...orphans];
+}
+
+export type FamilyGenerationUnit = {
+  member: FamilyMember;
+  partner?: FamilyMember;
+  parentsLabel?: string;
+};
+
+export type FamilyGeneration = {
+  level: number;
+  label: string;
+  units: FamilyGenerationUnit[];
+};
+
+/** Flatten the descendant tree into generation rows for an alternate layout. */
+export function buildFamilyGenerations(members: FamilyMember[]): FamilyGeneration[] {
+  const tree = buildFamilyTree(members);
+  const rows = new Map<number, FamilyGenerationUnit[]>();
+
+  const visit = (node: FamilyTreeNode, level: number, parentsLabel?: string) => {
+    const units = rows.get(level) ?? [];
+    units.push({
+      member: node.member,
+      partner: node.partner,
+      parentsLabel,
+    });
+    rows.set(level, units);
+
+    const firstName = (name: string) => name.trim().split(/\s+/)[0] || name;
+    const asParentsLabel = node.partner
+      ? `${firstName(node.member.fullName)} & ${firstName(node.partner.fullName)}`
+      : firstName(node.member.fullName);
+
+    node.children.forEach((child) => visit(child, level + 1, asParentsLabel));
+  };
+
+  tree.forEach((node) => visit(node, 0));
+
+  return [...rows.entries()]
+    .sort(([a], [b]) => a - b)
+    .map(([level, units]) => ({
+      level,
+      label: level === 0 ? 'Roots' : `Generation ${level + 1}`,
+      units,
+    }));
 }
