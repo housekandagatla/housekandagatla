@@ -467,7 +467,8 @@
 
   .kds-page-footer {
     flex-direction: column;
-    gap: 4px;
+    align-items: flex-start;
+    gap: 8px;
   }
 
   .kds-events-intro {

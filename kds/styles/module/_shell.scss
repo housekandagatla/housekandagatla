@@ -44,8 +44,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 28px;
-  padding: 0 8px;
+  margin-bottom: 20px;
+  padding: 0 12px;
   color: var(--text-primary);
   text-decoration: none;
 
@@ -136,15 +136,6 @@
     line-height: 1.45;
     overflow-wrap: anywhere;
   }
-}
-
-.kds-nav-caption {
-  margin: 0 0 4px;
-  padding: 0 12px 8px;
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.4px;
 }
 
 .kds-main-nav {
@@ -255,30 +246,46 @@
   }
 }
 
-.kds-note-sparkle {
-  position: absolute;
-  top: 9px;
-  right: 9px;
-  color: var(--text-gold-label);
-  font-size: 12px;
-
-  svg {
-    font-size: 12px;
-  }
-}
-
-.kds-sidebar-family-note {
+.kds-sidebar-contact {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
-  padding: 12px 4px 4px;
+  margin: 0 4px;
+  padding: 12px 8px;
   border-top: 1px solid var(--warm-border);
-  color: var(--text-disabled);
+  border-radius: 0 0 8px 8px;
+  color: var(--text-secondary);
   font-size: 12px;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
 
   svg {
-    font-size: 16px;
-    color: var(--text-secondary);
+    flex: none;
+    margin-top: 2px;
+    color: var(--primary-main);
+  }
+
+  span {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  strong {
+    color: #475649;
+    font-weight: 600;
+  }
+
+  &:hover {
+    background: #f5f4ed;
+    color: var(--primary-main);
+    text-decoration: none;
+
+    strong {
+      color: var(--primary-main);
+    }
   }
 }
 
@@ -455,18 +462,45 @@
 .kds-page-footer {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
+  align-items: flex-end;
+  gap: 16px;
   flex-wrap: wrap;
   flex: none;
   margin-top: auto;
-  padding: 16px 4px 8px;
+  padding: 20px 4px 8px;
+  border-top: 1px solid var(--warm-border);
   color: var(--text-secondary);
   font-size: 12px;
+}
 
-  svg {
-    padding-left: 4px;
-    color: var(--text-gold-label);
-    font-size: 12px;
-    font-weight: 400;
+.kds-footer-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  max-width: 52ch;
+}
+
+.kds-footer-credit {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.55;
+
+  a {
+    color: var(--primary-main);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
+}
+
+.kds-footer-brand {
+  flex: none;
+  color: var(--text-secondary);
+  font-weight: 600;
+  white-space: nowrap;
 }

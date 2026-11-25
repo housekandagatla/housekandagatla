@@ -54,8 +54,6 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
         </div>
       </div>
 
-      <p className="kds-nav-caption">OUR FAMILY</p>
-
       <nav className="kds-main-nav" aria-label="Main navigation">
         {navItems.map((item) => (
           <NavLink
@@ -85,15 +83,21 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
           <br />
           <strong>Growing together.</strong>
         </p>
-        <span className="kds-note-sparkle" aria-hidden="true">
-          <Icon name="spa" size={14} strokeWidth={1.6} />
-        </span>
       </div>
 
-      <div className="kds-sidebar-family-note">
+      <a
+        className="kds-sidebar-contact"
+        href="https://saikrishna-nu.vercel.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onNavigate}
+      >
         <Icon name="people" size={16} strokeWidth={1.8} />
-        <span>A family space for everyone</span>
-      </div>
+        <span>
+          Want to add a family detail?
+          <strong> Contact Sai Krishna</strong>
+        </span>
+      </a>
     </aside>
   );
 }
