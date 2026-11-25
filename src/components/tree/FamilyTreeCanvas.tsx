@@ -60,11 +60,11 @@ function NodeCard({
       <div className="kds-family-node-actions">
         <button
           type="button"
-          className="kds-node-edit-button"
+          className="kds-node-view-button"
           aria-label={`View ${member.fullName}`}
           onClick={() => onSelect(member)}
         >
-          <Icon name="edit" size={10} strokeWidth={1.8} />
+          <Icon name="view" size={10} strokeWidth={1.8} />
         </button>
         {canEdit ? (
           <button

@@ -1,4 +1,4 @@
-# Firebase setup — House of Kandagatla
+# Firebase setup — House Kandagatla
 
 ## Console checklist
 

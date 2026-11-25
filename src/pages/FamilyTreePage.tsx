@@ -71,7 +71,7 @@ export function FamilyTreePage() {
         <div>
           <Eyebrow mark>OUR PEOPLE</Eyebrow>
           <h1 id="tree-title">
-            The family <em>tree</em>
+            Family <em>tree</em>
           </h1>
           <p className="kds-welcome-subtitle">
             Every branch holds a name. Every name holds a story.

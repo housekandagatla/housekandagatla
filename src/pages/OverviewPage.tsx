@@ -136,7 +136,7 @@ export function OverviewPage() {
               <div className="kds-panel-heading">
                 <div>
                   <Eyebrow>OUR PEOPLE</Eyebrow>
-                  <h2>The family tree</h2>
+                  <h2>Family tree</h2>
                 </div>
               </div>
 

@@ -161,7 +161,7 @@ export function HeritagePage() {
                 <i>a thousand stories.</i>
               </h2>
               <p>
-                We honor the values, customs, and family ties that make the House of Kandagatla what
+                We honor the values, customs, and family ties that make House Kandagatla what
                 it is — and carry them forward, together.
               </p>
               <span className="kds-heritage-mantra kds-telugu" lang="te">

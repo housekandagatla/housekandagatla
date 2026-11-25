@@ -30,8 +30,7 @@
   }
 }
 
-.kds-family-tree-roots,
-.kds-family-tree-children {
+.kds-family-tree-roots {
   display: flex;
   justify-content: center;
   width: max-content;
@@ -60,7 +59,13 @@
 
 .kds-family-tree-children {
   position: relative;
-  padding-top: var(--tree-gap);
+  display: flex;
+  justify-content: center;
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
+  padding: var(--tree-gap) 0 0;
+  list-style: none;
 }
 
 /* Vertical drop from parent couple into the children row */
@@ -81,7 +86,7 @@
   content: "";
   position: absolute;
   top: 0;
-  width: calc(50% + var(--tree-pad-x));
+  width: 50%;
   border-top: 1px solid var(--tree-line);
 }
 
@@ -96,6 +101,19 @@
 .kds-family-tree-children > .kds-family-tree-branch:first-child::before,
 .kds-family-tree-children > .kds-family-tree-branch:last-child::after {
   display: none;
+}
+
+.kds-family-tree-children > .kds-family-tree-branch:first-child:not(:only-child)::after {
+  width: calc(50% + var(--tree-pad-x));
+}
+
+.kds-family-tree-children > .kds-family-tree-branch:last-child:not(:only-child)::before {
+  width: calc(50% + var(--tree-pad-x));
+}
+
+.kds-family-tree-children > .kds-family-tree-branch:not(:first-child):not(:last-child)::before,
+.kds-family-tree-children > .kds-family-tree-branch:not(:first-child):not(:last-child)::after {
+  width: calc(50% + var(--tree-pad-x));
 }
 
 .kds-family-tree-children > .kds-family-tree-branch:only-child::before,
@@ -119,7 +137,7 @@
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 12px;
   width: max-content;
   padding: 0;
@@ -129,7 +147,7 @@
 .kds-family-tree-couple.kds-has-partner::after {
   content: "";
   position: absolute;
-  top: 28px;
+  top: 26px;
   left: 50%;
   width: 12px;
   border-top: 1px solid var(--tree-line);
@@ -150,6 +168,7 @@
   column-gap: 8px;
   align-items: center;
   width: 216px;
+  min-height: 56px;
   padding: 10px 8px 10px 10px;
   text-align: left;
   background: #fffefa;
@@ -230,6 +249,7 @@
   width: 20px;
 }
 
+.kds-node-view-button,
 .kds-node-edit-button,
 .kds-node-add-button {
   display: grid;
@@ -245,6 +265,7 @@
   transition: background 0.15s ease, color 0.15s ease;
 }
 
+.kds-node-view-button,
 .kds-node-edit-button {
   color: var(--text-secondary);
   background: #f2f3ee;
@@ -406,34 +427,34 @@
   margin: 8px 0 4px;
 }
 
-.kds-member-details-dialog {
+.kds-member-details-dialog,
+.kds-festival-details-dialog {
   position: relative;
+  width: min(100%, 560px);
 }
 
 .kds-member-details-heading {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 4px 0 24px;
-  padding-right: 96px;
+  gap: 16px;
+  margin: 8px 0 24px;
+  padding-right: 104px;
 
   h2 {
-    margin: 4px 0;
+    margin: 0 0 4px;
     color: #344238;
     font-family: var(--font-family-headings);
     font-size: 24px;
     font-weight: 500;
+    line-height: 1.25;
   }
 
   p {
     margin: 0;
     color: var(--text-secondary);
     font-size: 12px;
+    line-height: 1.45;
   }
-}
-
-.kds-festival-details-dialog {
-  position: relative;
 }
 
 .kds-member-avatar-lg {
@@ -445,18 +466,18 @@
 .kds-member-details-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 8px;
 
   > div {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    min-height: 68px;
-    padding: 12px;
+    gap: 6px;
+    min-height: 72px;
+    padding: 14px 16px;
     background: #fbfaf6;
     border: 1px solid #efede6;
-    border-radius: 8px;
+    border-radius: 10px;
   }
 
   span {

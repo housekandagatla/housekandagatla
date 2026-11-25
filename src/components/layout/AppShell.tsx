@@ -32,11 +32,13 @@ export function AppShell() {
 
   return (
     <div className="kds-app-shell">
-      {isTablet && sidebarOpen ? (
+      {isTablet ? (
         <button
           type="button"
-          className="kds-sidebar-backdrop"
+          className={`kds-sidebar-backdrop${sidebarOpen ? ' kds-is-open' : ''}`}
           aria-label="Close navigation"
+          aria-hidden={!sidebarOpen}
+          tabIndex={sidebarOpen ? 0 : -1}
           onClick={() => setSidebarOpen(false)}
         />
       ) : null}

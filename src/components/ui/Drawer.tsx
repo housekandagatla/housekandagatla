@@ -18,7 +18,7 @@ export function Drawer({
   open,
   title,
   subtitle,
-  eyebrow = 'HOUSE OF KANDAGATLA',
+  eyebrow = 'HOUSE KANDAGATLA',
   onClose,
   children,
   note,

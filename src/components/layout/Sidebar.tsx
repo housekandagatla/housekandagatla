@@ -26,14 +26,14 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
       <NavLink
         className="kds-brand-lockup"
         to="/"
-        aria-label="House of Kandagatla home"
+        aria-label="House Kandagatla home"
         onClick={onNavigate}
       >
         <span className="kds-brand-emblem">
           <Icon name="spa" size={23} strokeWidth={1.6} />
         </span>
         <span className="kds-brand-title">
-          House of
+          House
           <br />
           Kandagatla
         </span>
