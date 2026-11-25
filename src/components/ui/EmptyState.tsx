@@ -4,7 +4,7 @@ import { Icon } from './Icon';
 type EmptyStateProps = {
   kicker?: string;
   title: ReactNode;
-  description: string;
+  description?: string;
   footnote?: string;
   icon?: string;
   action?: ReactNode;
@@ -26,7 +26,7 @@ export function EmptyState({
         </div>
         {kicker ? <p className="kds-empty-kicker">{kicker}</p> : null}
         <h2 className="kds-serif">{title}</h2>
-        <p>{description}</p>
+        {description ? <p>{description}</p> : null}
         {action ? <div className="kds-empty-action">{action}</div> : null}
         {footnote ? <span className="kds-empty-footnote">{footnote}</span> : null}
       </div>
