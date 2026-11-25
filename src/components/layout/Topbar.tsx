@@ -1,4 +1,6 @@
+import { useMemo } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { getFamilyDateLabel } from '../../utils/teluguDate';
 import { Button } from '../ui/Button';
 import { Icon } from '../ui/Icon';
 
@@ -9,6 +11,7 @@ type TopbarProps = {
 
 export function Topbar({ pageTitle, onMenuClick }: TopbarProps) {
   const { user, isAdmin, loading, configured, signInWithGoogle, signOut } = useAuth();
+  const dateLabel = useMemo(() => getFamilyDateLabel(), []);
 
   const handleAuth = async () => {
     try {
@@ -40,13 +43,20 @@ export function Topbar({ pageTitle, onMenuClick }: TopbarProps) {
         </div>
       </div>
       <div className="kds-topbar-right">
-        {user ? (
-          <span className="kds-date-label">
-            {isAdmin ? 'Admin' : 'Signed in'} · {user.email}
-          </span>
-        ) : (
-          <span className="kds-date-label">A family space for everyone</span>
-        )}
+        <div className="kds-date-label" title={dateLabel.full}>
+          <span className="kds-date-gregorian">{dateLabel.gregorian}</span>
+          {dateLabel.telugu ? (
+            <span className="kds-date-telugu kds-telugu" lang="te">
+              {dateLabel.telugu}
+            </span>
+          ) : null}
+          {user ? (
+            <span className="kds-date-auth">
+              {isAdmin ? 'Admin' : 'Signed in'}
+              {user.email ? ` · ${user.email}` : ''}
+            </span>
+          ) : null}
+        </div>
         {configured ? (
           <Button
             variant="secondary"

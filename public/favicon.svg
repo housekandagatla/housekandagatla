@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="House of Kandagatla">
+  <rect width="64" height="64" rx="14" fill="#f7f8f3"/>
+  <rect x="2" y="2" width="60" height="60" rx="12" fill="none" stroke="#c9d2c4" stroke-width="2"/>
+  <g fill="#607b63" transform="translate(32 34)">
+    <ellipse cx="0" cy="-12" rx="7" ry="12" />
+    <ellipse cx="0" cy="-12" rx="7" ry="12" transform="rotate(72)" />
+    <ellipse cx="0" cy="-12" rx="7" ry="12" transform="rotate(144)" />
+    <ellipse cx="0" cy="-12" rx="7" ry="12" transform="rotate(216)" />
+    <ellipse cx="0" cy="-12" rx="7" ry="12" transform="rotate(288)" />
+    <circle cx="0" cy="0" r="5.5" fill="#345b42"/>
+    <circle cx="0" cy="0" r="2.5" fill="#f7f8f3"/>
+  </g>
+</svg>

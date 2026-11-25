@@ -125,7 +125,7 @@
 .kds-nav-caption {
   margin: 0;
   padding: 0 12px 12px;
-  color: #8a887d;
+  color: var(--text-muted);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 1.4px;
@@ -148,7 +148,7 @@
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #777a72;
+  color: var(--text-secondary);
   font-size: 12px;
   font-weight: 500;
   text-align: left;
@@ -213,7 +213,7 @@
 
   p {
     margin: 0;
-    color: #72776d;
+    color: var(--text-secondary);
     font-size: 12px;
     line-height: 1.65;
   }
@@ -243,7 +243,7 @@
   position: absolute;
   top: 9px;
   right: 9px;
-  color: #9c895b;
+  color: var(--text-gold-label);
   font-size: 12px;
 
   svg {
@@ -262,7 +262,7 @@
 
   svg {
     font-size: 16px;
-    color: #909187;
+    color: var(--text-secondary);
   }
 }
 
@@ -306,7 +306,7 @@
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #70766e;
+  color: var(--text-secondary);
   cursor: pointer;
 
   
@@ -317,7 +317,7 @@
 }
 
 .kds-breadcrumb {
-  color: #888980;
+  color: var(--text-placeholder);
   font-size: 12px;
   white-space: nowrap;
   overflow: hidden;
@@ -325,7 +325,7 @@
 
   span {
     padding: 0 8px;
-    color: #c3c0b7;
+    color: var(--text-muted);
   }
 
   strong {
@@ -350,12 +350,37 @@
 
 .kds-date-label {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #757970;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  color: var(--text-secondary);
   font-size: 12px;
+  line-height: 1.35;
+  text-align: right;
+  max-width: min(420px, 52vw);
+}
 
-  
+.kds-date-gregorian {
+  color: #404a41;
+  font-weight: 600;
+}
+
+.kds-date-telugu {
+  color: var(--primary-light);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.kds-date-auth {
+  color: var(--text-secondary);
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .kds-page-wrap {
@@ -378,12 +403,12 @@
   gap: 12px;
   flex-wrap: wrap;
   padding: 16px 4px 8px;
-  color: #99998f;
+  color: var(--text-secondary);
   font-size: 12px;
 
   svg {
     padding-left: 4px;
-    color: #9d916e;
+    color: var(--text-gold-label);
     font-size: 12px;
     font-weight: 400;
   }

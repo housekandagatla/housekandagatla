@@ -144,6 +144,14 @@
   }
 
   .kds-date-label {
+    max-width: min(220px, 48vw);
+  }
+
+  .kds-date-telugu {
+    font-size: 10px;
+  }
+
+  .kds-date-auth {
     display: none;
   }
 

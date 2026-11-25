@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     scrollbar-width: thin;
-    scrollbar-color: #789078 #f1f2ec;
+    scrollbar-color: var(--primary-light) #f1f2ec;
 }
 
 *::-webkit-scrollbar {
@@ -16,12 +16,12 @@
 }
 
 *::-webkit-scrollbar-thumb {
-    background: #789078;
+    background: var(--primary-light);
     border-radius: 999px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-    background: #5e7b60;
+    background: var(--primary-dark);
 }
 
 html {

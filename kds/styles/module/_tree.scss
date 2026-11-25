@@ -19,13 +19,13 @@
   align-items: center;
   gap: 8px;
   padding-bottom: 16px;
-  color: #5e6e5e;
+  color: var(--text-secondary);
   font-size: 12px;
   font-weight: 600;
 
   span:last-child {
     margin-left: auto;
-    color: #96978d;
+    color: var(--text-secondary);
     font-weight: 400;
   }
 }
@@ -172,17 +172,17 @@
 }
 
 .kds-avatar-clay {
-  color: #956c59 !important;
+  color: #8B5A4A !important;
   background: #f0e7df !important;
 }
 
 .kds-avatar-blue {
-  color: #61717e !important;
+  color: #4A5A66 !important;
   background: #e5ebed !important;
 }
 
 .kds-avatar-gold {
-  color: #997d4f !important;
+  color: var(--text-gold-label) !important;
   background: #f0ebdd !important;
 }
 
@@ -206,7 +206,7 @@
     width: fit-content;
     max-width: 100%;
     padding: 4px 8px;
-    color: #788174;
+    color: var(--text-secondary);
     font-size: 12px;
     line-height: 1.4;
     background: #f0f2eb;
@@ -219,7 +219,7 @@
 
 .kds-family-node-bio {
   margin: 4px 0 0;
-  color: #73796f;
+  color: var(--text-secondary);
   font-size: 12px;
   line-height: 1.45;
 }
@@ -249,17 +249,17 @@
 }
 
 .kds-node-edit-button {
-  color: #7b8478;
+  color: var(--text-secondary);
 
   &:hover {
-    color: #506b54;
+    color: var(--primary-light);
     background: #f4f6f0;
     border-color: #aabda7;
   }
 }
 
 .kds-node-add-button {
-  color: #5e7b60;
+  color: var(--primary-light);
   background: #edf2e9;
   border-color: #dfe8dc;
 
@@ -275,13 +275,13 @@
 
 .kds-tree-search-message {
   margin: -8px 0 12px;
-  color: #907452;
+  color: var(--text-gold-label);
   font-size: 12px;
 }
 
 .kds-mini-tree-empty {
   margin: 8px 0;
-  color: #92938a;
+  color: var(--text-secondary);
   font-size: 12px;
   line-height: 1.5;
 }
@@ -325,7 +325,7 @@
   }
 
   small {
-    color: #99998f;
+    color: var(--text-secondary);
     font-size: 12px;
   }
 
@@ -345,7 +345,7 @@
   place-items: center;
   width: 32px;
   height: 32px;
-  color: #64816a;
+  color: var(--primary-light);
   background: #f9faf5;
   border: 1px dashed #aab9a7;
   border-radius: 50%;
@@ -372,7 +372,7 @@
 
   p {
     margin: 0;
-    color: #818278;
+    color: var(--text-secondary);
     font-size: 12px;
   }
 }
@@ -401,7 +401,7 @@
   }
 
   span {
-    color: #929187;
+    color: var(--text-secondary);
     font-size: 12px;
     letter-spacing: 0.7px;
     text-transform: uppercase;
@@ -426,7 +426,7 @@
   width: 43px;
   height: 43px;
   margin-bottom: 16px;
-  color: #607b63;
+  color: var(--primary-light);
   background: #e9eee5;
   border-radius: 50%;
 }
@@ -435,7 +435,7 @@
   display: inline-flex;
   margin: 4px 0 12px;
   padding: 4px 8px;
-  color: #90764f;
+  color: var(--text-gold-label);
   font-size: 12px;
   font-weight: 600;
   background: #f3efe5;
@@ -444,7 +444,7 @@
 
 .kds-festival-detail-description {
   margin: 0 0 8px;
-  color: #85867d;
+  color: var(--text-secondary);
   font-size: 12px;
   line-height: 1.6;
 }
@@ -460,7 +460,7 @@
     align-items: flex-start;
     gap: 8px;
     padding: 12px;
-    color: #73806f;
+    color: var(--text-muted);
     background: #fbfaf6;
     border: 1px solid #efede6;
     border-radius: 8px;
@@ -472,7 +472,7 @@
   }
 
   span {
-    color: #5f665c;
+    color: var(--text-secondary);
     font-size: 12px;
     line-height: 1.5;
   }
@@ -485,7 +485,7 @@
   gap: 12px;
   margin-top: 16px;
   padding-top: 12px;
-  color: #909187;
+  color: var(--text-secondary);
   font-size: 12px;
   border-top: 1px solid #efede6;
 }

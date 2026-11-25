@@ -39,7 +39,7 @@
 
 .kds-banner-kicker {
   display: block;
-  color: #77866f;
+  color: var(--text-muted);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 1.6px;
@@ -56,7 +56,7 @@
 
   i,
   em {
-    color: #789078;
+    color: var(--primary-light);
     font-style: italic;
     font-weight: 400;
   }
@@ -65,7 +65,7 @@
 .kds-banner-text p {
   margin: 0;
   max-width: 380px;
-  color: #6e786c;
+  color: var(--text-secondary);
   font-size: 12px;
   line-height: 1.7;
 }
@@ -77,7 +77,7 @@
   width: 260px;
   height: 210px;
   margin-right: 16px;
-  color: #72876d;
+  color: var(--text-muted);
 
   
 }
@@ -117,7 +117,7 @@
   height: 91px;
   border-radius: 50%;
   background: rgba(249, 248, 239, 0.58);
-  color: #617b60;
+  color: var(--primary-light);
 
   svg {
     font-size: 32px;
@@ -160,7 +160,7 @@
 .kds-art-caption {
   position: absolute;
   bottom: -1px;
-  color: #87917f;
+  color: var(--text-muted);
   font-size: 12px;
   letter-spacing: 1.4px;
   text-transform: uppercase;
@@ -175,7 +175,7 @@
 }
 
 .kds-roots-divider {
-  color: #a3ab9b;
+  color: var(--text-secondary);
   margin: 0 4px;
 }
 
@@ -202,7 +202,7 @@
   height: 40px;
   border-radius: 50%;
   background: #e2e9dc;
-  color: #648063;
+  color: var(--text-on-tint);
 
   svg {
     font-size: 18px;
@@ -217,7 +217,7 @@
 .kds-banner-roots-label {
   display: block;
   margin-bottom: 4px;
-  color: #78856f;
+  color: var(--text-muted);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 1.35px;
@@ -238,7 +238,7 @@
   gap: 8px;
   padding: 8px;
   border-radius: 7px;
-  color: #617760;
+  color: var(--primary-light);
   font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
@@ -270,7 +270,7 @@
   height: 35px;
   border-radius: 50%;
   background: #e3e9dc;
-  color: #668063;
+  color: var(--text-on-tint);
 }
 
 .kds-feature-strip-copy {
@@ -282,7 +282,7 @@
     margin-bottom: 4px;
     font-size: 12px;
     letter-spacing: 0.75px;
-    color: #998767;
+    color: var(--text-gold-label);
   }
 
   h3 {
@@ -295,13 +295,13 @@
 
   p {
     margin: 0;
-    color: #85867b;
+    color: var(--text-secondary);
     font-size: 12px;
   }
 }
 
 .kds-feature-strip-mark {
-  color: #9c916e;
+  color: var(--text-gold-label);
   font-size: 16px;
 
   

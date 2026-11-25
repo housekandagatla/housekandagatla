@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mera-vansh/ms-panchang": "^1.1.0",
     "@radix-ui/react-select": "^2.4.1",
     "date-fns": "^4.4.0",
     "firebase": "^13.4.0",

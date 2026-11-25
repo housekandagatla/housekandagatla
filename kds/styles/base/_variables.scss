@@ -17,17 +17,21 @@
 
     // Brand Colors
     --primary-main:                      #315B46;
-    --primary-dark:                      #315B46;
-    --primary-light:                     #78947D;
+    --primary-dark:                      #244635;
+    --primary-light:                     #4F6F57;
 
     --primary-lightest:                  #EAF0E8;
     --primary-lightest-2:                #E7EDE4;
     --primary-lightest-3:                #E8EFE5;
 
-    //Text Colors
+    // Text Colors (WCAG AA ≥ 4.5:1 on cream surfaces)
     --text-primary:                      #27312B;
     --text-secondary:                    #5C645E;
-    --text-disabled:                     #7E8178;
+    --text-muted:                        #59635C;
+    --text-disabled:                     #5F635C;
+    --text-placeholder:                  #5F635C;
+    --text-on-tint:                      #3F5D42;
+    --text-gold-label:                   #7A6134;
 
     //input
     --input-border:                      #E9E6DC;
@@ -35,16 +39,16 @@
     //misc colors
     --warm-border:                       #E9E6DC;
     --muted-surface:                     #EFEEE8;
-    --gold-accent:                       #B58D50;
-    --clay-accent:                       #BF8566;
-    --rose-accent:                       #C4787A;
+    --gold-accent:                       #856A40;
+    --clay-accent:                       #A56A4E;
+    --rose-accent:                       #A85F61;
     --other-divider:                     #E4E1D7;
 
     // Status
     --success-main:                      #315B46;
     --success-dark:                      #274937;
-    --warning-main:                      #B58D50;
-    --error-main:                        #B54A4A;
+    --warning-main:                      #856A40;
+    --error-main:                        #A43F3F;
     --error-dark:                        #8F3A3A;
 
     // Generic
