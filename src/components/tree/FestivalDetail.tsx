@@ -48,26 +48,21 @@ export function FestivalDetail({ festival, onClose, onEdit }: FestivalDetailProp
           <span className="kds-festival-detail-icon" aria-hidden="true">
             <Icon name="local_florist" size={20} strokeWidth={1.6} />
           </span>
-          <span className="kds-sample-detail-label">{festival.category}</span>
           <p className="kds-festival-detail-description">{festival.description}</p>
-          <div className="kds-festival-detail-list">
-            <div>
-              <Icon name="event" size={16} strokeWidth={1.8} />
-              <span>{festival.dateLabel || 'Date to be decided'}</span>
-            </div>
-            <div>
-              <Icon name="spa" size={16} strokeWidth={1.8} />
-              <span>House of Kandagatla tradition</span>
-            </div>
-          </div>
           <div className="kds-festival-sync-note">
             <span>Saved in our shared family record</span>
             <span>✳</span>
           </div>
           <div className="kds-dialog-actions kds-dialog-actions-split">
             {isAdmin ? (
-              <button type="button" className="kds-text-danger" onClick={handleDelete}>
-                Delete festival
+              <button
+                type="button"
+                className="kds-icon-danger"
+                aria-label="Delete festival"
+                title="Delete"
+                onClick={handleDelete}
+              >
+                <Icon name="delete" size={18} strokeWidth={1.8} />
               </button>
             ) : (
               <span />

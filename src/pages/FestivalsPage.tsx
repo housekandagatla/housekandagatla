@@ -12,7 +12,7 @@ import type { Festival } from '../data/types';
 const toneIcons = ['local_florist', 'spa', 'favorite', 'event'] as const;
 
 export function FestivalsPage() {
-  const { festivals, loading } = useFamily();
+  const { festivals, loading, removeFestival } = useFamily();
   const { isAdmin } = useAuth();
   const [formOpen, setFormOpen] = useState(false);
   const [editingFestival, setEditingFestival] = useState<Festival | null>(null);
@@ -41,6 +41,27 @@ export function FestivalsPage() {
     setEditingFestival(null);
   };
 
+  const handleDelete = async (festival: Festival) => {
+    if (!isAdmin) {
+      return;
+    }
+
+    const confirmed = window.confirm(`Remove “${festival.title}” from family festivals?`);
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await removeFestival(festival.id);
+      if (selected?.id === festival.id) {
+        setSelected(null);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Could not delete festival';
+      window.alert(message);
+    }
+  };
+
   return (
     <section className="kds-page" aria-labelledby="festivals-title">
       <div className="kds-welcome-row">
@@ -53,7 +74,7 @@ export function FestivalsPage() {
             The celebrations, reunions, and little moments that bring us home.
           </p>
         </div>
-        {isAdmin && festivals.length > 0 ? (
+        {isAdmin ? (
           <Button className="kds-top-action" icon="add" onClick={openAddForm}>
             Add a festival
           </Button>
@@ -75,13 +96,6 @@ export function FestivalsPage() {
           description="Add the first festival to begin collecting the celebrations, reunions, and little gatherings that bring our family home."
           footnote="KANDAGATLA FAMILY · CELEBRATING TOGETHER"
           icon="event"
-          action={
-            isAdmin ? (
-              <Button icon="add" onClick={openAddForm}>
-                Add the first festival
-              </Button>
-            ) : undefined
-          }
         />
       ) : null}
 
@@ -107,7 +121,6 @@ export function FestivalsPage() {
                   <Icon name={toneIcons[index % toneIcons.length]} size={28} strokeWidth={1.2} />
                 </span>
                 <div className="kds-festival-card-content">
-                  <span className="kds-festival-kind">{festival.category}</span>
                   <strong>{festival.title}</strong>
                   <p>{festival.description}</p>
                   <button
@@ -118,6 +131,17 @@ export function FestivalsPage() {
                     View more <Icon name="arrow_forward" size={14} strokeWidth={2} />
                   </button>
                 </div>
+                {isAdmin ? (
+                  <button
+                    type="button"
+                    className="kds-festival-card-delete"
+                    aria-label={`Delete ${festival.title}`}
+                    title="Delete"
+                    onClick={() => handleDelete(festival)}
+                  >
+                    <Icon name="delete" size={16} strokeWidth={1.8} />
+                  </button>
+                ) : null}
               </article>
             ))}
           </div>

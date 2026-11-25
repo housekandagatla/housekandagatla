@@ -186,8 +186,8 @@ export function OverviewPage() {
               {previewFestivals.map((festival) => (
                 <Link key={festival.id} className="kds-event-card" to="/festivals">
                   <div className="kds-event-info">
-                    <div className="kds-event-kind">{festival.category}</div>
                     <h3>{festival.title}</h3>
+                    <p className="kds-event-preview">{festival.description}</p>
                   </div>
                   <Icon name="arrow_forward" className="kds-event-arrow" size={16} strokeWidth={1.8} />
                 </Link>

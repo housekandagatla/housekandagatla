@@ -44,8 +44,8 @@ export interface MemberInput {
 
 export interface FestivalInput {
   title: string;
-  category: string;
   description: string;
+  category?: string;
   dateLabel?: string;
 }
 
@@ -184,7 +184,7 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
     const festival: Festival = {
       id: createId('fest'),
       title: input.title.trim(),
-      category: input.category.trim() || 'Family tradition',
+      category: input.category?.trim() || 'Family tradition',
       description: input.description.trim(),
       dateLabel: input.dateLabel?.trim() || '—',
       createdAt: new Date().toISOString(),
@@ -203,9 +203,9 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
       await upsertFestival({
         ...existing,
         title: input.title.trim(),
-        category: input.category.trim() || 'Family tradition',
+        category: input.category?.trim() || existing.category || 'Family tradition',
         description: input.description.trim(),
-        dateLabel: input.dateLabel?.trim() || '—',
+        dateLabel: input.dateLabel?.trim() || existing.dateLabel || '—',
       });
     },
     [festivals],

@@ -411,9 +411,19 @@
     cursor: wait;
   }
 
+  &.kds-is-signed-in {
+    color: var(--error-main);
+    background: #f8ece8;
+
+    &:hover:not(:disabled) {
+      background: #f3e0da;
+      color: #823d2f;
+    }
+  }
+
   &.kds-is-admin {
-    color: var(--primary-main);
-    background: #edf2ec;
+    color: var(--error-main);
+    background: #f8ece8;
   }
 }
 

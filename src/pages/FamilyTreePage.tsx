@@ -72,7 +72,7 @@ export function FamilyTreePage() {
             Every branch holds a name. Every name holds a story.
           </p>
         </div>
-        {isAdmin && members.length > 0 ? (
+        {isAdmin ? (
           <Button className="kds-top-action" icon="add" onClick={() => openAddForm()}>
             Add family member
           </Button>
@@ -118,13 +118,6 @@ export function FamilyTreePage() {
           }
           description="Add the first person to begin gathering our family story. Grow the tree one generation, one memory, one name at a time."
           footnote="KANDAGATLA FAMILY · CONNECTED THROUGH GENERATIONS"
-          action={
-            isAdmin ? (
-              <Button icon="add" onClick={() => openAddForm()}>
-                Add the first family member
-              </Button>
-            ) : undefined
-          }
         />
       ) : null}
 

@@ -4,7 +4,6 @@ import type { Festival } from '../../data/types';
 import { Button } from '../ui/Button';
 import { Drawer } from '../ui/Drawer';
 import { Field } from '../ui/Field';
-import { SelectField } from '../ui/SelectField';
 import { TextArea } from '../ui/TextArea';
 import { TextInput } from '../ui/TextInput';
 
@@ -14,28 +13,16 @@ type FestivalFormProps = {
   festival?: Festival | null;
 };
 
-const CATEGORY_OPTIONS = [
-  { value: 'Family tradition', label: 'Family tradition' },
-  { value: 'Festival of lights', label: 'Festival of lights' },
-  { value: 'Family gathering', label: 'Family gathering' },
-  { value: 'Celebration', label: 'Celebration' },
-  { value: 'Other', label: 'Other' },
-];
-
 export function FestivalForm({ open, onClose, festival = null }: FestivalFormProps) {
   const { addFestival, updateFestival } = useFamily();
   const isEditing = Boolean(festival);
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('Family tradition');
   const [description, setDescription] = useState('');
-  const [dateLabel, setDateLabel] = useState('');
   const [saving, setSaving] = useState(false);
 
   const reset = () => {
     setTitle('');
-    setCategory('Family tradition');
     setDescription('');
-    setDateLabel('');
   };
 
   useEffect(() => {
@@ -45,9 +32,7 @@ export function FestivalForm({ open, onClose, festival = null }: FestivalFormPro
 
     if (festival) {
       setTitle(festival.title);
-      setCategory(festival.category || 'Family tradition');
       setDescription(festival.description);
-      setDateLabel(festival.dateLabel === '—' ? '' : festival.dateLabel || '');
       return;
     }
 
@@ -62,7 +47,7 @@ export function FestivalForm({ open, onClose, festival = null }: FestivalFormPro
 
     setSaving(true);
     try {
-      const payload = { title, category, description, dateLabel };
+      const payload = { title, description };
       if (festival) {
         await updateFestival(festival.id, payload);
       } else {
@@ -91,7 +76,7 @@ export function FestivalForm({ open, onClose, festival = null }: FestivalFormPro
       note="Saved to our shared family record."
     >
       <form className="kds-form-stack" onSubmit={handleSubmit}>
-        <Field label="Festival name" htmlFor="festival-title">
+        <Field label="Family name" htmlFor="festival-title">
           <TextInput
             id="festival-title"
             value={title}
@@ -102,26 +87,7 @@ export function FestivalForm({ open, onClose, festival = null }: FestivalFormPro
           />
         </Field>
 
-        <Field label="Category">
-          <SelectField
-            value={category}
-            onValueChange={setCategory}
-            options={CATEGORY_OPTIONS}
-            placeholder="Choose category"
-            aria-label="Festival category"
-          />
-        </Field>
-
-        <Field label="Date label" htmlFor="festival-date">
-          <TextInput
-            id="festival-date"
-            value={dateLabel}
-            onChange={(event) => setDateLabel(event.target.value)}
-            placeholder="e.g. August or TBD"
-          />
-        </Field>
-
-        <Field label="Description" htmlFor="festival-description">
+        <Field label="Family description" htmlFor="festival-description">
           <TextArea
             id="festival-description"
             value={description}
