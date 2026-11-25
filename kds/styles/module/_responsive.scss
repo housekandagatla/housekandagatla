@@ -136,19 +136,30 @@
 
   .kds-breadcrumb {
     flex: 1;
+    min-width: 0;
     font-size: 12px;
   }
 
+  .kds-breadcrumb-root,
+  .kds-breadcrumb-sep {
+    display: none;
+  }
+
   .kds-topbar-right {
-    gap: 8px;
+    gap: 6px;
+    flex-wrap: nowrap;
   }
 
   .kds-date-label {
-    max-width: min(220px, 48vw);
+    max-width: min(148px, 38vw);
+  }
+
+  .kds-date-gregorian {
+    font-size: 11px;
   }
 
   .kds-date-telugu {
-    font-size: 10px;
+    display: none;
   }
 
   .kds-date-auth {
@@ -373,6 +384,10 @@
 @media screen and (max-width: 420px) {
   .kds-topbar {
     padding: 0 12px;
+  }
+
+  .kds-date-label {
+    display: none;
   }
 
   .kds-page-wrap {

@@ -14,7 +14,9 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        api: 'legacy',
+        api: 'modern-compiler',
+        // KDS still uses @import chains; silence until a full @use migration.
+        silenceDeprecations: ['import', 'global-builtin'],
       },
     },
   },

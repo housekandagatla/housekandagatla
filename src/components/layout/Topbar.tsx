@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { getFamilyDateLabel } from '../../utils/teluguDate';
-import { Button } from '../ui/Button';
 import { Icon } from '../ui/Icon';
 
 type TopbarProps = {
@@ -12,6 +11,7 @@ type TopbarProps = {
 export function Topbar({ pageTitle, onMenuClick }: TopbarProps) {
   const { user, isAdmin, loading, configured, signInWithGoogle, signOut } = useAuth();
   const dateLabel = useMemo(() => getFamilyDateLabel(), []);
+  const authLabel = user ? 'Sign out' : 'Admin sign in';
 
   const handleAuth = async () => {
     if (!configured) {
@@ -33,13 +33,11 @@ export function Topbar({ pageTitle, onMenuClick }: TopbarProps) {
     }
   };
 
-  const authStatus = !configured
-    ? 'Firebase not configured'
-    : user
-      ? isAdmin
-        ? 'Admin · editing enabled'
-        : 'Signed in · view only'
-      : 'Sign in to manage family records';
+  const authStatus = user
+    ? `${isAdmin ? 'Admin · editing enabled' : 'Signed in · view only'}${
+        user.email ? ` · ${user.email}` : ''
+      }`
+    : null;
 
   return (
     <header className="kds-topbar">
@@ -54,7 +52,9 @@ export function Topbar({ pageTitle, onMenuClick }: TopbarProps) {
           <Icon name="menu" size={20} strokeWidth={1.8} />
         </button>
         <div className="kds-breadcrumb">
-          Kandagatla family <span>/</span> <strong>{pageTitle}</strong>
+          <span className="kds-breadcrumb-root">Kandagatla family</span>
+          <span className="kds-breadcrumb-sep">/</span>
+          <strong>{pageTitle}</strong>
         </div>
       </div>
       <div className="kds-topbar-right">
@@ -65,20 +65,20 @@ export function Topbar({ pageTitle, onMenuClick }: TopbarProps) {
               {dateLabel.telugu}
             </span>
           ) : null}
-          <span className="kds-date-auth">
-            {authStatus}
-            {user?.email ? ` · ${user.email}` : ''}
-          </span>
+          {authStatus ? <span className="kds-date-auth">{authStatus}</span> : null}
         </div>
-        <Button
-          variant="secondary"
+        <button
           type="button"
+          className={`kds-auth-button${user ? ' kds-is-signed-in' : ''}${
+            isAdmin ? ' kds-is-admin' : ''
+          }`}
+          aria-label={authLabel}
+          title={authLabel}
           onClick={handleAuth}
           disabled={loading}
-          className="kds-auth-button"
         >
-          {user ? 'Sign out' : 'Admin sign in'}
-        </Button>
+          <Icon name={user ? 'log_out' : 'log_in'} size={18} strokeWidth={1.8} />
+        </button>
       </div>
     </header>
   );

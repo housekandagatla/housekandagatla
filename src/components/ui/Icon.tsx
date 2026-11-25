@@ -7,6 +7,8 @@ import {
   Heart,
   Home,
   Leaf,
+  LogIn,
+  LogOut,
   Menu,
   Pencil,
   Plus,
@@ -48,6 +50,10 @@ const iconMap: Record<string, LucideIcon> = {
   pencil: Pencil,
   delete: Trash2,
   trash: Trash2,
+  log_in: LogIn,
+  login: LogIn,
+  log_out: LogOut,
+  logout: LogOut,
 };
 
 type IconProps = {
