@@ -236,8 +236,8 @@
   flex: none;
   margin-left: auto;
   gap: 8px;
-  padding: 8px;
-  border-radius: 7px;
+  padding: 0;
+  border-radius: 0;
   color: var(--primary-light);
   font-size: 12px;
   font-weight: 600;
@@ -245,7 +245,7 @@
 
   &:hover {
     color: #315b46;
-    background: #e9eee5;
+    background: transparent;
   }
 }
 

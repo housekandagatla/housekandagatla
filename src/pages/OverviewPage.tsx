@@ -10,13 +10,21 @@ export function OverviewPage() {
   const { isAdmin } = useAuth();
   const previewFestivals = festivals.slice(0, 2);
   const previewMembers = members.slice(0, 3);
-  const heritageFacts = heritage.items.map((item) => {
-    const label = item.teluguLabel?.trim();
-    return {
-      key: `${item.index ?? item.label}-${item.telugu}`,
-      te: label ? `${label} — ${item.telugu}` : item.telugu,
-    };
-  });
+  const heritageFacts = [
+    ...heritage.items.map((item) => {
+      const label = item.teluguLabel?.trim();
+      return {
+        key: `${item.index ?? item.label}-${item.telugu}`,
+        te: label ? `${label} — ${item.telugu}` : item.telugu,
+      };
+    }),
+    {
+      key: `deity-${heritage.deity.telugu}`,
+      te: heritage.deity.teluguLabel?.trim()
+        ? `${heritage.deity.teluguLabel.trim()} — ${heritage.deity.telugu}`
+        : heritage.deity.telugu,
+    },
+  ];
 
   return (
     <section className="kds-page" aria-labelledby="overview-title">
