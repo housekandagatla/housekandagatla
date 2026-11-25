@@ -91,6 +91,7 @@
   .kds-heritage-facts,
   .kds-heritage-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
 }
 
@@ -308,8 +309,9 @@
   }
 
   .kds-heritage-hero {
-    min-height: 255px;
+    min-height: 200px;
     padding: 24px;
+    margin-bottom: 16px;
   }
 
   .kds-heritage-hero-copy {
@@ -317,7 +319,7 @@
   }
 
   .kds-heritage-hero h2 {
-    font-size: 32px;
+    font-size: 24px;
   }
 
   .kds-heritage-hero-copy > p {
@@ -326,27 +328,27 @@
 
   .kds-heritage-hero-flower {
     opacity: 0.35;
-    right: -66px;
+    right: -64px;
   }
 
   .kds-heritage-facts,
   .kds-heritage-grid {
     gap: 8px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
+    margin-bottom: 8px;
   }
 
   .kds-heritage-card {
-    min-height: 127px;
-    padding: 12px 8px;
+    padding: 16px 40px 16px 16px;
   }
 
   .kds-heritage-card h3 {
-    font-size: 16px;
+    font-size: 24px;
   }
 
   .kds-deity-card {
-    gap: 8px;
-    padding: 12px;
+    gap: 16px;
+    padding: 16px;
   }
 
   .kds-festival-grid {
@@ -430,14 +432,13 @@
     align-self: flex-end;
   }
 
-  .kds-heritage-facts,
-  .kds-heritage-grid {
-    grid-template-columns: 1fr;
+  .kds-heritage-card {
+    padding: 16px 40px 16px 16px;
   }
 
-  .kds-heritage-card {
-    min-height: 118px;
-    padding: 8px;
+  .kds-deity-card {
+    gap: 8px;
+    padding: 16px;
   }
 
   .kds-form-row {

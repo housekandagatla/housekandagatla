@@ -38,29 +38,30 @@ export const seedFestivals: Festival[] = [
 export const heritageItems: HeritageItem[] = [
   {
     index: '01',
-    label: 'Our community',
+    label: 'Community',
     teluguLabel: 'కులం',
     telugu: 'పద్మశాలి',
-    english: 'Kulam · Community',
+    english: 'Padmasali',
   },
   {
     index: '02',
-    label: 'Our family name',
+    label: 'Family name',
     teluguLabel: 'ఇంటి పేరు',
     telugu: 'కందగట్ల',
-    english: 'Inti peru · Family name',
+    english: 'Kandagatla',
   },
   {
     index: '03',
-    label: 'Our gotram',
+    label: 'Ancestral lineage',
     teluguLabel: 'గోత్రం',
     telugu: 'విదురిషి',
-    english: 'Gotram · Ancestral lineage',
+    english: 'Vidurishi',
   },
 ];
 
 export const familyDeity = {
-  label: 'Our kula daivam',
+  label: 'Family deity',
+  teluguLabel: 'కుల దైవం',
   telugu: 'లక్ష్మీ నరసింహ స్వామి',
-  english: 'Lakshmi Narasimha Swamy · Our family deity',
+  english: 'Lakshmi Narasimha Swamy',
 };

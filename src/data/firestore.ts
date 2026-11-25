@@ -95,12 +95,40 @@ export function subscribeHeritage(
       onData({
         items: items.map((item, index) => {
           const seed = heritageItems[index];
+          const legacyLabel =
+            typeof item.label === 'string' && /^Our\s/i.test(item.label) && seed?.label
+              ? seed.label
+              : item.label;
+          const legacyEnglish =
+            seed?.english && typeof item.english === 'string' && item.english.includes(' · ')
+              ? seed.english
+              : item.english;
           return {
             ...item,
+            label: legacyLabel,
             teluguLabel: item.teluguLabel || seed?.teluguLabel,
+            english: legacyEnglish,
           };
         }),
-        deity: data.deity ?? familyDeity,
+        deity: (() => {
+          const deity = data.deity ?? familyDeity;
+          const english =
+            familyDeity.english &&
+            typeof deity.english === 'string' &&
+            deity.english.includes(' · ')
+              ? familyDeity.english
+              : deity.english;
+          const label =
+            typeof deity.label === 'string' && /^Our\s/i.test(deity.label)
+              ? familyDeity.label
+              : deity.label;
+          return {
+            ...deity,
+            label,
+            teluguLabel: deity.teluguLabel || familyDeity.teluguLabel,
+            english,
+          };
+        })(),
       });
     },
     (error) => onError?.(error),

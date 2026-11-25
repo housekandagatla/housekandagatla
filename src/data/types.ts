@@ -36,16 +36,23 @@ export interface Festival {
 
 export interface HeritageItem {
   index?: string;
+  /** English category sense shown with Telugu label (e.g. Community). */
   label: string;
-  /** Short Telugu label shown on Overview roots strip (e.g. ఇంటి పేరు). */
+  /** Short Telugu category label (e.g. కులం). */
   teluguLabel?: string;
+  /** Telugu value (e.g. పద్మశాలి). */
   telugu: string;
+  /** English / Latin value from the database (e.g. Padmasali). */
   english: string;
 }
 
 export interface FamilyDeity {
+  /** English category sense (e.g. Family deity). */
   label: string;
+  /** Telugu category label (e.g. కుల దైవం). */
+  teluguLabel?: string;
   telugu: string;
+  /** English / Latin value from the database. */
   english: string;
 }
 

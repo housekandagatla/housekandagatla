@@ -44,6 +44,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: 28px;
   padding: 0 8px;
   color: var(--text-primary);
   text-decoration: none;
@@ -79,54 +80,11 @@
   line-height: 1.06;
 }
 
-.kds-family-switcher {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 32px 0;
-  padding: 12px 8px;
-  border: 1px solid var(--warm-border);
-  border-radius: 10px;
-  background: transparent;
-}
-
-.kds-family-monogram {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #e7ede4;
-  color: var(--primary-main);
-  font-family: var(--font-family-headings);
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.kds-family-switch-text {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 4px;
-
-  strong {
-    color: #315b46;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  small {
-    color: var(--text-disabled);
-    font-size: 12px;
-  }
-}
-
 .kds-sidebar-calendar {
   display: none;
   align-items: flex-start;
   gap: 10px;
-  margin: -16px 0 24px;
+  margin: 0 0 20px;
   padding: 12px 10px;
   border: 1px solid var(--warm-border);
   border-radius: 10px;
@@ -166,8 +124,8 @@
 }
 
 .kds-nav-caption {
-  margin: 0;
-  padding: 0 12px 12px;
+  margin: 0 0 4px;
+  padding: 0 12px 8px;
   color: var(--text-muted);
   font-size: 12px;
   font-weight: 700;

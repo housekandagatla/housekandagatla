@@ -39,14 +39,6 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
         </span>
       </NavLink>
 
-      <div className="kds-family-switcher">
-        <span className="kds-family-monogram">K</span>
-        <span className="kds-family-switch-text">
-          <strong>Kandagatla family</strong>
-          <small>Family space</small>
-        </span>
-      </div>
-
       <div className="kds-sidebar-calendar" title={dateLabel.full}>
         <span className="kds-sidebar-calendar-icon" aria-hidden="true">
           <Icon name="calendar_days" size={16} strokeWidth={1.8} />

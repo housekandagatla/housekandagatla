@@ -375,11 +375,11 @@
   position: relative;
   display: flex;
   align-items: center;
-  min-height: 250px;
+  min-height: 216px;
   padding: 32px;
   margin-bottom: 16px;
   background: #e9eee5;
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -454,47 +454,55 @@
 .kds-heritage-facts,
 .kds-heritage-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin: 16px 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 8px;
+  align-items: stretch;
 }
 
 .kds-heritage-facts article,
 .kds-heritage-card {
   position: relative;
-  min-height: 139px;
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  padding: 16px 40px 16px 16px;
   background: #fffefa;
   border: 1px solid var(--warm-border);
-  border-radius: 9px;
+  border-radius: 8px;
 }
 
 .kds-fact-number,
 .kds-heritage-index {
   position: absolute;
-  top: 14px;
-  right: 14px;
-  color: var(--text-muted);
+  top: 16px;
+  right: 16px;
+  color: #8a9788;
   font-family: var(--font-family-headings);
   font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1;
 }
 
-.kds-heritage-facts .kds-eyebrow,
-.kds-heritage-card span {
+.kds-heritage-card-meta {
   display: block;
-  margin-bottom: 0;
+  margin: 0;
   color: var(--text-gold-label);
-  font-size: 12px;
-  letter-spacing: 0.75px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
 }
 
 .kds-heritage-facts h3,
 .kds-heritage-card h3 {
-  margin: 16px 0 4px;
-  color: #435b47;
+  margin: 0;
+  color: #314739;
   font-family: var(--font-family-telugu);
   font-size: 24px;
   font-weight: 500;
+  line-height: 1.3;
 }
 
 .kds-heritage-facts p,
@@ -502,35 +510,41 @@
   margin: 0;
   color: var(--text-secondary);
   font-size: 12px;
+  line-height: 1.4;
 }
 
 .kds-deity-card {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   padding: 16px;
   background: #f2f3ec;
   border: 1px solid #e8e8de;
-  border-radius: 9px;
+  border-radius: 8px;
   text-align: left;
 
   > div {
     flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
-  h2,
-  h3 {
-    margin: 4px 0;
-    color: #475847;
+  h2 {
+    margin: 0;
+    color: #314739;
     font-family: var(--font-family-telugu);
     font-size: 16px;
     font-weight: 500;
+    line-height: 1.35;
   }
 
   p {
     margin: 0;
     color: var(--text-secondary);
     font-size: 12px;
+    line-height: 1.4;
   }
 }
 
@@ -538,14 +552,9 @@
   display: grid;
   place-items: center;
   flex: none;
-  width: 39px;
-  height: 39px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: #e3e9dc;
   color: var(--text-on-tint);
-}
-
-.kds-deity-mark {
-  color: var(--text-gold-label);
-  font-size: 16px;
 }
