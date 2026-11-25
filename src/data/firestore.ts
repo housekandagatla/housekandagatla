@@ -16,7 +16,7 @@ import type {
   Festival,
   HeritageData,
 } from './types';
-import { db } from '../lib/firebase';
+import { ADMIN_EMAIL, db } from '../lib/firebase';
 
 function requireDb() {
   if (!db) {
@@ -133,41 +133,70 @@ export function subscribeStory(
   );
 }
 
+async function withWriteError<T>(action: () => Promise<T>, label: string): Promise<T> {
+  try {
+    return await action();
+  } catch (error) {
+    const code =
+      error && typeof error === 'object' && 'code' in error
+        ? String((error as { code?: string }).code)
+        : '';
+    if (code === 'permission-denied') {
+      throw new Error(
+        `${label} was blocked by Firebase rules. Sign in as ${ADMIN_EMAIL} and confirm Firestore rules allow admin writes.`,
+      );
+    }
+    throw error instanceof Error ? error : new Error(`${label} failed.`);
+  }
+}
+
 export async function upsertMember(member: FamilyMember): Promise<void> {
   const { id, ...rest } = member;
-  await setDoc(doc(membersCol(), id), stripUndefined({ ...rest }));
+  await withWriteError(
+    () => setDoc(doc(membersCol(), id), stripUndefined({ ...rest })),
+    'Saving member',
+  );
 }
 
 export async function deleteMemberDoc(id: string): Promise<void> {
-  await deleteDoc(doc(membersCol(), id));
+  await withWriteError(() => deleteDoc(doc(membersCol(), id)), 'Deleting member');
 }
 
 export async function upsertFestival(festival: Festival): Promise<void> {
   const { id, ...rest } = festival;
-  await setDoc(doc(festivalsCol(), id), stripUndefined({ ...rest }));
+  await withWriteError(
+    () => setDoc(doc(festivalsCol(), id), stripUndefined({ ...rest })),
+    'Saving festival',
+  );
 }
 
 export async function deleteFestivalDoc(id: string): Promise<void> {
-  await deleteDoc(doc(festivalsCol(), id));
+  await withWriteError(() => deleteDoc(doc(festivalsCol(), id)), 'Deleting festival');
 }
 
 export async function saveHeritage(heritage: HeritageData): Promise<void> {
-  await setDoc(metaDoc('heritage'), heritage);
+  await withWriteError(() => setDoc(metaDoc('heritage'), heritage), 'Saving heritage');
 }
 
 export async function saveStory(story: FamilyStory): Promise<void> {
-  await setDoc(metaDoc('story'), story);
+  await withWriteError(() => setDoc(metaDoc('story'), story), 'Saving story');
 }
 
 /** One-time seed of festivals / heritage / story / admins when missing. Requires admin write access. */
 export async function ensureSeedData(): Promise<void> {
   const database = requireDb();
-  const [festivalsSnap, heritageSnap, storySnap, adminsSnap] = await Promise.all([
+  const [festivalsSnap, heritageSnap, storySnap, adminsSnap, bootstrapSnap] = await Promise.all([
     getDocs(festivalsCol()),
     getDoc(metaDoc('heritage')),
     getDoc(metaDoc('story')),
     getDoc(metaDoc('admins')),
+    getDoc(metaDoc('bootstrap')),
   ]);
+
+  // Never re-seed after the project has been initialized; deleting all festivals must stay deleted.
+  if (bootstrapSnap.exists() || adminsSnap.exists()) {
+    return;
+  }
 
   const batch = writeBatch(database);
   let writes = 0;
@@ -194,10 +223,11 @@ export async function ensureSeedData(): Promise<void> {
     writes += 1;
   }
 
-  if (!adminsSnap.exists()) {
-    batch.set(metaDoc('admins'), { emails: ['thehouseofkandagatla@gmail.com'] });
-    writes += 1;
-  }
+  batch.set(metaDoc('admins'), { emails: ['thehouseofkandagatla@gmail.com'] });
+  batch.set(metaDoc('bootstrap'), {
+    completedAt: new Date().toISOString(),
+  });
+  writes += 2;
 
   if (writes > 0) {
     await batch.commit();
