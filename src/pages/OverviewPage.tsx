@@ -8,25 +8,10 @@ import { StatCard } from '../components/ui/StatCard';
 import { WeaverMark } from '../components/ui/WeaverMark';
 
 export function OverviewPage() {
-  const { members, festivals, heritage, loading } = useFamily();
+  const { members, festivals, loading } = useFamily();
   const { isAdmin } = useAuth();
   const previewFestivals = festivals.slice(0, 2);
   const previewMembers = members.slice(0, 3);
-  const heritageFacts = [
-    ...heritage.items.map((item) => {
-      const label = item.teluguLabel?.trim();
-      return {
-        key: `${item.index ?? item.label}-${item.telugu}`,
-        te: label ? `${label} — ${item.telugu}` : item.telugu,
-      };
-    }),
-    {
-      key: `deity-${heritage.deity.telugu}`,
-      te: heritage.deity.teluguLabel?.trim()
-        ? `${heritage.deity.teluguLabel.trim()} — ${heritage.deity.telugu}`
-        : heritage.deity.telugu,
-    },
-  ];
 
   return (
     <section className="kds-page" aria-labelledby="overview-title">
@@ -77,32 +62,6 @@ export function OverviewPage() {
             <span className="kds-banner-corner" aria-hidden="true">
               ✳
             </span>
-
-            <div className="kds-banner-roots">
-              <span className="kds-banner-roots-mark">
-                <Icon name="spa" size={16} strokeWidth={1.8} />
-              </span>
-              <div className="kds-banner-roots-content">
-                <span className="kds-banner-roots-label">THE ROOTS THAT CONNECT US</span>
-                <div className="kds-banner-roots-facts">
-                  {heritageFacts.map((fact, index) => (
-                    <span key={fact.key}>
-                      {index > 0 ? (
-                        <span className="kds-roots-divider" aria-hidden="true">
-                          ·
-                        </span>
-                      ) : null}
-                      <span className="kds-telugu" lang="te">
-                        {fact.te}
-                      </span>
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <Link className="kds-inline-link" to="/heritage">
-                Our heritage <Icon name="arrow_forward" size={14} strokeWidth={2} />
-              </Link>
-            </div>
           </section>
 
           <section className="kds-stat-row" aria-label="Family at a glance">
